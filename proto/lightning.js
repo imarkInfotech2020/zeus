@@ -45323,7 +45323,6 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Uint8Array|null} [payment_addr] Invoice payment_addr
          * @property {boolean|null} [is_amp] Invoice is_amp
          * @property {Object.<string,lnrpc.IAMPInvoiceState>|null} [amp_invoice_state] Invoice amp_invoice_state
-         * @property {number|null} [min_hop_hints] Invoice min_hop_hints
          */
 
         /**
@@ -45562,14 +45561,6 @@ export const lnrpc = $root.lnrpc = (() => {
         Invoice.prototype.amp_invoice_state = $util.emptyObject;
 
         /**
-         * Invoice min_hop_hints.
-         * @member {number} min_hop_hints
-         * @memberof lnrpc.Invoice
-         * @instance
-         */
-        Invoice.prototype.min_hop_hints = 0;
-
-        /**
          * Creates a new Invoice instance using the specified properties.
          * @function create
          * @memberof lnrpc.Invoice
@@ -45655,8 +45646,6 @@ export const lnrpc = $root.lnrpc = (() => {
                     writer.uint32(/* id 28, wireType 2 =*/226).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
                     $root.lnrpc.AMPInvoiceState.encode(message.amp_invoice_state[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
-            if (message.min_hop_hints != null && Object.hasOwnProperty.call(message, "min_hop_hints"))
-                writer.uint32(/* id 29, wireType 0 =*/232).int32(message.min_hop_hints);
             return writer;
         };
 
@@ -45841,10 +45830,6 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.amp_invoice_state[key] = value;
                         break;
                     }
-                case 29: {
-                        message.min_hop_hints = reader.int32();
-                        break;
-                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -45998,9 +45983,6 @@ export const lnrpc = $root.lnrpc = (() => {
                         return "amp_invoice_state." + error;
                 }
             }
-            if (message.min_hop_hints != null && message.hasOwnProperty("min_hop_hints"))
-                if (!$util.isInteger(message.min_hop_hints))
-                    return "min_hop_hints: integer expected";
             return null;
         };
 
@@ -46213,8 +46195,6 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.amp_invoice_state[keys[i]] = $root.lnrpc.AMPInvoiceState.fromObject(object.amp_invoice_state[keys[i]]);
                 }
             }
-            if (object.min_hop_hints != null)
-                message.min_hop_hints = object.min_hop_hints | 0;
             return message;
         };
 
@@ -46331,7 +46311,6 @@ export const lnrpc = $root.lnrpc = (() => {
                         object.payment_addr = $util.newBuffer(object.payment_addr);
                 }
                 object.is_amp = false;
-                object.min_hop_hints = 0;
             }
             if (message.memo != null && message.hasOwnProperty("memo"))
                 object.memo = message.memo;
@@ -46433,8 +46412,6 @@ export const lnrpc = $root.lnrpc = (() => {
                 for (let j = 0; j < keys2.length; ++j)
                     object.amp_invoice_state[keys2[j]] = $root.lnrpc.AMPInvoiceState.toObject(message.amp_invoice_state[keys2[j]], options);
             }
-            if (message.min_hop_hints != null && message.hasOwnProperty("min_hop_hints"))
-                object.min_hop_hints = message.min_hop_hints;
             return object;
         };
 

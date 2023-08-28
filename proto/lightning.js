@@ -7602,6 +7602,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 2:
                 case 3:
                 case 4:
+                case 5:
                     break;
                 }
             if (message.wants_zero_conf != null && message.hasOwnProperty("wants_zero_conf"))
@@ -7735,6 +7736,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case "SCRIPT_ENFORCED_LEASE":
             case 4:
                 message.commitment_type = 4;
+                break;
+            case "SIMPLE_TAPROOT":
+            case 5:
+                message.commitment_type = 5;
                 break;
             }
             if (object.wants_zero_conf != null)
@@ -14349,6 +14354,7 @@ export const lnrpc = $root.lnrpc = (() => {
      * @property {number} STATIC_REMOTE_KEY=2 STATIC_REMOTE_KEY value
      * @property {number} ANCHORS=3 ANCHORS value
      * @property {number} SCRIPT_ENFORCED_LEASE=4 SCRIPT_ENFORCED_LEASE value
+     * @property {number} SIMPLE_TAPROOT=5 SIMPLE_TAPROOT value
      */
     lnrpc.CommitmentType = (function() {
         const valuesById = {}, values = Object.create(valuesById);
@@ -14357,6 +14363,7 @@ export const lnrpc = $root.lnrpc = (() => {
         values[valuesById[2] = "STATIC_REMOTE_KEY"] = 2;
         values[valuesById[3] = "ANCHORS"] = 3;
         values[valuesById[4] = "SCRIPT_ENFORCED_LEASE"] = 4;
+        values[valuesById[5] = "SIMPLE_TAPROOT"] = 5;
         return values;
     })();
 
@@ -14776,6 +14783,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Long|null} [zero_conf_confirmed_scid] Channel zero_conf_confirmed_scid
          * @property {string|null} [peer_alias] Channel peer_alias
          * @property {Long|null} [peer_scid_alias] Channel peer_scid_alias
+         * @property {string|null} [memo] Channel memo
          */
 
         /**
@@ -15076,6 +15084,14 @@ export const lnrpc = $root.lnrpc = (() => {
         Channel.prototype.peer_scid_alias = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
+         * Channel memo.
+         * @member {string} memo
+         * @memberof lnrpc.Channel
+         * @instance
+         */
+        Channel.prototype.memo = "";
+
+        /**
          * Creates a new Channel instance using the specified properties.
          * @function create
          * @memberof lnrpc.Channel
@@ -15174,6 +15190,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 34, wireType 2 =*/274).string(message.peer_alias);
             if (message.peer_scid_alias != null && Object.hasOwnProperty.call(message, "peer_scid_alias"))
                 writer.uint32(/* id 35, wireType 0 =*/280).uint64(message.peer_scid_alias);
+            if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
+                writer.uint32(/* id 36, wireType 2 =*/290).string(message.memo);
             return writer;
         };
 
@@ -15357,6 +15375,10 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.peer_scid_alias = reader.uint64();
                         break;
                     }
+                case 36: {
+                        message.memo = reader.string();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -15473,6 +15495,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 2:
                 case 3:
                 case 4:
+                case 5:
                     break;
                 }
             if (message.lifetime != null && message.hasOwnProperty("lifetime"))
@@ -15519,6 +15542,9 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.peer_scid_alias != null && message.hasOwnProperty("peer_scid_alias"))
                 if (!$util.isInteger(message.peer_scid_alias) && !(message.peer_scid_alias && $util.isInteger(message.peer_scid_alias.low) && $util.isInteger(message.peer_scid_alias.high)))
                     return "peer_scid_alias: integer|Long expected";
+            if (message.memo != null && message.hasOwnProperty("memo"))
+                if (!$util.isString(message.memo))
+                    return "memo: string expected";
             return null;
         };
 
@@ -15704,6 +15730,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case 4:
                 message.commitment_type = 4;
                 break;
+            case "SIMPLE_TAPROOT":
+            case 5:
+                message.commitment_type = 5;
+                break;
             }
             if (object.lifetime != null)
                 if ($util.Long)
@@ -15782,6 +15812,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.peer_scid_alias = object.peer_scid_alias;
                 else if (typeof object.peer_scid_alias === "object")
                     message.peer_scid_alias = new $util.LongBits(object.peer_scid_alias.low >>> 0, object.peer_scid_alias.high >>> 0).toNumber(true);
+            if (object.memo != null)
+                message.memo = String(object.memo);
             return message;
         };
 
@@ -15908,6 +15940,7 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.peer_scid_alias = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.peer_scid_alias = options.longs === String ? "0" : 0;
+                object.memo = "";
             }
             if (message.active != null && message.hasOwnProperty("active"))
                 object.active = message.active;
@@ -16042,6 +16075,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.peer_scid_alias = options.longs === String ? String(message.peer_scid_alias) : message.peer_scid_alias;
                 else
                     object.peer_scid_alias = options.longs === String ? $util.Long.prototype.toString.call(message.peer_scid_alias) : options.longs === Number ? new $util.LongBits(message.peer_scid_alias.low >>> 0, message.peer_scid_alias.high >>> 0).toNumber(true) : message.peer_scid_alias;
+            if (message.memo != null && message.hasOwnProperty("memo"))
+                object.memo = message.memo;
             return object;
         };
 
@@ -24679,6 +24714,17 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {string|null} [close_address] BatchOpenChannel close_address
          * @property {Uint8Array|null} [pending_chan_id] BatchOpenChannel pending_chan_id
          * @property {lnrpc.CommitmentType|null} [commitment_type] BatchOpenChannel commitment_type
+         * @property {Long|null} [remote_max_value_in_flight_msat] BatchOpenChannel remote_max_value_in_flight_msat
+         * @property {number|null} [remote_max_htlcs] BatchOpenChannel remote_max_htlcs
+         * @property {number|null} [max_local_csv] BatchOpenChannel max_local_csv
+         * @property {boolean|null} [zero_conf] BatchOpenChannel zero_conf
+         * @property {boolean|null} [scid_alias] BatchOpenChannel scid_alias
+         * @property {Long|null} [base_fee] BatchOpenChannel base_fee
+         * @property {Long|null} [fee_rate] BatchOpenChannel fee_rate
+         * @property {boolean|null} [use_base_fee] BatchOpenChannel use_base_fee
+         * @property {boolean|null} [use_fee_rate] BatchOpenChannel use_fee_rate
+         * @property {Long|null} [remote_chan_reserve_sat] BatchOpenChannel remote_chan_reserve_sat
+         * @property {string|null} [memo] BatchOpenChannel memo
          */
 
         /**
@@ -24769,6 +24815,94 @@ export const lnrpc = $root.lnrpc = (() => {
         BatchOpenChannel.prototype.commitment_type = 0;
 
         /**
+         * BatchOpenChannel remote_max_value_in_flight_msat.
+         * @member {Long} remote_max_value_in_flight_msat
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.remote_max_value_in_flight_msat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BatchOpenChannel remote_max_htlcs.
+         * @member {number} remote_max_htlcs
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.remote_max_htlcs = 0;
+
+        /**
+         * BatchOpenChannel max_local_csv.
+         * @member {number} max_local_csv
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.max_local_csv = 0;
+
+        /**
+         * BatchOpenChannel zero_conf.
+         * @member {boolean} zero_conf
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.zero_conf = false;
+
+        /**
+         * BatchOpenChannel scid_alias.
+         * @member {boolean} scid_alias
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.scid_alias = false;
+
+        /**
+         * BatchOpenChannel base_fee.
+         * @member {Long} base_fee
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.base_fee = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BatchOpenChannel fee_rate.
+         * @member {Long} fee_rate
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.fee_rate = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BatchOpenChannel use_base_fee.
+         * @member {boolean} use_base_fee
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.use_base_fee = false;
+
+        /**
+         * BatchOpenChannel use_fee_rate.
+         * @member {boolean} use_fee_rate
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.use_fee_rate = false;
+
+        /**
+         * BatchOpenChannel remote_chan_reserve_sat.
+         * @member {Long} remote_chan_reserve_sat
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.remote_chan_reserve_sat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BatchOpenChannel memo.
+         * @member {string} memo
+         * @memberof lnrpc.BatchOpenChannel
+         * @instance
+         */
+        BatchOpenChannel.prototype.memo = "";
+
+        /**
          * Creates a new BatchOpenChannel instance using the specified properties.
          * @function create
          * @memberof lnrpc.BatchOpenChannel
@@ -24810,6 +24944,28 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 8, wireType 2 =*/66).bytes(message.pending_chan_id);
             if (message.commitment_type != null && Object.hasOwnProperty.call(message, "commitment_type"))
                 writer.uint32(/* id 9, wireType 0 =*/72).int32(message.commitment_type);
+            if (message.remote_max_value_in_flight_msat != null && Object.hasOwnProperty.call(message, "remote_max_value_in_flight_msat"))
+                writer.uint32(/* id 10, wireType 0 =*/80).uint64(message.remote_max_value_in_flight_msat);
+            if (message.remote_max_htlcs != null && Object.hasOwnProperty.call(message, "remote_max_htlcs"))
+                writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.remote_max_htlcs);
+            if (message.max_local_csv != null && Object.hasOwnProperty.call(message, "max_local_csv"))
+                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.max_local_csv);
+            if (message.zero_conf != null && Object.hasOwnProperty.call(message, "zero_conf"))
+                writer.uint32(/* id 13, wireType 0 =*/104).bool(message.zero_conf);
+            if (message.scid_alias != null && Object.hasOwnProperty.call(message, "scid_alias"))
+                writer.uint32(/* id 14, wireType 0 =*/112).bool(message.scid_alias);
+            if (message.base_fee != null && Object.hasOwnProperty.call(message, "base_fee"))
+                writer.uint32(/* id 15, wireType 0 =*/120).uint64(message.base_fee);
+            if (message.fee_rate != null && Object.hasOwnProperty.call(message, "fee_rate"))
+                writer.uint32(/* id 16, wireType 0 =*/128).uint64(message.fee_rate);
+            if (message.use_base_fee != null && Object.hasOwnProperty.call(message, "use_base_fee"))
+                writer.uint32(/* id 17, wireType 0 =*/136).bool(message.use_base_fee);
+            if (message.use_fee_rate != null && Object.hasOwnProperty.call(message, "use_fee_rate"))
+                writer.uint32(/* id 18, wireType 0 =*/144).bool(message.use_fee_rate);
+            if (message.remote_chan_reserve_sat != null && Object.hasOwnProperty.call(message, "remote_chan_reserve_sat"))
+                writer.uint32(/* id 19, wireType 0 =*/152).uint64(message.remote_chan_reserve_sat);
+            if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
+                writer.uint32(/* id 20, wireType 2 =*/162).string(message.memo);
             return writer;
         };
 
@@ -24880,6 +25036,50 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.commitment_type = reader.int32();
                         break;
                     }
+                case 10: {
+                        message.remote_max_value_in_flight_msat = reader.uint64();
+                        break;
+                    }
+                case 11: {
+                        message.remote_max_htlcs = reader.uint32();
+                        break;
+                    }
+                case 12: {
+                        message.max_local_csv = reader.uint32();
+                        break;
+                    }
+                case 13: {
+                        message.zero_conf = reader.bool();
+                        break;
+                    }
+                case 14: {
+                        message.scid_alias = reader.bool();
+                        break;
+                    }
+                case 15: {
+                        message.base_fee = reader.uint64();
+                        break;
+                    }
+                case 16: {
+                        message.fee_rate = reader.uint64();
+                        break;
+                    }
+                case 17: {
+                        message.use_base_fee = reader.bool();
+                        break;
+                    }
+                case 18: {
+                        message.use_fee_rate = reader.bool();
+                        break;
+                    }
+                case 19: {
+                        message.remote_chan_reserve_sat = reader.uint64();
+                        break;
+                    }
+                case 20: {
+                        message.memo = reader.string();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -24948,8 +25148,42 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 2:
                 case 3:
                 case 4:
+                case 5:
                     break;
                 }
+            if (message.remote_max_value_in_flight_msat != null && message.hasOwnProperty("remote_max_value_in_flight_msat"))
+                if (!$util.isInteger(message.remote_max_value_in_flight_msat) && !(message.remote_max_value_in_flight_msat && $util.isInteger(message.remote_max_value_in_flight_msat.low) && $util.isInteger(message.remote_max_value_in_flight_msat.high)))
+                    return "remote_max_value_in_flight_msat: integer|Long expected";
+            if (message.remote_max_htlcs != null && message.hasOwnProperty("remote_max_htlcs"))
+                if (!$util.isInteger(message.remote_max_htlcs))
+                    return "remote_max_htlcs: integer expected";
+            if (message.max_local_csv != null && message.hasOwnProperty("max_local_csv"))
+                if (!$util.isInteger(message.max_local_csv))
+                    return "max_local_csv: integer expected";
+            if (message.zero_conf != null && message.hasOwnProperty("zero_conf"))
+                if (typeof message.zero_conf !== "boolean")
+                    return "zero_conf: boolean expected";
+            if (message.scid_alias != null && message.hasOwnProperty("scid_alias"))
+                if (typeof message.scid_alias !== "boolean")
+                    return "scid_alias: boolean expected";
+            if (message.base_fee != null && message.hasOwnProperty("base_fee"))
+                if (!$util.isInteger(message.base_fee) && !(message.base_fee && $util.isInteger(message.base_fee.low) && $util.isInteger(message.base_fee.high)))
+                    return "base_fee: integer|Long expected";
+            if (message.fee_rate != null && message.hasOwnProperty("fee_rate"))
+                if (!$util.isInteger(message.fee_rate) && !(message.fee_rate && $util.isInteger(message.fee_rate.low) && $util.isInteger(message.fee_rate.high)))
+                    return "fee_rate: integer|Long expected";
+            if (message.use_base_fee != null && message.hasOwnProperty("use_base_fee"))
+                if (typeof message.use_base_fee !== "boolean")
+                    return "use_base_fee: boolean expected";
+            if (message.use_fee_rate != null && message.hasOwnProperty("use_fee_rate"))
+                if (typeof message.use_fee_rate !== "boolean")
+                    return "use_fee_rate: boolean expected";
+            if (message.remote_chan_reserve_sat != null && message.hasOwnProperty("remote_chan_reserve_sat"))
+                if (!$util.isInteger(message.remote_chan_reserve_sat) && !(message.remote_chan_reserve_sat && $util.isInteger(message.remote_chan_reserve_sat.low) && $util.isInteger(message.remote_chan_reserve_sat.high)))
+                    return "remote_chan_reserve_sat: integer|Long expected";
+            if (message.memo != null && message.hasOwnProperty("memo"))
+                if (!$util.isString(message.memo))
+                    return "memo: string expected";
             return null;
         };
 
@@ -25035,7 +25269,61 @@ export const lnrpc = $root.lnrpc = (() => {
             case 4:
                 message.commitment_type = 4;
                 break;
+            case "SIMPLE_TAPROOT":
+            case 5:
+                message.commitment_type = 5;
+                break;
             }
+            if (object.remote_max_value_in_flight_msat != null)
+                if ($util.Long)
+                    (message.remote_max_value_in_flight_msat = $util.Long.fromValue(object.remote_max_value_in_flight_msat)).unsigned = true;
+                else if (typeof object.remote_max_value_in_flight_msat === "string")
+                    message.remote_max_value_in_flight_msat = parseInt(object.remote_max_value_in_flight_msat, 10);
+                else if (typeof object.remote_max_value_in_flight_msat === "number")
+                    message.remote_max_value_in_flight_msat = object.remote_max_value_in_flight_msat;
+                else if (typeof object.remote_max_value_in_flight_msat === "object")
+                    message.remote_max_value_in_flight_msat = new $util.LongBits(object.remote_max_value_in_flight_msat.low >>> 0, object.remote_max_value_in_flight_msat.high >>> 0).toNumber(true);
+            if (object.remote_max_htlcs != null)
+                message.remote_max_htlcs = object.remote_max_htlcs >>> 0;
+            if (object.max_local_csv != null)
+                message.max_local_csv = object.max_local_csv >>> 0;
+            if (object.zero_conf != null)
+                message.zero_conf = Boolean(object.zero_conf);
+            if (object.scid_alias != null)
+                message.scid_alias = Boolean(object.scid_alias);
+            if (object.base_fee != null)
+                if ($util.Long)
+                    (message.base_fee = $util.Long.fromValue(object.base_fee)).unsigned = true;
+                else if (typeof object.base_fee === "string")
+                    message.base_fee = parseInt(object.base_fee, 10);
+                else if (typeof object.base_fee === "number")
+                    message.base_fee = object.base_fee;
+                else if (typeof object.base_fee === "object")
+                    message.base_fee = new $util.LongBits(object.base_fee.low >>> 0, object.base_fee.high >>> 0).toNumber(true);
+            if (object.fee_rate != null)
+                if ($util.Long)
+                    (message.fee_rate = $util.Long.fromValue(object.fee_rate)).unsigned = true;
+                else if (typeof object.fee_rate === "string")
+                    message.fee_rate = parseInt(object.fee_rate, 10);
+                else if (typeof object.fee_rate === "number")
+                    message.fee_rate = object.fee_rate;
+                else if (typeof object.fee_rate === "object")
+                    message.fee_rate = new $util.LongBits(object.fee_rate.low >>> 0, object.fee_rate.high >>> 0).toNumber(true);
+            if (object.use_base_fee != null)
+                message.use_base_fee = Boolean(object.use_base_fee);
+            if (object.use_fee_rate != null)
+                message.use_fee_rate = Boolean(object.use_fee_rate);
+            if (object.remote_chan_reserve_sat != null)
+                if ($util.Long)
+                    (message.remote_chan_reserve_sat = $util.Long.fromValue(object.remote_chan_reserve_sat)).unsigned = true;
+                else if (typeof object.remote_chan_reserve_sat === "string")
+                    message.remote_chan_reserve_sat = parseInt(object.remote_chan_reserve_sat, 10);
+                else if (typeof object.remote_chan_reserve_sat === "number")
+                    message.remote_chan_reserve_sat = object.remote_chan_reserve_sat;
+                else if (typeof object.remote_chan_reserve_sat === "object")
+                    message.remote_chan_reserve_sat = new $util.LongBits(object.remote_chan_reserve_sat.low >>> 0, object.remote_chan_reserve_sat.high >>> 0).toNumber(true);
+            if (object.memo != null)
+                message.memo = String(object.memo);
             return message;
         };
 
@@ -25086,6 +25374,33 @@ export const lnrpc = $root.lnrpc = (() => {
                         object.pending_chan_id = $util.newBuffer(object.pending_chan_id);
                 }
                 object.commitment_type = options.enums === String ? "UNKNOWN_COMMITMENT_TYPE" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.remote_max_value_in_flight_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.remote_max_value_in_flight_msat = options.longs === String ? "0" : 0;
+                object.remote_max_htlcs = 0;
+                object.max_local_csv = 0;
+                object.zero_conf = false;
+                object.scid_alias = false;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.base_fee = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.base_fee = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.fee_rate = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.fee_rate = options.longs === String ? "0" : 0;
+                object.use_base_fee = false;
+                object.use_fee_rate = false;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.remote_chan_reserve_sat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.remote_chan_reserve_sat = options.longs === String ? "0" : 0;
+                object.memo = "";
             }
             if (message.node_pubkey != null && message.hasOwnProperty("node_pubkey"))
                 object.node_pubkey = options.bytes === String ? $util.base64.encode(message.node_pubkey, 0, message.node_pubkey.length) : options.bytes === Array ? Array.prototype.slice.call(message.node_pubkey) : message.node_pubkey;
@@ -25114,6 +25429,40 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.pending_chan_id = options.bytes === String ? $util.base64.encode(message.pending_chan_id, 0, message.pending_chan_id.length) : options.bytes === Array ? Array.prototype.slice.call(message.pending_chan_id) : message.pending_chan_id;
             if (message.commitment_type != null && message.hasOwnProperty("commitment_type"))
                 object.commitment_type = options.enums === String ? $root.lnrpc.CommitmentType[message.commitment_type] === undefined ? message.commitment_type : $root.lnrpc.CommitmentType[message.commitment_type] : message.commitment_type;
+            if (message.remote_max_value_in_flight_msat != null && message.hasOwnProperty("remote_max_value_in_flight_msat"))
+                if (typeof message.remote_max_value_in_flight_msat === "number")
+                    object.remote_max_value_in_flight_msat = options.longs === String ? String(message.remote_max_value_in_flight_msat) : message.remote_max_value_in_flight_msat;
+                else
+                    object.remote_max_value_in_flight_msat = options.longs === String ? $util.Long.prototype.toString.call(message.remote_max_value_in_flight_msat) : options.longs === Number ? new $util.LongBits(message.remote_max_value_in_flight_msat.low >>> 0, message.remote_max_value_in_flight_msat.high >>> 0).toNumber(true) : message.remote_max_value_in_flight_msat;
+            if (message.remote_max_htlcs != null && message.hasOwnProperty("remote_max_htlcs"))
+                object.remote_max_htlcs = message.remote_max_htlcs;
+            if (message.max_local_csv != null && message.hasOwnProperty("max_local_csv"))
+                object.max_local_csv = message.max_local_csv;
+            if (message.zero_conf != null && message.hasOwnProperty("zero_conf"))
+                object.zero_conf = message.zero_conf;
+            if (message.scid_alias != null && message.hasOwnProperty("scid_alias"))
+                object.scid_alias = message.scid_alias;
+            if (message.base_fee != null && message.hasOwnProperty("base_fee"))
+                if (typeof message.base_fee === "number")
+                    object.base_fee = options.longs === String ? String(message.base_fee) : message.base_fee;
+                else
+                    object.base_fee = options.longs === String ? $util.Long.prototype.toString.call(message.base_fee) : options.longs === Number ? new $util.LongBits(message.base_fee.low >>> 0, message.base_fee.high >>> 0).toNumber(true) : message.base_fee;
+            if (message.fee_rate != null && message.hasOwnProperty("fee_rate"))
+                if (typeof message.fee_rate === "number")
+                    object.fee_rate = options.longs === String ? String(message.fee_rate) : message.fee_rate;
+                else
+                    object.fee_rate = options.longs === String ? $util.Long.prototype.toString.call(message.fee_rate) : options.longs === Number ? new $util.LongBits(message.fee_rate.low >>> 0, message.fee_rate.high >>> 0).toNumber(true) : message.fee_rate;
+            if (message.use_base_fee != null && message.hasOwnProperty("use_base_fee"))
+                object.use_base_fee = message.use_base_fee;
+            if (message.use_fee_rate != null && message.hasOwnProperty("use_fee_rate"))
+                object.use_fee_rate = message.use_fee_rate;
+            if (message.remote_chan_reserve_sat != null && message.hasOwnProperty("remote_chan_reserve_sat"))
+                if (typeof message.remote_chan_reserve_sat === "number")
+                    object.remote_chan_reserve_sat = options.longs === String ? String(message.remote_chan_reserve_sat) : message.remote_chan_reserve_sat;
+                else
+                    object.remote_chan_reserve_sat = options.longs === String ? $util.Long.prototype.toString.call(message.remote_chan_reserve_sat) : options.longs === Number ? new $util.LongBits(message.remote_chan_reserve_sat.low >>> 0, message.remote_chan_reserve_sat.high >>> 0).toNumber(true) : message.remote_chan_reserve_sat;
+            if (message.memo != null && message.hasOwnProperty("memo"))
+                object.memo = message.memo;
             return object;
         };
 
@@ -25401,6 +25750,9 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {boolean|null} [use_base_fee] OpenChannelRequest use_base_fee
          * @property {boolean|null} [use_fee_rate] OpenChannelRequest use_fee_rate
          * @property {Long|null} [remote_chan_reserve_sat] OpenChannelRequest remote_chan_reserve_sat
+         * @property {boolean|null} [fund_max] OpenChannelRequest fund_max
+         * @property {string|null} [memo] OpenChannelRequest memo
+         * @property {Array.<lnrpc.IOutPoint>|null} [outpoints] OpenChannelRequest outpoints
          */
 
         /**
@@ -25412,6 +25764,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @param {lnrpc.IOpenChannelRequest=} [properties] Properties to set
          */
         function OpenChannelRequest(properties) {
+            this.outpoints = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -25619,6 +25972,30 @@ export const lnrpc = $root.lnrpc = (() => {
         OpenChannelRequest.prototype.remote_chan_reserve_sat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
+         * OpenChannelRequest fund_max.
+         * @member {boolean} fund_max
+         * @memberof lnrpc.OpenChannelRequest
+         * @instance
+         */
+        OpenChannelRequest.prototype.fund_max = false;
+
+        /**
+         * OpenChannelRequest memo.
+         * @member {string} memo
+         * @memberof lnrpc.OpenChannelRequest
+         * @instance
+         */
+        OpenChannelRequest.prototype.memo = "";
+
+        /**
+         * OpenChannelRequest outpoints.
+         * @member {Array.<lnrpc.IOutPoint>} outpoints
+         * @memberof lnrpc.OpenChannelRequest
+         * @instance
+         */
+        OpenChannelRequest.prototype.outpoints = $util.emptyArray;
+
+        /**
          * Creates a new OpenChannelRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.OpenChannelRequest
@@ -25692,6 +26069,13 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 24, wireType 0 =*/192).bool(message.use_fee_rate);
             if (message.remote_chan_reserve_sat != null && Object.hasOwnProperty.call(message, "remote_chan_reserve_sat"))
                 writer.uint32(/* id 25, wireType 0 =*/200).uint64(message.remote_chan_reserve_sat);
+            if (message.fund_max != null && Object.hasOwnProperty.call(message, "fund_max"))
+                writer.uint32(/* id 26, wireType 0 =*/208).bool(message.fund_max);
+            if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
+                writer.uint32(/* id 27, wireType 2 =*/218).string(message.memo);
+            if (message.outpoints != null && message.outpoints.length)
+                for (let i = 0; i < message.outpoints.length; ++i)
+                    $root.lnrpc.OutPoint.encode(message.outpoints[i], writer.uint32(/* id 28, wireType 2 =*/226).fork()).ldelim();
             return writer;
         };
 
@@ -25826,6 +26210,20 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.remote_chan_reserve_sat = reader.uint64();
                         break;
                     }
+                case 26: {
+                        message.fund_max = reader.bool();
+                        break;
+                    }
+                case 27: {
+                        message.memo = reader.string();
+                        break;
+                    }
+                case 28: {
+                        if (!(message.outpoints && message.outpoints.length))
+                            message.outpoints = [];
+                        message.outpoints.push($root.lnrpc.OutPoint.decode(reader, reader.uint32()));
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -25923,6 +26321,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 2:
                 case 3:
                 case 4:
+                case 5:
                     break;
                 }
             if (message.zero_conf != null && message.hasOwnProperty("zero_conf"))
@@ -25946,6 +26345,21 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.remote_chan_reserve_sat != null && message.hasOwnProperty("remote_chan_reserve_sat"))
                 if (!$util.isInteger(message.remote_chan_reserve_sat) && !(message.remote_chan_reserve_sat && $util.isInteger(message.remote_chan_reserve_sat.low) && $util.isInteger(message.remote_chan_reserve_sat.high)))
                     return "remote_chan_reserve_sat: integer|Long expected";
+            if (message.fund_max != null && message.hasOwnProperty("fund_max"))
+                if (typeof message.fund_max !== "boolean")
+                    return "fund_max: boolean expected";
+            if (message.memo != null && message.hasOwnProperty("memo"))
+                if (!$util.isString(message.memo))
+                    return "memo: string expected";
+            if (message.outpoints != null && message.hasOwnProperty("outpoints")) {
+                if (!Array.isArray(message.outpoints))
+                    return "outpoints: array expected";
+                for (let i = 0; i < message.outpoints.length; ++i) {
+                    let error = $root.lnrpc.OutPoint.verify(message.outpoints[i]);
+                    if (error)
+                        return "outpoints." + error;
+                }
+            }
             return null;
         };
 
@@ -26070,6 +26484,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case 4:
                 message.commitment_type = 4;
                 break;
+            case "SIMPLE_TAPROOT":
+            case 5:
+                message.commitment_type = 5;
+                break;
             }
             if (object.zero_conf != null)
                 message.zero_conf = Boolean(object.zero_conf);
@@ -26106,6 +26524,20 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.remote_chan_reserve_sat = object.remote_chan_reserve_sat;
                 else if (typeof object.remote_chan_reserve_sat === "object")
                     message.remote_chan_reserve_sat = new $util.LongBits(object.remote_chan_reserve_sat.low >>> 0, object.remote_chan_reserve_sat.high >>> 0).toNumber(true);
+            if (object.fund_max != null)
+                message.fund_max = Boolean(object.fund_max);
+            if (object.memo != null)
+                message.memo = String(object.memo);
+            if (object.outpoints) {
+                if (!Array.isArray(object.outpoints))
+                    throw TypeError(".lnrpc.OpenChannelRequest.outpoints: array expected");
+                message.outpoints = [];
+                for (let i = 0; i < object.outpoints.length; ++i) {
+                    if (typeof object.outpoints[i] !== "object")
+                        throw TypeError(".lnrpc.OpenChannelRequest.outpoints: object expected");
+                    message.outpoints[i] = $root.lnrpc.OutPoint.fromObject(object.outpoints[i]);
+                }
+            }
             return message;
         };
 
@@ -26122,6 +26554,8 @@ export const lnrpc = $root.lnrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
+            if (options.arrays || options.defaults)
+                object.outpoints = [];
             if (options.defaults) {
                 if ($util.Long) {
                     let long = new $util.Long(0, 0, true);
@@ -26190,6 +26624,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.remote_chan_reserve_sat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.remote_chan_reserve_sat = options.longs === String ? "0" : 0;
+                object.fund_max = false;
+                object.memo = "";
             }
             if (message.sat_per_vbyte != null && message.hasOwnProperty("sat_per_vbyte"))
                 if (typeof message.sat_per_vbyte === "number")
@@ -26268,6 +26704,15 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.remote_chan_reserve_sat = options.longs === String ? String(message.remote_chan_reserve_sat) : message.remote_chan_reserve_sat;
                 else
                     object.remote_chan_reserve_sat = options.longs === String ? $util.Long.prototype.toString.call(message.remote_chan_reserve_sat) : options.longs === Number ? new $util.LongBits(message.remote_chan_reserve_sat.low >>> 0, message.remote_chan_reserve_sat.high >>> 0).toNumber(true) : message.remote_chan_reserve_sat;
+            if (message.fund_max != null && message.hasOwnProperty("fund_max"))
+                object.fund_max = message.fund_max;
+            if (message.memo != null && message.hasOwnProperty("memo"))
+                object.memo = message.memo;
+            if (message.outpoints && message.outpoints.length) {
+                object.outpoints = [];
+                for (let j = 0; j < message.outpoints.length; ++j)
+                    object.outpoints[j] = $root.lnrpc.OutPoint.toObject(message.outpoints[j], options);
+            }
             return object;
         };
 
@@ -30171,6 +30616,7 @@ export const lnrpc = $root.lnrpc = (() => {
              * @property {Long|null} [num_forwarding_packages] PendingChannel num_forwarding_packages
              * @property {string|null} [chan_status_flags] PendingChannel chan_status_flags
              * @property {boolean|null} ["private"] PendingChannel private
+             * @property {string|null} [memo] PendingChannel memo
              */
 
             /**
@@ -30285,6 +30731,14 @@ export const lnrpc = $root.lnrpc = (() => {
             PendingChannel.prototype["private"] = false;
 
             /**
+             * PendingChannel memo.
+             * @member {string} memo
+             * @memberof lnrpc.PendingChannelsResponse.PendingChannel
+             * @instance
+             */
+            PendingChannel.prototype.memo = "";
+
+            /**
              * Creates a new PendingChannel instance using the specified properties.
              * @function create
              * @memberof lnrpc.PendingChannelsResponse.PendingChannel
@@ -30332,6 +30786,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     writer.uint32(/* id 11, wireType 2 =*/90).string(message.chan_status_flags);
                 if (message["private"] != null && Object.hasOwnProperty.call(message, "private"))
                     writer.uint32(/* id 12, wireType 0 =*/96).bool(message["private"]);
+                if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
+                    writer.uint32(/* id 13, wireType 2 =*/106).string(message.memo);
                 return writer;
             };
 
@@ -30414,6 +30870,10 @@ export const lnrpc = $root.lnrpc = (() => {
                             message["private"] = reader.bool();
                             break;
                         }
+                    case 13: {
+                            message.memo = reader.string();
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -30489,6 +30949,7 @@ export const lnrpc = $root.lnrpc = (() => {
                     case 2:
                     case 3:
                     case 4:
+                    case 5:
                         break;
                     }
                 if (message.num_forwarding_packages != null && message.hasOwnProperty("num_forwarding_packages"))
@@ -30500,6 +30961,9 @@ export const lnrpc = $root.lnrpc = (() => {
                 if (message["private"] != null && message.hasOwnProperty("private"))
                     if (typeof message["private"] !== "boolean")
                         return "private: boolean expected";
+                if (message.memo != null && message.hasOwnProperty("memo"))
+                    if (!$util.isString(message.memo))
+                        return "memo: string expected";
                 return null;
             };
 
@@ -30615,6 +31079,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 4:
                     message.commitment_type = 4;
                     break;
+                case "SIMPLE_TAPROOT":
+                case 5:
+                    message.commitment_type = 5;
+                    break;
                 }
                 if (object.num_forwarding_packages != null)
                     if ($util.Long)
@@ -30629,6 +31097,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.chan_status_flags = String(object.chan_status_flags);
                 if (object["private"] != null)
                     message["private"] = Boolean(object["private"]);
+                if (object.memo != null)
+                    message.memo = String(object.memo);
                 return message;
             };
 
@@ -30682,6 +31152,7 @@ export const lnrpc = $root.lnrpc = (() => {
                         object.num_forwarding_packages = options.longs === String ? "0" : 0;
                     object.chan_status_flags = "";
                     object["private"] = false;
+                    object.memo = "";
                 }
                 if (message.remote_node_pub != null && message.hasOwnProperty("remote_node_pub"))
                     object.remote_node_pub = message.remote_node_pub;
@@ -30725,6 +31196,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.chan_status_flags = message.chan_status_flags;
                 if (message["private"] != null && message.hasOwnProperty("private"))
                     object["private"] = message["private"];
+                if (message.memo != null && message.hasOwnProperty("memo"))
+                    object.memo = message.memo;
                 return object;
             };
 
@@ -30767,6 +31240,7 @@ export const lnrpc = $root.lnrpc = (() => {
              * @property {Long|null} [commit_fee] PendingOpenChannel commit_fee
              * @property {Long|null} [commit_weight] PendingOpenChannel commit_weight
              * @property {Long|null} [fee_per_kw] PendingOpenChannel fee_per_kw
+             * @property {number|null} [funding_expiry_blocks] PendingOpenChannel funding_expiry_blocks
              */
 
             /**
@@ -30817,6 +31291,14 @@ export const lnrpc = $root.lnrpc = (() => {
             PendingOpenChannel.prototype.fee_per_kw = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
             /**
+             * PendingOpenChannel funding_expiry_blocks.
+             * @member {number} funding_expiry_blocks
+             * @memberof lnrpc.PendingChannelsResponse.PendingOpenChannel
+             * @instance
+             */
+            PendingOpenChannel.prototype.funding_expiry_blocks = 0;
+
+            /**
              * Creates a new PendingOpenChannel instance using the specified properties.
              * @function create
              * @memberof lnrpc.PendingChannelsResponse.PendingOpenChannel
@@ -30842,6 +31324,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     writer = $Writer.create();
                 if (message.channel != null && Object.hasOwnProperty.call(message, "channel"))
                     $root.lnrpc.PendingChannelsResponse.PendingChannel.encode(message.channel, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.funding_expiry_blocks != null && Object.hasOwnProperty.call(message, "funding_expiry_blocks"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.funding_expiry_blocks);
                 if (message.commit_fee != null && Object.hasOwnProperty.call(message, "commit_fee"))
                     writer.uint32(/* id 4, wireType 0 =*/32).int64(message.commit_fee);
                 if (message.commit_weight != null && Object.hasOwnProperty.call(message, "commit_weight"))
@@ -30898,6 +31382,10 @@ export const lnrpc = $root.lnrpc = (() => {
                             message.fee_per_kw = reader.int64();
                             break;
                         }
+                    case 3: {
+                            message.funding_expiry_blocks = reader.int32();
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -30947,6 +31435,9 @@ export const lnrpc = $root.lnrpc = (() => {
                 if (message.fee_per_kw != null && message.hasOwnProperty("fee_per_kw"))
                     if (!$util.isInteger(message.fee_per_kw) && !(message.fee_per_kw && $util.isInteger(message.fee_per_kw.low) && $util.isInteger(message.fee_per_kw.high)))
                         return "fee_per_kw: integer|Long expected";
+                if (message.funding_expiry_blocks != null && message.hasOwnProperty("funding_expiry_blocks"))
+                    if (!$util.isInteger(message.funding_expiry_blocks))
+                        return "funding_expiry_blocks: integer expected";
                 return null;
             };
 
@@ -30994,6 +31485,8 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.fee_per_kw = object.fee_per_kw;
                     else if (typeof object.fee_per_kw === "object")
                         message.fee_per_kw = new $util.LongBits(object.fee_per_kw.low >>> 0, object.fee_per_kw.high >>> 0).toNumber();
+                if (object.funding_expiry_blocks != null)
+                    message.funding_expiry_blocks = object.funding_expiry_blocks | 0;
                 return message;
             };
 
@@ -31012,6 +31505,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 let object = {};
                 if (options.defaults) {
                     object.channel = null;
+                    object.funding_expiry_blocks = 0;
                     if ($util.Long) {
                         let long = new $util.Long(0, 0, false);
                         object.commit_fee = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
@@ -31030,6 +31524,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 }
                 if (message.channel != null && message.hasOwnProperty("channel"))
                     object.channel = $root.lnrpc.PendingChannelsResponse.PendingChannel.toObject(message.channel, options);
+                if (message.funding_expiry_blocks != null && message.hasOwnProperty("funding_expiry_blocks"))
+                    object.funding_expiry_blocks = message.funding_expiry_blocks;
                 if (message.commit_fee != null && message.hasOwnProperty("commit_fee"))
                     if (typeof message.commit_fee === "number")
                         object.commit_fee = options.longs === String ? String(message.commit_fee) : message.commit_fee;
@@ -33353,6 +33849,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * Properties of a WalletBalanceRequest.
          * @memberof lnrpc
          * @interface IWalletBalanceRequest
+         * @property {string|null} [account] WalletBalanceRequest account
          */
 
         /**
@@ -33369,6 +33866,14 @@ export const lnrpc = $root.lnrpc = (() => {
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
+
+        /**
+         * WalletBalanceRequest account.
+         * @member {string} account
+         * @memberof lnrpc.WalletBalanceRequest
+         * @instance
+         */
+        WalletBalanceRequest.prototype.account = "";
 
         /**
          * Creates a new WalletBalanceRequest instance using the specified properties.
@@ -33394,6 +33899,8 @@ export const lnrpc = $root.lnrpc = (() => {
         WalletBalanceRequest.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
+            if (message.account != null && Object.hasOwnProperty.call(message, "account"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.account);
             return writer;
         };
 
@@ -33428,6 +33935,10 @@ export const lnrpc = $root.lnrpc = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
+                case 1: {
+                        message.account = reader.string();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -33463,6 +33974,9 @@ export const lnrpc = $root.lnrpc = (() => {
         WalletBalanceRequest.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (message.account != null && message.hasOwnProperty("account"))
+                if (!$util.isString(message.account))
+                    return "account: string expected";
             return null;
         };
 
@@ -33477,7 +33991,10 @@ export const lnrpc = $root.lnrpc = (() => {
         WalletBalanceRequest.fromObject = function fromObject(object) {
             if (object instanceof $root.lnrpc.WalletBalanceRequest)
                 return object;
-            return new $root.lnrpc.WalletBalanceRequest();
+            let message = new $root.lnrpc.WalletBalanceRequest();
+            if (object.account != null)
+                message.account = String(object.account);
+            return message;
         };
 
         /**
@@ -33489,8 +34006,15 @@ export const lnrpc = $root.lnrpc = (() => {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        WalletBalanceRequest.toObject = function toObject() {
-            return {};
+        WalletBalanceRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.account = "";
+            if (message.account != null && message.hasOwnProperty("account"))
+                object.account = message.account;
+            return object;
         };
 
         /**
@@ -110816,6 +111340,15 @@ export const walletrpc = $root.walletrpc = (() => {
      * @property {number} WITNESS_KEY_HASH=11 WITNESS_KEY_HASH value
      * @property {number} NESTED_WITNESS_KEY_HASH=12 NESTED_WITNESS_KEY_HASH value
      * @property {number} COMMITMENT_ANCHOR=13 COMMITMENT_ANCHOR value
+     * @property {number} COMMITMENT_NO_DELAY_TWEAKLESS=14 COMMITMENT_NO_DELAY_TWEAKLESS value
+     * @property {number} COMMITMENT_TO_REMOTE_CONFIRMED=15 COMMITMENT_TO_REMOTE_CONFIRMED value
+     * @property {number} HTLC_OFFERED_TIMEOUT_SECOND_LEVEL_INPUT_CONFIRMED=16 HTLC_OFFERED_TIMEOUT_SECOND_LEVEL_INPUT_CONFIRMED value
+     * @property {number} HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL_INPUT_CONFIRMED=17 HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL_INPUT_CONFIRMED value
+     * @property {number} LEASE_COMMITMENT_TIME_LOCK=18 LEASE_COMMITMENT_TIME_LOCK value
+     * @property {number} LEASE_COMMITMENT_TO_REMOTE_CONFIRMED=19 LEASE_COMMITMENT_TO_REMOTE_CONFIRMED value
+     * @property {number} LEASE_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL=20 LEASE_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL value
+     * @property {number} LEASE_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL=21 LEASE_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL value
+     * @property {number} TAPROOT_PUB_KEY_SPEND=22 TAPROOT_PUB_KEY_SPEND value
      */
     walletrpc.WitnessType = (function() {
         const valuesById = {}, values = Object.create(valuesById);
@@ -110833,6 +111366,15 @@ export const walletrpc = $root.walletrpc = (() => {
         values[valuesById[11] = "WITNESS_KEY_HASH"] = 11;
         values[valuesById[12] = "NESTED_WITNESS_KEY_HASH"] = 12;
         values[valuesById[13] = "COMMITMENT_ANCHOR"] = 13;
+        values[valuesById[14] = "COMMITMENT_NO_DELAY_TWEAKLESS"] = 14;
+        values[valuesById[15] = "COMMITMENT_TO_REMOTE_CONFIRMED"] = 15;
+        values[valuesById[16] = "HTLC_OFFERED_TIMEOUT_SECOND_LEVEL_INPUT_CONFIRMED"] = 16;
+        values[valuesById[17] = "HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL_INPUT_CONFIRMED"] = 17;
+        values[valuesById[18] = "LEASE_COMMITMENT_TIME_LOCK"] = 18;
+        values[valuesById[19] = "LEASE_COMMITMENT_TO_REMOTE_CONFIRMED"] = 19;
+        values[valuesById[20] = "LEASE_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL"] = 20;
+        values[valuesById[21] = "LEASE_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL"] = 21;
+        values[valuesById[22] = "TAPROOT_PUB_KEY_SPEND"] = 22;
         return values;
     })();
 
@@ -111140,6 +111682,15 @@ export const walletrpc = $root.walletrpc = (() => {
                 case 11:
                 case 12:
                 case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
                     break;
                 }
             if (message.amount_sat != null && message.hasOwnProperty("amount_sat"))
@@ -111251,6 +111802,42 @@ export const walletrpc = $root.walletrpc = (() => {
             case "COMMITMENT_ANCHOR":
             case 13:
                 message.witness_type = 13;
+                break;
+            case "COMMITMENT_NO_DELAY_TWEAKLESS":
+            case 14:
+                message.witness_type = 14;
+                break;
+            case "COMMITMENT_TO_REMOTE_CONFIRMED":
+            case 15:
+                message.witness_type = 15;
+                break;
+            case "HTLC_OFFERED_TIMEOUT_SECOND_LEVEL_INPUT_CONFIRMED":
+            case 16:
+                message.witness_type = 16;
+                break;
+            case "HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL_INPUT_CONFIRMED":
+            case 17:
+                message.witness_type = 17;
+                break;
+            case "LEASE_COMMITMENT_TIME_LOCK":
+            case 18:
+                message.witness_type = 18;
+                break;
+            case "LEASE_COMMITMENT_TO_REMOTE_CONFIRMED":
+            case 19:
+                message.witness_type = 19;
+                break;
+            case "LEASE_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL":
+            case 20:
+                message.witness_type = 20;
+                break;
+            case "LEASE_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL":
+            case 21:
+                message.witness_type = 21;
+                break;
+            case "TAPROOT_PUB_KEY_SPEND":
+            case 22:
+                message.witness_type = 22;
                 break;
             }
             if (object.amount_sat != null)

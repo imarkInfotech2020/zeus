@@ -577,6 +577,39 @@ export const lnrpc = $root.lnrpc = (() => {
          */
 
         /**
+         * Callback as used by {@link lnrpc.Lightning#getDebugInfo}.
+         * @memberof lnrpc.Lightning
+         * @typedef GetDebugInfoCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {lnrpc.GetDebugInfoResponse} [response] GetDebugInfoResponse
+         */
+
+        /**
+         * Calls GetDebugInfo.
+         * @function getDebugInfo
+         * @memberof lnrpc.Lightning
+         * @instance
+         * @param {lnrpc.IGetDebugInfoRequest} request GetDebugInfoRequest message or plain object
+         * @param {lnrpc.Lightning.GetDebugInfoCallback} callback Node-style callback called with the error, if any, and GetDebugInfoResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(Lightning.prototype.getDebugInfo = function getDebugInfo(request, callback) {
+            return this.rpcCall(getDebugInfo, $root.lnrpc.GetDebugInfoRequest, $root.lnrpc.GetDebugInfoResponse, request, callback);
+        }, "name", { value: "GetDebugInfo" });
+
+        /**
+         * Calls GetDebugInfo.
+         * @function getDebugInfo
+         * @memberof lnrpc.Lightning
+         * @instance
+         * @param {lnrpc.IGetDebugInfoRequest} request GetDebugInfoRequest message or plain object
+         * @returns {Promise<lnrpc.GetDebugInfoResponse>} Promise
+         * @variation 2
+         */
+
+        /**
          * Callback as used by {@link lnrpc.Lightning#getRecoveryInfo}.
          * @memberof lnrpc.Lightning
          * @typedef GetRecoveryInfoCallback
@@ -6276,6 +6309,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     case 21:
                     case 22:
                     case 23:
+                    case 24:
+                    case 25:
                     case 30:
                     case 31:
                         break;
@@ -6470,6 +6505,14 @@ export const lnrpc = $root.lnrpc = (() => {
                     case "ANCHORS_ZERO_FEE_HTLC_OPT":
                     case 23:
                         message.dest_features[i] = 23;
+                        break;
+                    case "ROUTE_BLINDING_REQUIRED":
+                    case 24:
+                        message.dest_features[i] = 24;
+                        break;
+                    case "ROUTE_BLINDING_OPTIONAL":
+                    case 25:
+                        message.dest_features[i] = 25;
                         break;
                     case "AMP_REQ":
                     case 30:
@@ -9386,6 +9429,22 @@ export const lnrpc = $root.lnrpc = (() => {
         return LightningAddress;
     })();
 
+    /**
+     * CoinSelectionStrategy enum.
+     * @name lnrpc.CoinSelectionStrategy
+     * @enum {number}
+     * @property {number} STRATEGY_USE_GLOBAL_CONFIG=0 STRATEGY_USE_GLOBAL_CONFIG value
+     * @property {number} STRATEGY_LARGEST=1 STRATEGY_LARGEST value
+     * @property {number} STRATEGY_RANDOM=2 STRATEGY_RANDOM value
+     */
+    lnrpc.CoinSelectionStrategy = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "STRATEGY_USE_GLOBAL_CONFIG"] = 0;
+        values[valuesById[1] = "STRATEGY_LARGEST"] = 1;
+        values[valuesById[2] = "STRATEGY_RANDOM"] = 2;
+        return values;
+    })();
+
     lnrpc.EstimateFeeRequest = (function() {
 
         /**
@@ -9396,6 +9455,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {number|null} [target_conf] EstimateFeeRequest target_conf
          * @property {number|null} [min_confs] EstimateFeeRequest min_confs
          * @property {boolean|null} [spend_unconfirmed] EstimateFeeRequest spend_unconfirmed
+         * @property {lnrpc.CoinSelectionStrategy|null} [coin_selection_strategy] EstimateFeeRequest coin_selection_strategy
          */
 
         /**
@@ -9447,6 +9507,14 @@ export const lnrpc = $root.lnrpc = (() => {
         EstimateFeeRequest.prototype.spend_unconfirmed = false;
 
         /**
+         * EstimateFeeRequest coin_selection_strategy.
+         * @member {lnrpc.CoinSelectionStrategy} coin_selection_strategy
+         * @memberof lnrpc.EstimateFeeRequest
+         * @instance
+         */
+        EstimateFeeRequest.prototype.coin_selection_strategy = 0;
+
+        /**
          * Creates a new EstimateFeeRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.EstimateFeeRequest
@@ -9479,6 +9547,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 3, wireType 0 =*/24).int32(message.min_confs);
             if (message.spend_unconfirmed != null && Object.hasOwnProperty.call(message, "spend_unconfirmed"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.spend_unconfirmed);
+            if (message.coin_selection_strategy != null && Object.hasOwnProperty.call(message, "coin_selection_strategy"))
+                writer.uint32(/* id 5, wireType 0 =*/40).int32(message.coin_selection_strategy);
             return writer;
         };
 
@@ -9548,6 +9618,10 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.spend_unconfirmed = reader.bool();
                         break;
                     }
+                case 5: {
+                        message.coin_selection_strategy = reader.int32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -9600,6 +9674,15 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 if (typeof message.spend_unconfirmed !== "boolean")
                     return "spend_unconfirmed: boolean expected";
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                switch (message.coin_selection_strategy) {
+                default:
+                    return "coin_selection_strategy: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
             return null;
         };
 
@@ -9635,6 +9718,26 @@ export const lnrpc = $root.lnrpc = (() => {
                 message.min_confs = object.min_confs | 0;
             if (object.spend_unconfirmed != null)
                 message.spend_unconfirmed = Boolean(object.spend_unconfirmed);
+            switch (object.coin_selection_strategy) {
+            default:
+                if (typeof object.coin_selection_strategy === "number") {
+                    message.coin_selection_strategy = object.coin_selection_strategy;
+                    break;
+                }
+                break;
+            case "STRATEGY_USE_GLOBAL_CONFIG":
+            case 0:
+                message.coin_selection_strategy = 0;
+                break;
+            case "STRATEGY_LARGEST":
+            case 1:
+                message.coin_selection_strategy = 1;
+                break;
+            case "STRATEGY_RANDOM":
+            case 2:
+                message.coin_selection_strategy = 2;
+                break;
+            }
             return message;
         };
 
@@ -9657,6 +9760,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.target_conf = 0;
                 object.min_confs = 0;
                 object.spend_unconfirmed = false;
+                object.coin_selection_strategy = options.enums === String ? "STRATEGY_USE_GLOBAL_CONFIG" : 0;
             }
             let keys2;
             if (message.AddrToAmount && (keys2 = Object.keys(message.AddrToAmount)).length) {
@@ -9673,6 +9777,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.min_confs = message.min_confs;
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 object.spend_unconfirmed = message.spend_unconfirmed;
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                object.coin_selection_strategy = options.enums === String ? $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] === undefined ? message.coin_selection_strategy : $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] : message.coin_selection_strategy;
             return object;
         };
 
@@ -10010,6 +10116,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {string|null} [label] SendManyRequest label
          * @property {number|null} [min_confs] SendManyRequest min_confs
          * @property {boolean|null} [spend_unconfirmed] SendManyRequest spend_unconfirmed
+         * @property {lnrpc.CoinSelectionStrategy|null} [coin_selection_strategy] SendManyRequest coin_selection_strategy
          */
 
         /**
@@ -10085,6 +10192,14 @@ export const lnrpc = $root.lnrpc = (() => {
         SendManyRequest.prototype.spend_unconfirmed = false;
 
         /**
+         * SendManyRequest coin_selection_strategy.
+         * @member {lnrpc.CoinSelectionStrategy} coin_selection_strategy
+         * @memberof lnrpc.SendManyRequest
+         * @instance
+         */
+        SendManyRequest.prototype.coin_selection_strategy = 0;
+
+        /**
          * Creates a new SendManyRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.SendManyRequest
@@ -10123,6 +10238,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 7, wireType 0 =*/56).int32(message.min_confs);
             if (message.spend_unconfirmed != null && Object.hasOwnProperty.call(message, "spend_unconfirmed"))
                 writer.uint32(/* id 8, wireType 0 =*/64).bool(message.spend_unconfirmed);
+            if (message.coin_selection_strategy != null && Object.hasOwnProperty.call(message, "coin_selection_strategy"))
+                writer.uint32(/* id 9, wireType 0 =*/72).int32(message.coin_selection_strategy);
             return writer;
         };
 
@@ -10204,6 +10321,10 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.spend_unconfirmed = reader.bool();
                         break;
                     }
+                case 9: {
+                        message.coin_selection_strategy = reader.int32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -10265,6 +10386,15 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 if (typeof message.spend_unconfirmed !== "boolean")
                     return "spend_unconfirmed: boolean expected";
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                switch (message.coin_selection_strategy) {
+                default:
+                    return "coin_selection_strategy: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
             return null;
         };
 
@@ -10320,6 +10450,26 @@ export const lnrpc = $root.lnrpc = (() => {
                 message.min_confs = object.min_confs | 0;
             if (object.spend_unconfirmed != null)
                 message.spend_unconfirmed = Boolean(object.spend_unconfirmed);
+            switch (object.coin_selection_strategy) {
+            default:
+                if (typeof object.coin_selection_strategy === "number") {
+                    message.coin_selection_strategy = object.coin_selection_strategy;
+                    break;
+                }
+                break;
+            case "STRATEGY_USE_GLOBAL_CONFIG":
+            case 0:
+                message.coin_selection_strategy = 0;
+                break;
+            case "STRATEGY_LARGEST":
+            case 1:
+                message.coin_selection_strategy = 1;
+                break;
+            case "STRATEGY_RANDOM":
+            case 2:
+                message.coin_selection_strategy = 2;
+                break;
+            }
             return message;
         };
 
@@ -10353,6 +10503,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.label = "";
                 object.min_confs = 0;
                 object.spend_unconfirmed = false;
+                object.coin_selection_strategy = options.enums === String ? "STRATEGY_USE_GLOBAL_CONFIG" : 0;
             }
             let keys2;
             if (message.AddrToAmount && (keys2 = Object.keys(message.AddrToAmount)).length) {
@@ -10381,6 +10532,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.min_confs = message.min_confs;
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 object.spend_unconfirmed = message.spend_unconfirmed;
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                object.coin_selection_strategy = options.enums === String ? $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] === undefined ? message.coin_selection_strategy : $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] : message.coin_selection_strategy;
             return object;
         };
 
@@ -10631,6 +10784,8 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {string|null} [label] SendCoinsRequest label
          * @property {number|null} [min_confs] SendCoinsRequest min_confs
          * @property {boolean|null} [spend_unconfirmed] SendCoinsRequest spend_unconfirmed
+         * @property {lnrpc.CoinSelectionStrategy|null} [coin_selection_strategy] SendCoinsRequest coin_selection_strategy
+         * @property {Array.<lnrpc.IOutPoint>|null} [outpoints] SendCoinsRequest outpoints
          */
 
         /**
@@ -10642,6 +10797,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @param {lnrpc.ISendCoinsRequest=} [properties] Properties to set
          */
         function SendCoinsRequest(properties) {
+            this.outpoints = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -10721,6 +10877,22 @@ export const lnrpc = $root.lnrpc = (() => {
         SendCoinsRequest.prototype.spend_unconfirmed = false;
 
         /**
+         * SendCoinsRequest coin_selection_strategy.
+         * @member {lnrpc.CoinSelectionStrategy} coin_selection_strategy
+         * @memberof lnrpc.SendCoinsRequest
+         * @instance
+         */
+        SendCoinsRequest.prototype.coin_selection_strategy = 0;
+
+        /**
+         * SendCoinsRequest outpoints.
+         * @member {Array.<lnrpc.IOutPoint>} outpoints
+         * @memberof lnrpc.SendCoinsRequest
+         * @instance
+         */
+        SendCoinsRequest.prototype.outpoints = $util.emptyArray;
+
+        /**
          * Creates a new SendCoinsRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.SendCoinsRequest
@@ -10762,6 +10934,11 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 8, wireType 0 =*/64).int32(message.min_confs);
             if (message.spend_unconfirmed != null && Object.hasOwnProperty.call(message, "spend_unconfirmed"))
                 writer.uint32(/* id 9, wireType 0 =*/72).bool(message.spend_unconfirmed);
+            if (message.coin_selection_strategy != null && Object.hasOwnProperty.call(message, "coin_selection_strategy"))
+                writer.uint32(/* id 10, wireType 0 =*/80).int32(message.coin_selection_strategy);
+            if (message.outpoints != null && message.outpoints.length)
+                for (let i = 0; i < message.outpoints.length; ++i)
+                    $root.lnrpc.OutPoint.encode(message.outpoints[i], writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
             return writer;
         };
 
@@ -10832,6 +11009,16 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.spend_unconfirmed = reader.bool();
                         break;
                     }
+                case 10: {
+                        message.coin_selection_strategy = reader.int32();
+                        break;
+                    }
+                case 11: {
+                        if (!(message.outpoints && message.outpoints.length))
+                            message.outpoints = [];
+                        message.outpoints.push($root.lnrpc.OutPoint.decode(reader, reader.uint32()));
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -10894,6 +11081,24 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 if (typeof message.spend_unconfirmed !== "boolean")
                     return "spend_unconfirmed: boolean expected";
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                switch (message.coin_selection_strategy) {
+                default:
+                    return "coin_selection_strategy: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
+            if (message.outpoints != null && message.hasOwnProperty("outpoints")) {
+                if (!Array.isArray(message.outpoints))
+                    return "outpoints: array expected";
+                for (let i = 0; i < message.outpoints.length; ++i) {
+                    let error = $root.lnrpc.OutPoint.verify(message.outpoints[i]);
+                    if (error)
+                        return "outpoints." + error;
+                }
+            }
             return null;
         };
 
@@ -10948,6 +11153,36 @@ export const lnrpc = $root.lnrpc = (() => {
                 message.min_confs = object.min_confs | 0;
             if (object.spend_unconfirmed != null)
                 message.spend_unconfirmed = Boolean(object.spend_unconfirmed);
+            switch (object.coin_selection_strategy) {
+            default:
+                if (typeof object.coin_selection_strategy === "number") {
+                    message.coin_selection_strategy = object.coin_selection_strategy;
+                    break;
+                }
+                break;
+            case "STRATEGY_USE_GLOBAL_CONFIG":
+            case 0:
+                message.coin_selection_strategy = 0;
+                break;
+            case "STRATEGY_LARGEST":
+            case 1:
+                message.coin_selection_strategy = 1;
+                break;
+            case "STRATEGY_RANDOM":
+            case 2:
+                message.coin_selection_strategy = 2;
+                break;
+            }
+            if (object.outpoints) {
+                if (!Array.isArray(object.outpoints))
+                    throw TypeError(".lnrpc.SendCoinsRequest.outpoints: array expected");
+                message.outpoints = [];
+                for (let i = 0; i < object.outpoints.length; ++i) {
+                    if (typeof object.outpoints[i] !== "object")
+                        throw TypeError(".lnrpc.SendCoinsRequest.outpoints: object expected");
+                    message.outpoints[i] = $root.lnrpc.OutPoint.fromObject(object.outpoints[i]);
+                }
+            }
             return message;
         };
 
@@ -10964,6 +11199,8 @@ export const lnrpc = $root.lnrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
+            if (options.arrays || options.defaults)
+                object.outpoints = [];
             if (options.defaults) {
                 object.addr = "";
                 if ($util.Long) {
@@ -10986,6 +11223,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.label = "";
                 object.min_confs = 0;
                 object.spend_unconfirmed = false;
+                object.coin_selection_strategy = options.enums === String ? "STRATEGY_USE_GLOBAL_CONFIG" : 0;
             }
             if (message.addr != null && message.hasOwnProperty("addr"))
                 object.addr = message.addr;
@@ -11014,6 +11252,13 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.min_confs = message.min_confs;
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 object.spend_unconfirmed = message.spend_unconfirmed;
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                object.coin_selection_strategy = options.enums === String ? $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] === undefined ? message.coin_selection_strategy : $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] : message.coin_selection_strategy;
+            if (message.outpoints && message.outpoints.length) {
+                object.outpoints = [];
+                for (let j = 0; j < message.outpoints.length; ++j)
+                    object.outpoints[j] = $root.lnrpc.OutPoint.toObject(message.outpoints[j], options);
+            }
             return object;
         };
 
@@ -21829,6 +22074,459 @@ export const lnrpc = $root.lnrpc = (() => {
         return GetInfoResponse;
     })();
 
+    lnrpc.GetDebugInfoRequest = (function() {
+
+        /**
+         * Properties of a GetDebugInfoRequest.
+         * @memberof lnrpc
+         * @interface IGetDebugInfoRequest
+         */
+
+        /**
+         * Constructs a new GetDebugInfoRequest.
+         * @memberof lnrpc
+         * @classdesc Represents a GetDebugInfoRequest.
+         * @implements IGetDebugInfoRequest
+         * @constructor
+         * @param {lnrpc.IGetDebugInfoRequest=} [properties] Properties to set
+         */
+        function GetDebugInfoRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new GetDebugInfoRequest instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {lnrpc.IGetDebugInfoRequest=} [properties] Properties to set
+         * @returns {lnrpc.GetDebugInfoRequest} GetDebugInfoRequest instance
+         */
+        GetDebugInfoRequest.create = function create(properties) {
+            return new GetDebugInfoRequest(properties);
+        };
+
+        /**
+         * Encodes the specified GetDebugInfoRequest message. Does not implicitly {@link lnrpc.GetDebugInfoRequest.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {lnrpc.IGetDebugInfoRequest} message GetDebugInfoRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetDebugInfoRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GetDebugInfoRequest message, length delimited. Does not implicitly {@link lnrpc.GetDebugInfoRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {lnrpc.IGetDebugInfoRequest} message GetDebugInfoRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetDebugInfoRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GetDebugInfoRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.GetDebugInfoRequest} GetDebugInfoRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetDebugInfoRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.GetDebugInfoRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GetDebugInfoRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.GetDebugInfoRequest} GetDebugInfoRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetDebugInfoRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GetDebugInfoRequest message.
+         * @function verify
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GetDebugInfoRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates a GetDebugInfoRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.GetDebugInfoRequest} GetDebugInfoRequest
+         */
+        GetDebugInfoRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.GetDebugInfoRequest)
+                return object;
+            return new $root.lnrpc.GetDebugInfoRequest();
+        };
+
+        /**
+         * Creates a plain object from a GetDebugInfoRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {lnrpc.GetDebugInfoRequest} message GetDebugInfoRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GetDebugInfoRequest.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this GetDebugInfoRequest to JSON.
+         * @function toJSON
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GetDebugInfoRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GetDebugInfoRequest
+         * @function getTypeUrl
+         * @memberof lnrpc.GetDebugInfoRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GetDebugInfoRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.GetDebugInfoRequest";
+        };
+
+        return GetDebugInfoRequest;
+    })();
+
+    lnrpc.GetDebugInfoResponse = (function() {
+
+        /**
+         * Properties of a GetDebugInfoResponse.
+         * @memberof lnrpc
+         * @interface IGetDebugInfoResponse
+         * @property {Object.<string,string>|null} [config] GetDebugInfoResponse config
+         * @property {Array.<string>|null} [log] GetDebugInfoResponse log
+         */
+
+        /**
+         * Constructs a new GetDebugInfoResponse.
+         * @memberof lnrpc
+         * @classdesc Represents a GetDebugInfoResponse.
+         * @implements IGetDebugInfoResponse
+         * @constructor
+         * @param {lnrpc.IGetDebugInfoResponse=} [properties] Properties to set
+         */
+        function GetDebugInfoResponse(properties) {
+            this.config = {};
+            this.log = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GetDebugInfoResponse config.
+         * @member {Object.<string,string>} config
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @instance
+         */
+        GetDebugInfoResponse.prototype.config = $util.emptyObject;
+
+        /**
+         * GetDebugInfoResponse log.
+         * @member {Array.<string>} log
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @instance
+         */
+        GetDebugInfoResponse.prototype.log = $util.emptyArray;
+
+        /**
+         * Creates a new GetDebugInfoResponse instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {lnrpc.IGetDebugInfoResponse=} [properties] Properties to set
+         * @returns {lnrpc.GetDebugInfoResponse} GetDebugInfoResponse instance
+         */
+        GetDebugInfoResponse.create = function create(properties) {
+            return new GetDebugInfoResponse(properties);
+        };
+
+        /**
+         * Encodes the specified GetDebugInfoResponse message. Does not implicitly {@link lnrpc.GetDebugInfoResponse.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {lnrpc.IGetDebugInfoResponse} message GetDebugInfoResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetDebugInfoResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.config != null && Object.hasOwnProperty.call(message, "config"))
+                for (let keys = Object.keys(message.config), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.config[keys[i]]).ldelim();
+            if (message.log != null && message.log.length)
+                for (let i = 0; i < message.log.length; ++i)
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.log[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GetDebugInfoResponse message, length delimited. Does not implicitly {@link lnrpc.GetDebugInfoResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {lnrpc.IGetDebugInfoResponse} message GetDebugInfoResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetDebugInfoResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GetDebugInfoResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.GetDebugInfoResponse} GetDebugInfoResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetDebugInfoResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.GetDebugInfoResponse(), key, value;
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        if (message.config === $util.emptyObject)
+                            message.config = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = "";
+                        value = "";
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.string();
+                                break;
+                            case 2:
+                                value = reader.string();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.config[key] = value;
+                        break;
+                    }
+                case 2: {
+                        if (!(message.log && message.log.length))
+                            message.log = [];
+                        message.log.push(reader.string());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GetDebugInfoResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.GetDebugInfoResponse} GetDebugInfoResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetDebugInfoResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GetDebugInfoResponse message.
+         * @function verify
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GetDebugInfoResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.config != null && message.hasOwnProperty("config")) {
+                if (!$util.isObject(message.config))
+                    return "config: object expected";
+                let key = Object.keys(message.config);
+                for (let i = 0; i < key.length; ++i)
+                    if (!$util.isString(message.config[key[i]]))
+                        return "config: string{k:string} expected";
+            }
+            if (message.log != null && message.hasOwnProperty("log")) {
+                if (!Array.isArray(message.log))
+                    return "log: array expected";
+                for (let i = 0; i < message.log.length; ++i)
+                    if (!$util.isString(message.log[i]))
+                        return "log: string[] expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a GetDebugInfoResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.GetDebugInfoResponse} GetDebugInfoResponse
+         */
+        GetDebugInfoResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.GetDebugInfoResponse)
+                return object;
+            let message = new $root.lnrpc.GetDebugInfoResponse();
+            if (object.config) {
+                if (typeof object.config !== "object")
+                    throw TypeError(".lnrpc.GetDebugInfoResponse.config: object expected");
+                message.config = {};
+                for (let keys = Object.keys(object.config), i = 0; i < keys.length; ++i)
+                    message.config[keys[i]] = String(object.config[keys[i]]);
+            }
+            if (object.log) {
+                if (!Array.isArray(object.log))
+                    throw TypeError(".lnrpc.GetDebugInfoResponse.log: array expected");
+                message.log = [];
+                for (let i = 0; i < object.log.length; ++i)
+                    message.log[i] = String(object.log[i]);
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GetDebugInfoResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {lnrpc.GetDebugInfoResponse} message GetDebugInfoResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GetDebugInfoResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.log = [];
+            if (options.objects || options.defaults)
+                object.config = {};
+            let keys2;
+            if (message.config && (keys2 = Object.keys(message.config)).length) {
+                object.config = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.config[keys2[j]] = message.config[keys2[j]];
+            }
+            if (message.log && message.log.length) {
+                object.log = [];
+                for (let j = 0; j < message.log.length; ++j)
+                    object.log[j] = message.log[j];
+            }
+            return object;
+        };
+
+        /**
+         * Converts this GetDebugInfoResponse to JSON.
+         * @function toJSON
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GetDebugInfoResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GetDebugInfoResponse
+         * @function getTypeUrl
+         * @memberof lnrpc.GetDebugInfoResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GetDebugInfoResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.GetDebugInfoResponse";
+        };
+
+        return GetDebugInfoResponse;
+    })();
+
     lnrpc.GetRecoveryInfoRequest = (function() {
 
         /**
@@ -23197,6 +23895,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {string|null} [delivery_address] CloseChannelRequest delivery_address
          * @property {Long|null} [sat_per_vbyte] CloseChannelRequest sat_per_vbyte
          * @property {Long|null} [max_fee_per_vbyte] CloseChannelRequest max_fee_per_vbyte
+         * @property {boolean|null} [no_wait] CloseChannelRequest no_wait
          */
 
         /**
@@ -23271,6 +23970,14 @@ export const lnrpc = $root.lnrpc = (() => {
         CloseChannelRequest.prototype.max_fee_per_vbyte = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
+         * CloseChannelRequest no_wait.
+         * @member {boolean} no_wait
+         * @memberof lnrpc.CloseChannelRequest
+         * @instance
+         */
+        CloseChannelRequest.prototype.no_wait = false;
+
+        /**
          * Creates a new CloseChannelRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.CloseChannelRequest
@@ -23308,6 +24015,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.sat_per_vbyte);
             if (message.max_fee_per_vbyte != null && Object.hasOwnProperty.call(message, "max_fee_per_vbyte"))
                 writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.max_fee_per_vbyte);
+            if (message.no_wait != null && Object.hasOwnProperty.call(message, "no_wait"))
+                writer.uint32(/* id 8, wireType 0 =*/64).bool(message.no_wait);
             return writer;
         };
 
@@ -23370,6 +24079,10 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.max_fee_per_vbyte = reader.uint64();
                         break;
                     }
+                case 8: {
+                        message.no_wait = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -23428,6 +24141,9 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.max_fee_per_vbyte != null && message.hasOwnProperty("max_fee_per_vbyte"))
                 if (!$util.isInteger(message.max_fee_per_vbyte) && !(message.max_fee_per_vbyte && $util.isInteger(message.max_fee_per_vbyte.low) && $util.isInteger(message.max_fee_per_vbyte.high)))
                     return "max_fee_per_vbyte: integer|Long expected";
+            if (message.no_wait != null && message.hasOwnProperty("no_wait"))
+                if (typeof message.no_wait !== "boolean")
+                    return "no_wait: boolean expected";
             return null;
         };
 
@@ -23481,6 +24197,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.max_fee_per_vbyte = object.max_fee_per_vbyte;
                 else if (typeof object.max_fee_per_vbyte === "object")
                     message.max_fee_per_vbyte = new $util.LongBits(object.max_fee_per_vbyte.low >>> 0, object.max_fee_per_vbyte.high >>> 0).toNumber(true);
+            if (object.no_wait != null)
+                message.no_wait = Boolean(object.no_wait);
             return message;
         };
 
@@ -23517,6 +24235,7 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.max_fee_per_vbyte = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.max_fee_per_vbyte = options.longs === String ? "0" : 0;
+                object.no_wait = false;
             }
             if (message.channel_point != null && message.hasOwnProperty("channel_point"))
                 object.channel_point = $root.lnrpc.ChannelPoint.toObject(message.channel_point, options);
@@ -23541,6 +24260,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.max_fee_per_vbyte = options.longs === String ? String(message.max_fee_per_vbyte) : message.max_fee_per_vbyte;
                 else
                     object.max_fee_per_vbyte = options.longs === String ? $util.Long.prototype.toString.call(message.max_fee_per_vbyte) : options.longs === Number ? new $util.LongBits(message.max_fee_per_vbyte.low >>> 0, message.max_fee_per_vbyte.high >>> 0).toNumber(true) : message.max_fee_per_vbyte;
+            if (message.no_wait != null && message.hasOwnProperty("no_wait"))
+                object.no_wait = message.no_wait;
             return object;
         };
 
@@ -23581,6 +24302,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @interface ICloseStatusUpdate
          * @property {lnrpc.IPendingUpdate|null} [close_pending] CloseStatusUpdate close_pending
          * @property {lnrpc.IChannelCloseUpdate|null} [chan_close] CloseStatusUpdate chan_close
+         * @property {lnrpc.IInstantUpdate|null} [close_instant] CloseStatusUpdate close_instant
          */
 
         /**
@@ -23614,17 +24336,25 @@ export const lnrpc = $root.lnrpc = (() => {
          */
         CloseStatusUpdate.prototype.chan_close = null;
 
+        /**
+         * CloseStatusUpdate close_instant.
+         * @member {lnrpc.IInstantUpdate|null|undefined} close_instant
+         * @memberof lnrpc.CloseStatusUpdate
+         * @instance
+         */
+        CloseStatusUpdate.prototype.close_instant = null;
+
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
         /**
          * CloseStatusUpdate update.
-         * @member {"close_pending"|"chan_close"|undefined} update
+         * @member {"close_pending"|"chan_close"|"close_instant"|undefined} update
          * @memberof lnrpc.CloseStatusUpdate
          * @instance
          */
         Object.defineProperty(CloseStatusUpdate.prototype, "update", {
-            get: $util.oneOfGetter($oneOfFields = ["close_pending", "chan_close"]),
+            get: $util.oneOfGetter($oneOfFields = ["close_pending", "chan_close", "close_instant"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -23656,6 +24386,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 $root.lnrpc.PendingUpdate.encode(message.close_pending, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
             if (message.chan_close != null && Object.hasOwnProperty.call(message, "chan_close"))
                 $root.lnrpc.ChannelCloseUpdate.encode(message.chan_close, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.close_instant != null && Object.hasOwnProperty.call(message, "close_instant"))
+                $root.lnrpc.InstantUpdate.encode(message.close_instant, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
             return writer;
         };
 
@@ -23696,6 +24428,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 3: {
                         message.chan_close = $root.lnrpc.ChannelCloseUpdate.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 4: {
+                        message.close_instant = $root.lnrpc.InstantUpdate.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -23752,6 +24488,16 @@ export const lnrpc = $root.lnrpc = (() => {
                         return "chan_close." + error;
                 }
             }
+            if (message.close_instant != null && message.hasOwnProperty("close_instant")) {
+                if (properties.update === 1)
+                    return "update: multiple values";
+                properties.update = 1;
+                {
+                    let error = $root.lnrpc.InstantUpdate.verify(message.close_instant);
+                    if (error)
+                        return "close_instant." + error;
+                }
+            }
             return null;
         };
 
@@ -23776,6 +24522,11 @@ export const lnrpc = $root.lnrpc = (() => {
                 if (typeof object.chan_close !== "object")
                     throw TypeError(".lnrpc.CloseStatusUpdate.chan_close: object expected");
                 message.chan_close = $root.lnrpc.ChannelCloseUpdate.fromObject(object.chan_close);
+            }
+            if (object.close_instant != null) {
+                if (typeof object.close_instant !== "object")
+                    throw TypeError(".lnrpc.CloseStatusUpdate.close_instant: object expected");
+                message.close_instant = $root.lnrpc.InstantUpdate.fromObject(object.close_instant);
             }
             return message;
         };
@@ -23802,6 +24553,11 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.chan_close = $root.lnrpc.ChannelCloseUpdate.toObject(message.chan_close, options);
                 if (options.oneofs)
                     object.update = "chan_close";
+            }
+            if (message.close_instant != null && message.hasOwnProperty("close_instant")) {
+                object.close_instant = $root.lnrpc.InstantUpdate.toObject(message.close_instant, options);
+                if (options.oneofs)
+                    object.update = "close_instant";
             }
             return object;
         };
@@ -24069,6 +24825,181 @@ export const lnrpc = $root.lnrpc = (() => {
         };
 
         return PendingUpdate;
+    })();
+
+    lnrpc.InstantUpdate = (function() {
+
+        /**
+         * Properties of an InstantUpdate.
+         * @memberof lnrpc
+         * @interface IInstantUpdate
+         */
+
+        /**
+         * Constructs a new InstantUpdate.
+         * @memberof lnrpc
+         * @classdesc Represents an InstantUpdate.
+         * @implements IInstantUpdate
+         * @constructor
+         * @param {lnrpc.IInstantUpdate=} [properties] Properties to set
+         */
+        function InstantUpdate(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new InstantUpdate instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {lnrpc.IInstantUpdate=} [properties] Properties to set
+         * @returns {lnrpc.InstantUpdate} InstantUpdate instance
+         */
+        InstantUpdate.create = function create(properties) {
+            return new InstantUpdate(properties);
+        };
+
+        /**
+         * Encodes the specified InstantUpdate message. Does not implicitly {@link lnrpc.InstantUpdate.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {lnrpc.IInstantUpdate} message InstantUpdate message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        InstantUpdate.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified InstantUpdate message, length delimited. Does not implicitly {@link lnrpc.InstantUpdate.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {lnrpc.IInstantUpdate} message InstantUpdate message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        InstantUpdate.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an InstantUpdate message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.InstantUpdate} InstantUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        InstantUpdate.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.InstantUpdate();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an InstantUpdate message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.InstantUpdate} InstantUpdate
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        InstantUpdate.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an InstantUpdate message.
+         * @function verify
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        InstantUpdate.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates an InstantUpdate message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.InstantUpdate} InstantUpdate
+         */
+        InstantUpdate.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.InstantUpdate)
+                return object;
+            return new $root.lnrpc.InstantUpdate();
+        };
+
+        /**
+         * Creates a plain object from an InstantUpdate message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {lnrpc.InstantUpdate} message InstantUpdate
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        InstantUpdate.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this InstantUpdate to JSON.
+         * @function toJSON
+         * @memberof lnrpc.InstantUpdate
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        InstantUpdate.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for InstantUpdate
+         * @function getTypeUrl
+         * @memberof lnrpc.InstantUpdate
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        InstantUpdate.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.InstantUpdate";
+        };
+
+        return InstantUpdate;
     })();
 
     lnrpc.ReadyForPsbtFunding = (function() {
@@ -24356,6 +25287,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {number|null} [min_confs] BatchOpenChannelRequest min_confs
          * @property {boolean|null} [spend_unconfirmed] BatchOpenChannelRequest spend_unconfirmed
          * @property {string|null} [label] BatchOpenChannelRequest label
+         * @property {lnrpc.CoinSelectionStrategy|null} [coin_selection_strategy] BatchOpenChannelRequest coin_selection_strategy
          */
 
         /**
@@ -24423,6 +25355,14 @@ export const lnrpc = $root.lnrpc = (() => {
         BatchOpenChannelRequest.prototype.label = "";
 
         /**
+         * BatchOpenChannelRequest coin_selection_strategy.
+         * @member {lnrpc.CoinSelectionStrategy} coin_selection_strategy
+         * @memberof lnrpc.BatchOpenChannelRequest
+         * @instance
+         */
+        BatchOpenChannelRequest.prototype.coin_selection_strategy = 0;
+
+        /**
          * Creates a new BatchOpenChannelRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.BatchOpenChannelRequest
@@ -24459,6 +25399,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.spend_unconfirmed);
             if (message.label != null && Object.hasOwnProperty.call(message, "label"))
                 writer.uint32(/* id 6, wireType 2 =*/50).string(message.label);
+            if (message.coin_selection_strategy != null && Object.hasOwnProperty.call(message, "coin_selection_strategy"))
+                writer.uint32(/* id 7, wireType 0 =*/56).int32(message.coin_selection_strategy);
             return writer;
         };
 
@@ -24517,6 +25459,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 6: {
                         message.label = reader.string();
+                        break;
+                    }
+                case 7: {
+                        message.coin_selection_strategy = reader.int32();
                         break;
                     }
                 default:
@@ -24578,6 +25524,15 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.label != null && message.hasOwnProperty("label"))
                 if (!$util.isString(message.label))
                     return "label: string expected";
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                switch (message.coin_selection_strategy) {
+                default:
+                    return "coin_selection_strategy: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
             return null;
         };
 
@@ -24620,6 +25575,26 @@ export const lnrpc = $root.lnrpc = (() => {
                 message.spend_unconfirmed = Boolean(object.spend_unconfirmed);
             if (object.label != null)
                 message.label = String(object.label);
+            switch (object.coin_selection_strategy) {
+            default:
+                if (typeof object.coin_selection_strategy === "number") {
+                    message.coin_selection_strategy = object.coin_selection_strategy;
+                    break;
+                }
+                break;
+            case "STRATEGY_USE_GLOBAL_CONFIG":
+            case 0:
+                message.coin_selection_strategy = 0;
+                break;
+            case "STRATEGY_LARGEST":
+            case 1:
+                message.coin_selection_strategy = 1;
+                break;
+            case "STRATEGY_RANDOM":
+            case 2:
+                message.coin_selection_strategy = 2;
+                break;
+            }
             return message;
         };
 
@@ -24648,6 +25623,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.min_confs = 0;
                 object.spend_unconfirmed = false;
                 object.label = "";
+                object.coin_selection_strategy = options.enums === String ? "STRATEGY_USE_GLOBAL_CONFIG" : 0;
             }
             if (message.channels && message.channels.length) {
                 object.channels = [];
@@ -24667,6 +25643,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.spend_unconfirmed = message.spend_unconfirmed;
             if (message.label != null && message.hasOwnProperty("label"))
                 object.label = message.label;
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                object.coin_selection_strategy = options.enums === String ? $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] === undefined ? message.coin_selection_strategy : $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] : message.coin_selection_strategy;
             return object;
         };
 
@@ -27555,6 +28533,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Uint8Array|null} [remote_key] ChanPointShim remote_key
          * @property {Uint8Array|null} [pending_chan_id] ChanPointShim pending_chan_id
          * @property {number|null} [thaw_height] ChanPointShim thaw_height
+         * @property {boolean|null} [musig2] ChanPointShim musig2
          */
 
         /**
@@ -27621,6 +28600,14 @@ export const lnrpc = $root.lnrpc = (() => {
         ChanPointShim.prototype.thaw_height = 0;
 
         /**
+         * ChanPointShim musig2.
+         * @member {boolean} musig2
+         * @memberof lnrpc.ChanPointShim
+         * @instance
+         */
+        ChanPointShim.prototype.musig2 = false;
+
+        /**
          * Creates a new ChanPointShim instance using the specified properties.
          * @function create
          * @memberof lnrpc.ChanPointShim
@@ -27656,6 +28643,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.pending_chan_id);
             if (message.thaw_height != null && Object.hasOwnProperty.call(message, "thaw_height"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.thaw_height);
+            if (message.musig2 != null && Object.hasOwnProperty.call(message, "musig2"))
+                writer.uint32(/* id 7, wireType 0 =*/56).bool(message.musig2);
             return writer;
         };
 
@@ -27712,6 +28701,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 6: {
                         message.thaw_height = reader.uint32();
+                        break;
+                    }
+                case 7: {
+                        message.musig2 = reader.bool();
                         break;
                     }
                 default:
@@ -27771,6 +28764,9 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.thaw_height != null && message.hasOwnProperty("thaw_height"))
                 if (!$util.isInteger(message.thaw_height))
                     return "thaw_height: integer expected";
+            if (message.musig2 != null && message.hasOwnProperty("musig2"))
+                if (typeof message.musig2 !== "boolean")
+                    return "musig2: boolean expected";
             return null;
         };
 
@@ -27817,6 +28813,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.pending_chan_id = object.pending_chan_id;
             if (object.thaw_height != null)
                 message.thaw_height = object.thaw_height >>> 0;
+            if (object.musig2 != null)
+                message.musig2 = Boolean(object.musig2);
             return message;
         };
 
@@ -27856,6 +28854,7 @@ export const lnrpc = $root.lnrpc = (() => {
                         object.pending_chan_id = $util.newBuffer(object.pending_chan_id);
                 }
                 object.thaw_height = 0;
+                object.musig2 = false;
             }
             if (message.amt != null && message.hasOwnProperty("amt"))
                 if (typeof message.amt === "number")
@@ -27872,6 +28871,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.pending_chan_id = options.bytes === String ? $util.base64.encode(message.pending_chan_id, 0, message.pending_chan_id.length) : options.bytes === Array ? Array.prototype.slice.call(message.pending_chan_id) : message.pending_chan_id;
             if (message.thaw_height != null && message.hasOwnProperty("thaw_height"))
                 object.thaw_height = message.thaw_height;
+            if (message.musig2 != null && message.hasOwnProperty("musig2"))
+                object.musig2 = message.musig2;
             return object;
         };
 
@@ -30037,6 +31038,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * Properties of a PendingChannelsRequest.
          * @memberof lnrpc
          * @interface IPendingChannelsRequest
+         * @property {boolean|null} [include_raw_tx] PendingChannelsRequest include_raw_tx
          */
 
         /**
@@ -30053,6 +31055,14 @@ export const lnrpc = $root.lnrpc = (() => {
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
+
+        /**
+         * PendingChannelsRequest include_raw_tx.
+         * @member {boolean} include_raw_tx
+         * @memberof lnrpc.PendingChannelsRequest
+         * @instance
+         */
+        PendingChannelsRequest.prototype.include_raw_tx = false;
 
         /**
          * Creates a new PendingChannelsRequest instance using the specified properties.
@@ -30078,6 +31088,8 @@ export const lnrpc = $root.lnrpc = (() => {
         PendingChannelsRequest.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
+            if (message.include_raw_tx != null && Object.hasOwnProperty.call(message, "include_raw_tx"))
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.include_raw_tx);
             return writer;
         };
 
@@ -30112,6 +31124,10 @@ export const lnrpc = $root.lnrpc = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
+                case 1: {
+                        message.include_raw_tx = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -30147,6 +31163,9 @@ export const lnrpc = $root.lnrpc = (() => {
         PendingChannelsRequest.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (message.include_raw_tx != null && message.hasOwnProperty("include_raw_tx"))
+                if (typeof message.include_raw_tx !== "boolean")
+                    return "include_raw_tx: boolean expected";
             return null;
         };
 
@@ -30161,7 +31180,10 @@ export const lnrpc = $root.lnrpc = (() => {
         PendingChannelsRequest.fromObject = function fromObject(object) {
             if (object instanceof $root.lnrpc.PendingChannelsRequest)
                 return object;
-            return new $root.lnrpc.PendingChannelsRequest();
+            let message = new $root.lnrpc.PendingChannelsRequest();
+            if (object.include_raw_tx != null)
+                message.include_raw_tx = Boolean(object.include_raw_tx);
+            return message;
         };
 
         /**
@@ -30173,8 +31195,15 @@ export const lnrpc = $root.lnrpc = (() => {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        PendingChannelsRequest.toObject = function toObject() {
-            return {};
+        PendingChannelsRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.include_raw_tx = false;
+            if (message.include_raw_tx != null && message.hasOwnProperty("include_raw_tx"))
+                object.include_raw_tx = message.include_raw_tx;
+            return object;
         };
 
         /**
@@ -31583,6 +32612,7 @@ export const lnrpc = $root.lnrpc = (() => {
              * @property {Long|null} [limbo_balance] WaitingCloseChannel limbo_balance
              * @property {lnrpc.PendingChannelsResponse.ICommitments|null} [commitments] WaitingCloseChannel commitments
              * @property {string|null} [closing_txid] WaitingCloseChannel closing_txid
+             * @property {string|null} [closing_tx_hex] WaitingCloseChannel closing_tx_hex
              */
 
             /**
@@ -31633,6 +32663,14 @@ export const lnrpc = $root.lnrpc = (() => {
             WaitingCloseChannel.prototype.closing_txid = "";
 
             /**
+             * WaitingCloseChannel closing_tx_hex.
+             * @member {string} closing_tx_hex
+             * @memberof lnrpc.PendingChannelsResponse.WaitingCloseChannel
+             * @instance
+             */
+            WaitingCloseChannel.prototype.closing_tx_hex = "";
+
+            /**
              * Creates a new WaitingCloseChannel instance using the specified properties.
              * @function create
              * @memberof lnrpc.PendingChannelsResponse.WaitingCloseChannel
@@ -31664,6 +32702,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     $root.lnrpc.PendingChannelsResponse.Commitments.encode(message.commitments, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                 if (message.closing_txid != null && Object.hasOwnProperty.call(message, "closing_txid"))
                     writer.uint32(/* id 4, wireType 2 =*/34).string(message.closing_txid);
+                if (message.closing_tx_hex != null && Object.hasOwnProperty.call(message, "closing_tx_hex"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.closing_tx_hex);
                 return writer;
             };
 
@@ -31712,6 +32752,10 @@ export const lnrpc = $root.lnrpc = (() => {
                         }
                     case 4: {
                             message.closing_txid = reader.string();
+                            break;
+                        }
+                    case 5: {
+                            message.closing_tx_hex = reader.string();
                             break;
                         }
                     default:
@@ -31765,6 +32809,9 @@ export const lnrpc = $root.lnrpc = (() => {
                 if (message.closing_txid != null && message.hasOwnProperty("closing_txid"))
                     if (!$util.isString(message.closing_txid))
                         return "closing_txid: string expected";
+                if (message.closing_tx_hex != null && message.hasOwnProperty("closing_tx_hex"))
+                    if (!$util.isString(message.closing_tx_hex))
+                        return "closing_tx_hex: string expected";
                 return null;
             };
 
@@ -31801,6 +32848,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 }
                 if (object.closing_txid != null)
                     message.closing_txid = String(object.closing_txid);
+                if (object.closing_tx_hex != null)
+                    message.closing_tx_hex = String(object.closing_tx_hex);
                 return message;
             };
 
@@ -31826,6 +32875,7 @@ export const lnrpc = $root.lnrpc = (() => {
                         object.limbo_balance = options.longs === String ? "0" : 0;
                     object.commitments = null;
                     object.closing_txid = "";
+                    object.closing_tx_hex = "";
                 }
                 if (message.channel != null && message.hasOwnProperty("channel"))
                     object.channel = $root.lnrpc.PendingChannelsResponse.PendingChannel.toObject(message.channel, options);
@@ -31838,6 +32888,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.commitments = $root.lnrpc.PendingChannelsResponse.Commitments.toObject(message.commitments, options);
                 if (message.closing_txid != null && message.hasOwnProperty("closing_txid"))
                     object.closing_txid = message.closing_txid;
+                if (message.closing_tx_hex != null && message.hasOwnProperty("closing_tx_hex"))
+                    object.closing_tx_hex = message.closing_tx_hex;
                 return object;
             };
 
@@ -33850,6 +34902,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @memberof lnrpc
          * @interface IWalletBalanceRequest
          * @property {string|null} [account] WalletBalanceRequest account
+         * @property {number|null} [min_confs] WalletBalanceRequest min_confs
          */
 
         /**
@@ -33874,6 +34927,14 @@ export const lnrpc = $root.lnrpc = (() => {
          * @instance
          */
         WalletBalanceRequest.prototype.account = "";
+
+        /**
+         * WalletBalanceRequest min_confs.
+         * @member {number} min_confs
+         * @memberof lnrpc.WalletBalanceRequest
+         * @instance
+         */
+        WalletBalanceRequest.prototype.min_confs = 0;
 
         /**
          * Creates a new WalletBalanceRequest instance using the specified properties.
@@ -33901,6 +34962,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer = $Writer.create();
             if (message.account != null && Object.hasOwnProperty.call(message, "account"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.account);
+            if (message.min_confs != null && Object.hasOwnProperty.call(message, "min_confs"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.min_confs);
             return writer;
         };
 
@@ -33937,6 +35000,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 switch (tag >>> 3) {
                 case 1: {
                         message.account = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.min_confs = reader.int32();
                         break;
                     }
                 default:
@@ -33977,6 +35044,9 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.account != null && message.hasOwnProperty("account"))
                 if (!$util.isString(message.account))
                     return "account: string expected";
+            if (message.min_confs != null && message.hasOwnProperty("min_confs"))
+                if (!$util.isInteger(message.min_confs))
+                    return "min_confs: integer expected";
             return null;
         };
 
@@ -33994,6 +35064,8 @@ export const lnrpc = $root.lnrpc = (() => {
             let message = new $root.lnrpc.WalletBalanceRequest();
             if (object.account != null)
                 message.account = String(object.account);
+            if (object.min_confs != null)
+                message.min_confs = object.min_confs | 0;
             return message;
         };
 
@@ -34010,10 +35082,14 @@ export const lnrpc = $root.lnrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
-            if (options.defaults)
+            if (options.defaults) {
                 object.account = "";
+                object.min_confs = 0;
+            }
             if (message.account != null && message.hasOwnProperty("account"))
                 object.account = message.account;
+            if (message.min_confs != null && message.hasOwnProperty("min_confs"))
+                object.min_confs = message.min_confs;
             return object;
         };
 
@@ -35352,6 +36428,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Long|null} [outgoing_chan_id] QueryRoutesRequest outgoing_chan_id
          * @property {Uint8Array|null} [last_hop_pubkey] QueryRoutesRequest last_hop_pubkey
          * @property {Array.<lnrpc.IRouteHint>|null} [route_hints] QueryRoutesRequest route_hints
+         * @property {Array.<lnrpc.IBlindedPaymentPath>|null} [blinded_payment_paths] QueryRoutesRequest blinded_payment_paths
          * @property {Array.<lnrpc.FeatureBit>|null} [dest_features] QueryRoutesRequest dest_features
          * @property {number|null} [time_pref] QueryRoutesRequest time_pref
          */
@@ -35370,6 +36447,7 @@ export const lnrpc = $root.lnrpc = (() => {
             this.ignored_pairs = [];
             this.dest_custom_records = {};
             this.route_hints = [];
+            this.blinded_payment_paths = [];
             this.dest_features = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -35498,6 +36576,14 @@ export const lnrpc = $root.lnrpc = (() => {
         QueryRoutesRequest.prototype.route_hints = $util.emptyArray;
 
         /**
+         * QueryRoutesRequest blinded_payment_paths.
+         * @member {Array.<lnrpc.IBlindedPaymentPath>} blinded_payment_paths
+         * @memberof lnrpc.QueryRoutesRequest
+         * @instance
+         */
+        QueryRoutesRequest.prototype.blinded_payment_paths = $util.emptyArray;
+
+        /**
          * QueryRoutesRequest dest_features.
          * @member {Array.<lnrpc.FeatureBit>} dest_features
          * @memberof lnrpc.QueryRoutesRequest
@@ -35580,6 +36666,9 @@ export const lnrpc = $root.lnrpc = (() => {
             }
             if (message.time_pref != null && Object.hasOwnProperty.call(message, "time_pref"))
                 writer.uint32(/* id 18, wireType 1 =*/145).double(message.time_pref);
+            if (message.blinded_payment_paths != null && message.blinded_payment_paths.length)
+                for (let i = 0; i < message.blinded_payment_paths.length; ++i)
+                    $root.lnrpc.BlindedPaymentPath.encode(message.blinded_payment_paths[i], writer.uint32(/* id 19, wireType 2 =*/154).fork()).ldelim();
             return writer;
         };
 
@@ -35699,6 +36788,12 @@ export const lnrpc = $root.lnrpc = (() => {
                         if (!(message.route_hints && message.route_hints.length))
                             message.route_hints = [];
                         message.route_hints.push($root.lnrpc.RouteHint.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 19: {
+                        if (!(message.blinded_payment_paths && message.blinded_payment_paths.length))
+                            message.blinded_payment_paths = [];
+                        message.blinded_payment_paths.push($root.lnrpc.BlindedPaymentPath.decode(reader, reader.uint32()));
                         break;
                     }
                 case 17: {
@@ -35828,6 +36923,15 @@ export const lnrpc = $root.lnrpc = (() => {
                         return "route_hints." + error;
                 }
             }
+            if (message.blinded_payment_paths != null && message.hasOwnProperty("blinded_payment_paths")) {
+                if (!Array.isArray(message.blinded_payment_paths))
+                    return "blinded_payment_paths: array expected";
+                for (let i = 0; i < message.blinded_payment_paths.length; ++i) {
+                    let error = $root.lnrpc.BlindedPaymentPath.verify(message.blinded_payment_paths[i]);
+                    if (error)
+                        return "blinded_payment_paths." + error;
+                }
+            }
             if (message.dest_features != null && message.hasOwnProperty("dest_features")) {
                 if (!Array.isArray(message.dest_features))
                     return "dest_features: array expected";
@@ -35858,6 +36962,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     case 21:
                     case 22:
                     case 23:
+                    case 24:
+                    case 25:
                     case 30:
                     case 31:
                         break;
@@ -35978,6 +37084,16 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.route_hints[i] = $root.lnrpc.RouteHint.fromObject(object.route_hints[i]);
                 }
             }
+            if (object.blinded_payment_paths) {
+                if (!Array.isArray(object.blinded_payment_paths))
+                    throw TypeError(".lnrpc.QueryRoutesRequest.blinded_payment_paths: array expected");
+                message.blinded_payment_paths = [];
+                for (let i = 0; i < object.blinded_payment_paths.length; ++i) {
+                    if (typeof object.blinded_payment_paths[i] !== "object")
+                        throw TypeError(".lnrpc.QueryRoutesRequest.blinded_payment_paths: object expected");
+                    message.blinded_payment_paths[i] = $root.lnrpc.BlindedPaymentPath.fromObject(object.blinded_payment_paths[i]);
+                }
+            }
             if (object.dest_features) {
                 if (!Array.isArray(object.dest_features))
                     throw TypeError(".lnrpc.QueryRoutesRequest.dest_features: array expected");
@@ -36081,6 +37197,14 @@ export const lnrpc = $root.lnrpc = (() => {
                     case 23:
                         message.dest_features[i] = 23;
                         break;
+                    case "ROUTE_BLINDING_REQUIRED":
+                    case 24:
+                        message.dest_features[i] = 24;
+                        break;
+                    case "ROUTE_BLINDING_OPTIONAL":
+                    case 25:
+                        message.dest_features[i] = 25;
+                        break;
                     case "AMP_REQ":
                     case 30:
                         message.dest_features[i] = 30;
@@ -36115,6 +37239,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.ignored_pairs = [];
                 object.route_hints = [];
                 object.dest_features = [];
+                object.blinded_payment_paths = [];
             }
             if (options.objects || options.defaults)
                 object.dest_custom_records = {};
@@ -36211,6 +37336,11 @@ export const lnrpc = $root.lnrpc = (() => {
             }
             if (message.time_pref != null && message.hasOwnProperty("time_pref"))
                 object.time_pref = options.json && !isFinite(message.time_pref) ? String(message.time_pref) : message.time_pref;
+            if (message.blinded_payment_paths && message.blinded_payment_paths.length) {
+                object.blinded_payment_paths = [];
+                for (let j = 0; j < message.blinded_payment_paths.length; ++j)
+                    object.blinded_payment_paths[j] = $root.lnrpc.BlindedPaymentPath.toObject(message.blinded_payment_paths[j], options);
+            }
             return object;
         };
 
@@ -36996,6 +38126,9 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {lnrpc.IAMPRecord|null} [amp_record] Hop amp_record
          * @property {Object.<string,Uint8Array>|null} [custom_records] Hop custom_records
          * @property {Uint8Array|null} [metadata] Hop metadata
+         * @property {Uint8Array|null} [blinding_point] Hop blinding_point
+         * @property {Uint8Array|null} [encrypted_data] Hop encrypted_data
+         * @property {Long|null} [total_amt_msat] Hop total_amt_msat
          */
 
         /**
@@ -37119,6 +38252,30 @@ export const lnrpc = $root.lnrpc = (() => {
         Hop.prototype.metadata = $util.newBuffer([]);
 
         /**
+         * Hop blinding_point.
+         * @member {Uint8Array} blinding_point
+         * @memberof lnrpc.Hop
+         * @instance
+         */
+        Hop.prototype.blinding_point = $util.newBuffer([]);
+
+        /**
+         * Hop encrypted_data.
+         * @member {Uint8Array} encrypted_data
+         * @memberof lnrpc.Hop
+         * @instance
+         */
+        Hop.prototype.encrypted_data = $util.newBuffer([]);
+
+        /**
+         * Hop total_amt_msat.
+         * @member {Long} total_amt_msat
+         * @memberof lnrpc.Hop
+         * @instance
+         */
+        Hop.prototype.total_amt_msat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
          * Creates a new Hop instance using the specified properties.
          * @function create
          * @memberof lnrpc.Hop
@@ -37169,6 +38326,12 @@ export const lnrpc = $root.lnrpc = (() => {
                 $root.lnrpc.AMPRecord.encode(message.amp_record, writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
             if (message.metadata != null && Object.hasOwnProperty.call(message, "metadata"))
                 writer.uint32(/* id 13, wireType 2 =*/106).bytes(message.metadata);
+            if (message.blinding_point != null && Object.hasOwnProperty.call(message, "blinding_point"))
+                writer.uint32(/* id 14, wireType 2 =*/114).bytes(message.blinding_point);
+            if (message.encrypted_data != null && Object.hasOwnProperty.call(message, "encrypted_data"))
+                writer.uint32(/* id 15, wireType 2 =*/122).bytes(message.encrypted_data);
+            if (message.total_amt_msat != null && Object.hasOwnProperty.call(message, "total_amt_msat"))
+                writer.uint32(/* id 16, wireType 0 =*/128).uint64(message.total_amt_msat);
             return writer;
         };
 
@@ -37274,6 +38437,18 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.metadata = reader.bytes();
                         break;
                     }
+                case 14: {
+                        message.blinding_point = reader.bytes();
+                        break;
+                    }
+                case 15: {
+                        message.encrypted_data = reader.bytes();
+                        break;
+                    }
+                case 16: {
+                        message.total_amt_msat = reader.uint64();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -37360,6 +38535,15 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.metadata != null && message.hasOwnProperty("metadata"))
                 if (!(message.metadata && typeof message.metadata.length === "number" || $util.isString(message.metadata)))
                     return "metadata: buffer expected";
+            if (message.blinding_point != null && message.hasOwnProperty("blinding_point"))
+                if (!(message.blinding_point && typeof message.blinding_point.length === "number" || $util.isString(message.blinding_point)))
+                    return "blinding_point: buffer expected";
+            if (message.encrypted_data != null && message.hasOwnProperty("encrypted_data"))
+                if (!(message.encrypted_data && typeof message.encrypted_data.length === "number" || $util.isString(message.encrypted_data)))
+                    return "encrypted_data: buffer expected";
+            if (message.total_amt_msat != null && message.hasOwnProperty("total_amt_msat"))
+                if (!$util.isInteger(message.total_amt_msat) && !(message.total_amt_msat && $util.isInteger(message.total_amt_msat.low) && $util.isInteger(message.total_amt_msat.high)))
+                    return "total_amt_msat: integer|Long expected";
             return null;
         };
 
@@ -37460,6 +38644,25 @@ export const lnrpc = $root.lnrpc = (() => {
                     $util.base64.decode(object.metadata, message.metadata = $util.newBuffer($util.base64.length(object.metadata)), 0);
                 else if (object.metadata.length >= 0)
                     message.metadata = object.metadata;
+            if (object.blinding_point != null)
+                if (typeof object.blinding_point === "string")
+                    $util.base64.decode(object.blinding_point, message.blinding_point = $util.newBuffer($util.base64.length(object.blinding_point)), 0);
+                else if (object.blinding_point.length >= 0)
+                    message.blinding_point = object.blinding_point;
+            if (object.encrypted_data != null)
+                if (typeof object.encrypted_data === "string")
+                    $util.base64.decode(object.encrypted_data, message.encrypted_data = $util.newBuffer($util.base64.length(object.encrypted_data)), 0);
+                else if (object.encrypted_data.length >= 0)
+                    message.encrypted_data = object.encrypted_data;
+            if (object.total_amt_msat != null)
+                if ($util.Long)
+                    (message.total_amt_msat = $util.Long.fromValue(object.total_amt_msat)).unsigned = true;
+                else if (typeof object.total_amt_msat === "string")
+                    message.total_amt_msat = parseInt(object.total_amt_msat, 10);
+                else if (typeof object.total_amt_msat === "number")
+                    message.total_amt_msat = object.total_amt_msat;
+                else if (typeof object.total_amt_msat === "object")
+                    message.total_amt_msat = new $util.LongBits(object.total_amt_msat.low >>> 0, object.total_amt_msat.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -37521,6 +38724,25 @@ export const lnrpc = $root.lnrpc = (() => {
                     if (options.bytes !== Array)
                         object.metadata = $util.newBuffer(object.metadata);
                 }
+                if (options.bytes === String)
+                    object.blinding_point = "";
+                else {
+                    object.blinding_point = [];
+                    if (options.bytes !== Array)
+                        object.blinding_point = $util.newBuffer(object.blinding_point);
+                }
+                if (options.bytes === String)
+                    object.encrypted_data = "";
+                else {
+                    object.encrypted_data = [];
+                    if (options.bytes !== Array)
+                        object.encrypted_data = $util.newBuffer(object.encrypted_data);
+                }
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.total_amt_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.total_amt_msat = options.longs === String ? "0" : 0;
             }
             if (message.chan_id != null && message.hasOwnProperty("chan_id"))
                 if (typeof message.chan_id === "number")
@@ -37570,6 +38792,15 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.amp_record = $root.lnrpc.AMPRecord.toObject(message.amp_record, options);
             if (message.metadata != null && message.hasOwnProperty("metadata"))
                 object.metadata = options.bytes === String ? $util.base64.encode(message.metadata, 0, message.metadata.length) : options.bytes === Array ? Array.prototype.slice.call(message.metadata) : message.metadata;
+            if (message.blinding_point != null && message.hasOwnProperty("blinding_point"))
+                object.blinding_point = options.bytes === String ? $util.base64.encode(message.blinding_point, 0, message.blinding_point.length) : options.bytes === Array ? Array.prototype.slice.call(message.blinding_point) : message.blinding_point;
+            if (message.encrypted_data != null && message.hasOwnProperty("encrypted_data"))
+                object.encrypted_data = options.bytes === String ? $util.base64.encode(message.encrypted_data, 0, message.encrypted_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.encrypted_data) : message.encrypted_data;
+            if (message.total_amt_msat != null && message.hasOwnProperty("total_amt_msat"))
+                if (typeof message.total_amt_msat === "number")
+                    object.total_amt_msat = options.longs === String ? String(message.total_amt_msat) : message.total_amt_msat;
+                else
+                    object.total_amt_msat = options.longs === String ? $util.Long.prototype.toString.call(message.total_amt_msat) : options.longs === Number ? new $util.LongBits(message.total_amt_msat.low >>> 0, message.total_amt_msat.high >>> 0).toNumber(true) : message.total_amt_msat;
             return object;
         };
 
@@ -39751,6 +40982,8 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Long|null} [max_htlc_msat] RoutingPolicy max_htlc_msat
          * @property {number|null} [last_update] RoutingPolicy last_update
          * @property {Object.<string,Uint8Array>|null} [custom_records] RoutingPolicy custom_records
+         * @property {number|null} [inbound_fee_base_msat] RoutingPolicy inbound_fee_base_msat
+         * @property {number|null} [inbound_fee_rate_milli_msat] RoutingPolicy inbound_fee_rate_milli_msat
          */
 
         /**
@@ -39834,6 +41067,22 @@ export const lnrpc = $root.lnrpc = (() => {
         RoutingPolicy.prototype.custom_records = $util.emptyObject;
 
         /**
+         * RoutingPolicy inbound_fee_base_msat.
+         * @member {number} inbound_fee_base_msat
+         * @memberof lnrpc.RoutingPolicy
+         * @instance
+         */
+        RoutingPolicy.prototype.inbound_fee_base_msat = 0;
+
+        /**
+         * RoutingPolicy inbound_fee_rate_milli_msat.
+         * @member {number} inbound_fee_rate_milli_msat
+         * @memberof lnrpc.RoutingPolicy
+         * @instance
+         */
+        RoutingPolicy.prototype.inbound_fee_rate_milli_msat = 0;
+
+        /**
          * Creates a new RoutingPolicy instance using the specified properties.
          * @function create
          * @memberof lnrpc.RoutingPolicy
@@ -39874,6 +41123,10 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.custom_records != null && Object.hasOwnProperty.call(message, "custom_records"))
                 for (let keys = Object.keys(message.custom_records), i = 0; i < keys.length; ++i)
                     writer.uint32(/* id 8, wireType 2 =*/66).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.custom_records[keys[i]]).ldelim();
+            if (message.inbound_fee_base_msat != null && Object.hasOwnProperty.call(message, "inbound_fee_base_msat"))
+                writer.uint32(/* id 9, wireType 0 =*/72).int32(message.inbound_fee_base_msat);
+            if (message.inbound_fee_rate_milli_msat != null && Object.hasOwnProperty.call(message, "inbound_fee_rate_milli_msat"))
+                writer.uint32(/* id 10, wireType 0 =*/80).int32(message.inbound_fee_rate_milli_msat);
             return writer;
         };
 
@@ -39959,6 +41212,14 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
                         break;
                     }
+                case 9: {
+                        message.inbound_fee_base_msat = reader.int32();
+                        break;
+                    }
+                case 10: {
+                        message.inbound_fee_rate_milli_msat = reader.int32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -40026,6 +41287,12 @@ export const lnrpc = $root.lnrpc = (() => {
                         return "custom_records: buffer{k:uint64} expected";
                 }
             }
+            if (message.inbound_fee_base_msat != null && message.hasOwnProperty("inbound_fee_base_msat"))
+                if (!$util.isInteger(message.inbound_fee_base_msat))
+                    return "inbound_fee_base_msat: integer expected";
+            if (message.inbound_fee_rate_milli_msat != null && message.hasOwnProperty("inbound_fee_rate_milli_msat"))
+                if (!$util.isInteger(message.inbound_fee_rate_milli_msat))
+                    return "inbound_fee_rate_milli_msat: integer expected";
             return null;
         };
 
@@ -40093,6 +41360,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     else if (object.custom_records[keys[i]].length >= 0)
                         message.custom_records[keys[i]] = object.custom_records[keys[i]];
             }
+            if (object.inbound_fee_base_msat != null)
+                message.inbound_fee_base_msat = object.inbound_fee_base_msat | 0;
+            if (object.inbound_fee_rate_milli_msat != null)
+                message.inbound_fee_rate_milli_msat = object.inbound_fee_rate_milli_msat | 0;
             return message;
         };
 
@@ -40135,6 +41406,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 } else
                     object.max_htlc_msat = options.longs === String ? "0" : 0;
                 object.last_update = 0;
+                object.inbound_fee_base_msat = 0;
+                object.inbound_fee_rate_milli_msat = 0;
             }
             if (message.time_lock_delta != null && message.hasOwnProperty("time_lock_delta"))
                 object.time_lock_delta = message.time_lock_delta;
@@ -40168,6 +41441,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 for (let j = 0; j < keys2.length; ++j)
                     object.custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.custom_records[keys2[j]], 0, message.custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.custom_records[keys2[j]]) : message.custom_records[keys2[j]];
             }
+            if (message.inbound_fee_base_msat != null && message.hasOwnProperty("inbound_fee_base_msat"))
+                object.inbound_fee_base_msat = message.inbound_fee_base_msat;
+            if (message.inbound_fee_rate_milli_msat != null && message.hasOwnProperty("inbound_fee_rate_milli_msat"))
+                object.inbound_fee_rate_milli_msat = message.inbound_fee_rate_milli_msat;
             return object;
         };
 
@@ -41879,6 +43156,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @memberof lnrpc
          * @interface IChanInfoRequest
          * @property {Long|null} [chan_id] ChanInfoRequest chan_id
+         * @property {string|null} [chan_point] ChanInfoRequest chan_point
          */
 
         /**
@@ -41903,6 +43181,14 @@ export const lnrpc = $root.lnrpc = (() => {
          * @instance
          */
         ChanInfoRequest.prototype.chan_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * ChanInfoRequest chan_point.
+         * @member {string} chan_point
+         * @memberof lnrpc.ChanInfoRequest
+         * @instance
+         */
+        ChanInfoRequest.prototype.chan_point = "";
 
         /**
          * Creates a new ChanInfoRequest instance using the specified properties.
@@ -41930,6 +43216,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer = $Writer.create();
             if (message.chan_id != null && Object.hasOwnProperty.call(message, "chan_id"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.chan_id);
+            if (message.chan_point != null && Object.hasOwnProperty.call(message, "chan_point"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.chan_point);
             return writer;
         };
 
@@ -41966,6 +43254,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 switch (tag >>> 3) {
                 case 1: {
                         message.chan_id = reader.uint64();
+                        break;
+                    }
+                case 2: {
+                        message.chan_point = reader.string();
                         break;
                     }
                 default:
@@ -42006,6 +43298,9 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.chan_id != null && message.hasOwnProperty("chan_id"))
                 if (!$util.isInteger(message.chan_id) && !(message.chan_id && $util.isInteger(message.chan_id.low) && $util.isInteger(message.chan_id.high)))
                     return "chan_id: integer|Long expected";
+            if (message.chan_point != null && message.hasOwnProperty("chan_point"))
+                if (!$util.isString(message.chan_point))
+                    return "chan_point: string expected";
             return null;
         };
 
@@ -42030,6 +43325,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.chan_id = object.chan_id;
                 else if (typeof object.chan_id === "object")
                     message.chan_id = new $util.LongBits(object.chan_id.low >>> 0, object.chan_id.high >>> 0).toNumber(true);
+            if (object.chan_point != null)
+                message.chan_point = String(object.chan_point);
             return message;
         };
 
@@ -42046,17 +43343,21 @@ export const lnrpc = $root.lnrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
-            if (options.defaults)
+            if (options.defaults) {
                 if ($util.Long) {
                     let long = new $util.Long(0, 0, true);
                     object.chan_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.chan_id = options.longs === String ? "0" : 0;
+                object.chan_point = "";
+            }
             if (message.chan_id != null && message.hasOwnProperty("chan_id"))
                 if (typeof message.chan_id === "number")
                     object.chan_id = options.longs === String ? String(message.chan_id) : message.chan_id;
                 else
                     object.chan_id = options.longs === String ? $util.Long.prototype.toString.call(message.chan_id) : options.longs === Number ? new $util.LongBits(message.chan_id.low >>> 0, message.chan_id.high >>> 0).toNumber(true) : message.chan_id;
+            if (message.chan_point != null && message.hasOwnProperty("chan_point"))
+                object.chan_point = message.chan_point;
             return object;
         };
 
@@ -45452,6 +46753,1099 @@ export const lnrpc = $root.lnrpc = (() => {
         return RouteHint;
     })();
 
+    lnrpc.BlindedPaymentPath = (function() {
+
+        /**
+         * Properties of a BlindedPaymentPath.
+         * @memberof lnrpc
+         * @interface IBlindedPaymentPath
+         * @property {lnrpc.IBlindedPath|null} [blinded_path] BlindedPaymentPath blinded_path
+         * @property {Long|null} [base_fee_msat] BlindedPaymentPath base_fee_msat
+         * @property {number|null} [proportional_fee_rate] BlindedPaymentPath proportional_fee_rate
+         * @property {number|null} [total_cltv_delta] BlindedPaymentPath total_cltv_delta
+         * @property {Long|null} [htlc_min_msat] BlindedPaymentPath htlc_min_msat
+         * @property {Long|null} [htlc_max_msat] BlindedPaymentPath htlc_max_msat
+         * @property {Array.<lnrpc.FeatureBit>|null} [features] BlindedPaymentPath features
+         */
+
+        /**
+         * Constructs a new BlindedPaymentPath.
+         * @memberof lnrpc
+         * @classdesc Represents a BlindedPaymentPath.
+         * @implements IBlindedPaymentPath
+         * @constructor
+         * @param {lnrpc.IBlindedPaymentPath=} [properties] Properties to set
+         */
+        function BlindedPaymentPath(properties) {
+            this.features = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BlindedPaymentPath blinded_path.
+         * @member {lnrpc.IBlindedPath|null|undefined} blinded_path
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         */
+        BlindedPaymentPath.prototype.blinded_path = null;
+
+        /**
+         * BlindedPaymentPath base_fee_msat.
+         * @member {Long} base_fee_msat
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         */
+        BlindedPaymentPath.prototype.base_fee_msat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BlindedPaymentPath proportional_fee_rate.
+         * @member {number} proportional_fee_rate
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         */
+        BlindedPaymentPath.prototype.proportional_fee_rate = 0;
+
+        /**
+         * BlindedPaymentPath total_cltv_delta.
+         * @member {number} total_cltv_delta
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         */
+        BlindedPaymentPath.prototype.total_cltv_delta = 0;
+
+        /**
+         * BlindedPaymentPath htlc_min_msat.
+         * @member {Long} htlc_min_msat
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         */
+        BlindedPaymentPath.prototype.htlc_min_msat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BlindedPaymentPath htlc_max_msat.
+         * @member {Long} htlc_max_msat
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         */
+        BlindedPaymentPath.prototype.htlc_max_msat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BlindedPaymentPath features.
+         * @member {Array.<lnrpc.FeatureBit>} features
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         */
+        BlindedPaymentPath.prototype.features = $util.emptyArray;
+
+        /**
+         * Creates a new BlindedPaymentPath instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {lnrpc.IBlindedPaymentPath=} [properties] Properties to set
+         * @returns {lnrpc.BlindedPaymentPath} BlindedPaymentPath instance
+         */
+        BlindedPaymentPath.create = function create(properties) {
+            return new BlindedPaymentPath(properties);
+        };
+
+        /**
+         * Encodes the specified BlindedPaymentPath message. Does not implicitly {@link lnrpc.BlindedPaymentPath.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {lnrpc.IBlindedPaymentPath} message BlindedPaymentPath message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedPaymentPath.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.blinded_path != null && Object.hasOwnProperty.call(message, "blinded_path"))
+                $root.lnrpc.BlindedPath.encode(message.blinded_path, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.base_fee_msat != null && Object.hasOwnProperty.call(message, "base_fee_msat"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.base_fee_msat);
+            if (message.proportional_fee_rate != null && Object.hasOwnProperty.call(message, "proportional_fee_rate"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.proportional_fee_rate);
+            if (message.total_cltv_delta != null && Object.hasOwnProperty.call(message, "total_cltv_delta"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.total_cltv_delta);
+            if (message.htlc_min_msat != null && Object.hasOwnProperty.call(message, "htlc_min_msat"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.htlc_min_msat);
+            if (message.htlc_max_msat != null && Object.hasOwnProperty.call(message, "htlc_max_msat"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.htlc_max_msat);
+            if (message.features != null && message.features.length) {
+                writer.uint32(/* id 7, wireType 2 =*/58).fork();
+                for (let i = 0; i < message.features.length; ++i)
+                    writer.int32(message.features[i]);
+                writer.ldelim();
+            }
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BlindedPaymentPath message, length delimited. Does not implicitly {@link lnrpc.BlindedPaymentPath.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {lnrpc.IBlindedPaymentPath} message BlindedPaymentPath message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedPaymentPath.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BlindedPaymentPath message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.BlindedPaymentPath} BlindedPaymentPath
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedPaymentPath.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.BlindedPaymentPath();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.blinded_path = $root.lnrpc.BlindedPath.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 2: {
+                        message.base_fee_msat = reader.uint64();
+                        break;
+                    }
+                case 3: {
+                        message.proportional_fee_rate = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.total_cltv_delta = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.htlc_min_msat = reader.uint64();
+                        break;
+                    }
+                case 6: {
+                        message.htlc_max_msat = reader.uint64();
+                        break;
+                    }
+                case 7: {
+                        if (!(message.features && message.features.length))
+                            message.features = [];
+                        if ((tag & 7) === 2) {
+                            let end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.features.push(reader.int32());
+                        } else
+                            message.features.push(reader.int32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BlindedPaymentPath message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.BlindedPaymentPath} BlindedPaymentPath
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedPaymentPath.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BlindedPaymentPath message.
+         * @function verify
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BlindedPaymentPath.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.blinded_path != null && message.hasOwnProperty("blinded_path")) {
+                let error = $root.lnrpc.BlindedPath.verify(message.blinded_path);
+                if (error)
+                    return "blinded_path." + error;
+            }
+            if (message.base_fee_msat != null && message.hasOwnProperty("base_fee_msat"))
+                if (!$util.isInteger(message.base_fee_msat) && !(message.base_fee_msat && $util.isInteger(message.base_fee_msat.low) && $util.isInteger(message.base_fee_msat.high)))
+                    return "base_fee_msat: integer|Long expected";
+            if (message.proportional_fee_rate != null && message.hasOwnProperty("proportional_fee_rate"))
+                if (!$util.isInteger(message.proportional_fee_rate))
+                    return "proportional_fee_rate: integer expected";
+            if (message.total_cltv_delta != null && message.hasOwnProperty("total_cltv_delta"))
+                if (!$util.isInteger(message.total_cltv_delta))
+                    return "total_cltv_delta: integer expected";
+            if (message.htlc_min_msat != null && message.hasOwnProperty("htlc_min_msat"))
+                if (!$util.isInteger(message.htlc_min_msat) && !(message.htlc_min_msat && $util.isInteger(message.htlc_min_msat.low) && $util.isInteger(message.htlc_min_msat.high)))
+                    return "htlc_min_msat: integer|Long expected";
+            if (message.htlc_max_msat != null && message.hasOwnProperty("htlc_max_msat"))
+                if (!$util.isInteger(message.htlc_max_msat) && !(message.htlc_max_msat && $util.isInteger(message.htlc_max_msat.low) && $util.isInteger(message.htlc_max_msat.high)))
+                    return "htlc_max_msat: integer|Long expected";
+            if (message.features != null && message.hasOwnProperty("features")) {
+                if (!Array.isArray(message.features))
+                    return "features: array expected";
+                for (let i = 0; i < message.features.length; ++i)
+                    switch (message.features[i]) {
+                    default:
+                        return "features: enum value[] expected";
+                    case 0:
+                    case 1:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 24:
+                    case 25:
+                    case 30:
+                    case 31:
+                        break;
+                    }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a BlindedPaymentPath message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.BlindedPaymentPath} BlindedPaymentPath
+         */
+        BlindedPaymentPath.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.BlindedPaymentPath)
+                return object;
+            let message = new $root.lnrpc.BlindedPaymentPath();
+            if (object.blinded_path != null) {
+                if (typeof object.blinded_path !== "object")
+                    throw TypeError(".lnrpc.BlindedPaymentPath.blinded_path: object expected");
+                message.blinded_path = $root.lnrpc.BlindedPath.fromObject(object.blinded_path);
+            }
+            if (object.base_fee_msat != null)
+                if ($util.Long)
+                    (message.base_fee_msat = $util.Long.fromValue(object.base_fee_msat)).unsigned = true;
+                else if (typeof object.base_fee_msat === "string")
+                    message.base_fee_msat = parseInt(object.base_fee_msat, 10);
+                else if (typeof object.base_fee_msat === "number")
+                    message.base_fee_msat = object.base_fee_msat;
+                else if (typeof object.base_fee_msat === "object")
+                    message.base_fee_msat = new $util.LongBits(object.base_fee_msat.low >>> 0, object.base_fee_msat.high >>> 0).toNumber(true);
+            if (object.proportional_fee_rate != null)
+                message.proportional_fee_rate = object.proportional_fee_rate >>> 0;
+            if (object.total_cltv_delta != null)
+                message.total_cltv_delta = object.total_cltv_delta >>> 0;
+            if (object.htlc_min_msat != null)
+                if ($util.Long)
+                    (message.htlc_min_msat = $util.Long.fromValue(object.htlc_min_msat)).unsigned = true;
+                else if (typeof object.htlc_min_msat === "string")
+                    message.htlc_min_msat = parseInt(object.htlc_min_msat, 10);
+                else if (typeof object.htlc_min_msat === "number")
+                    message.htlc_min_msat = object.htlc_min_msat;
+                else if (typeof object.htlc_min_msat === "object")
+                    message.htlc_min_msat = new $util.LongBits(object.htlc_min_msat.low >>> 0, object.htlc_min_msat.high >>> 0).toNumber(true);
+            if (object.htlc_max_msat != null)
+                if ($util.Long)
+                    (message.htlc_max_msat = $util.Long.fromValue(object.htlc_max_msat)).unsigned = true;
+                else if (typeof object.htlc_max_msat === "string")
+                    message.htlc_max_msat = parseInt(object.htlc_max_msat, 10);
+                else if (typeof object.htlc_max_msat === "number")
+                    message.htlc_max_msat = object.htlc_max_msat;
+                else if (typeof object.htlc_max_msat === "object")
+                    message.htlc_max_msat = new $util.LongBits(object.htlc_max_msat.low >>> 0, object.htlc_max_msat.high >>> 0).toNumber(true);
+            if (object.features) {
+                if (!Array.isArray(object.features))
+                    throw TypeError(".lnrpc.BlindedPaymentPath.features: array expected");
+                message.features = [];
+                for (let i = 0; i < object.features.length; ++i)
+                    switch (object.features[i]) {
+                    default:
+                        if (typeof object.features[i] === "number") {
+                            message.features[i] = object.features[i];
+                            break;
+                        }
+                    case "DATALOSS_PROTECT_REQ":
+                    case 0:
+                        message.features[i] = 0;
+                        break;
+                    case "DATALOSS_PROTECT_OPT":
+                    case 1:
+                        message.features[i] = 1;
+                        break;
+                    case "INITIAL_ROUING_SYNC":
+                    case 3:
+                        message.features[i] = 3;
+                        break;
+                    case "UPFRONT_SHUTDOWN_SCRIPT_REQ":
+                    case 4:
+                        message.features[i] = 4;
+                        break;
+                    case "UPFRONT_SHUTDOWN_SCRIPT_OPT":
+                    case 5:
+                        message.features[i] = 5;
+                        break;
+                    case "GOSSIP_QUERIES_REQ":
+                    case 6:
+                        message.features[i] = 6;
+                        break;
+                    case "GOSSIP_QUERIES_OPT":
+                    case 7:
+                        message.features[i] = 7;
+                        break;
+                    case "TLV_ONION_REQ":
+                    case 8:
+                        message.features[i] = 8;
+                        break;
+                    case "TLV_ONION_OPT":
+                    case 9:
+                        message.features[i] = 9;
+                        break;
+                    case "EXT_GOSSIP_QUERIES_REQ":
+                    case 10:
+                        message.features[i] = 10;
+                        break;
+                    case "EXT_GOSSIP_QUERIES_OPT":
+                    case 11:
+                        message.features[i] = 11;
+                        break;
+                    case "STATIC_REMOTE_KEY_REQ":
+                    case 12:
+                        message.features[i] = 12;
+                        break;
+                    case "STATIC_REMOTE_KEY_OPT":
+                    case 13:
+                        message.features[i] = 13;
+                        break;
+                    case "PAYMENT_ADDR_REQ":
+                    case 14:
+                        message.features[i] = 14;
+                        break;
+                    case "PAYMENT_ADDR_OPT":
+                    case 15:
+                        message.features[i] = 15;
+                        break;
+                    case "MPP_REQ":
+                    case 16:
+                        message.features[i] = 16;
+                        break;
+                    case "MPP_OPT":
+                    case 17:
+                        message.features[i] = 17;
+                        break;
+                    case "WUMBO_CHANNELS_REQ":
+                    case 18:
+                        message.features[i] = 18;
+                        break;
+                    case "WUMBO_CHANNELS_OPT":
+                    case 19:
+                        message.features[i] = 19;
+                        break;
+                    case "ANCHORS_REQ":
+                    case 20:
+                        message.features[i] = 20;
+                        break;
+                    case "ANCHORS_OPT":
+                    case 21:
+                        message.features[i] = 21;
+                        break;
+                    case "ANCHORS_ZERO_FEE_HTLC_REQ":
+                    case 22:
+                        message.features[i] = 22;
+                        break;
+                    case "ANCHORS_ZERO_FEE_HTLC_OPT":
+                    case 23:
+                        message.features[i] = 23;
+                        break;
+                    case "ROUTE_BLINDING_REQUIRED":
+                    case 24:
+                        message.features[i] = 24;
+                        break;
+                    case "ROUTE_BLINDING_OPTIONAL":
+                    case 25:
+                        message.features[i] = 25;
+                        break;
+                    case "AMP_REQ":
+                    case 30:
+                        message.features[i] = 30;
+                        break;
+                    case "AMP_OPT":
+                    case 31:
+                        message.features[i] = 31;
+                        break;
+                    }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BlindedPaymentPath message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {lnrpc.BlindedPaymentPath} message BlindedPaymentPath
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BlindedPaymentPath.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.features = [];
+            if (options.defaults) {
+                object.blinded_path = null;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.base_fee_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.base_fee_msat = options.longs === String ? "0" : 0;
+                object.proportional_fee_rate = 0;
+                object.total_cltv_delta = 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.htlc_min_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.htlc_min_msat = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.htlc_max_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.htlc_max_msat = options.longs === String ? "0" : 0;
+            }
+            if (message.blinded_path != null && message.hasOwnProperty("blinded_path"))
+                object.blinded_path = $root.lnrpc.BlindedPath.toObject(message.blinded_path, options);
+            if (message.base_fee_msat != null && message.hasOwnProperty("base_fee_msat"))
+                if (typeof message.base_fee_msat === "number")
+                    object.base_fee_msat = options.longs === String ? String(message.base_fee_msat) : message.base_fee_msat;
+                else
+                    object.base_fee_msat = options.longs === String ? $util.Long.prototype.toString.call(message.base_fee_msat) : options.longs === Number ? new $util.LongBits(message.base_fee_msat.low >>> 0, message.base_fee_msat.high >>> 0).toNumber(true) : message.base_fee_msat;
+            if (message.proportional_fee_rate != null && message.hasOwnProperty("proportional_fee_rate"))
+                object.proportional_fee_rate = message.proportional_fee_rate;
+            if (message.total_cltv_delta != null && message.hasOwnProperty("total_cltv_delta"))
+                object.total_cltv_delta = message.total_cltv_delta;
+            if (message.htlc_min_msat != null && message.hasOwnProperty("htlc_min_msat"))
+                if (typeof message.htlc_min_msat === "number")
+                    object.htlc_min_msat = options.longs === String ? String(message.htlc_min_msat) : message.htlc_min_msat;
+                else
+                    object.htlc_min_msat = options.longs === String ? $util.Long.prototype.toString.call(message.htlc_min_msat) : options.longs === Number ? new $util.LongBits(message.htlc_min_msat.low >>> 0, message.htlc_min_msat.high >>> 0).toNumber(true) : message.htlc_min_msat;
+            if (message.htlc_max_msat != null && message.hasOwnProperty("htlc_max_msat"))
+                if (typeof message.htlc_max_msat === "number")
+                    object.htlc_max_msat = options.longs === String ? String(message.htlc_max_msat) : message.htlc_max_msat;
+                else
+                    object.htlc_max_msat = options.longs === String ? $util.Long.prototype.toString.call(message.htlc_max_msat) : options.longs === Number ? new $util.LongBits(message.htlc_max_msat.low >>> 0, message.htlc_max_msat.high >>> 0).toNumber(true) : message.htlc_max_msat;
+            if (message.features && message.features.length) {
+                object.features = [];
+                for (let j = 0; j < message.features.length; ++j)
+                    object.features[j] = options.enums === String ? $root.lnrpc.FeatureBit[message.features[j]] === undefined ? message.features[j] : $root.lnrpc.FeatureBit[message.features[j]] : message.features[j];
+            }
+            return object;
+        };
+
+        /**
+         * Converts this BlindedPaymentPath to JSON.
+         * @function toJSON
+         * @memberof lnrpc.BlindedPaymentPath
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BlindedPaymentPath.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BlindedPaymentPath
+         * @function getTypeUrl
+         * @memberof lnrpc.BlindedPaymentPath
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BlindedPaymentPath.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.BlindedPaymentPath";
+        };
+
+        return BlindedPaymentPath;
+    })();
+
+    lnrpc.BlindedPath = (function() {
+
+        /**
+         * Properties of a BlindedPath.
+         * @memberof lnrpc
+         * @interface IBlindedPath
+         * @property {Uint8Array|null} [introduction_node] BlindedPath introduction_node
+         * @property {Uint8Array|null} [blinding_point] BlindedPath blinding_point
+         * @property {Array.<lnrpc.IBlindedHop>|null} [blinded_hops] BlindedPath blinded_hops
+         */
+
+        /**
+         * Constructs a new BlindedPath.
+         * @memberof lnrpc
+         * @classdesc Represents a BlindedPath.
+         * @implements IBlindedPath
+         * @constructor
+         * @param {lnrpc.IBlindedPath=} [properties] Properties to set
+         */
+        function BlindedPath(properties) {
+            this.blinded_hops = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BlindedPath introduction_node.
+         * @member {Uint8Array} introduction_node
+         * @memberof lnrpc.BlindedPath
+         * @instance
+         */
+        BlindedPath.prototype.introduction_node = $util.newBuffer([]);
+
+        /**
+         * BlindedPath blinding_point.
+         * @member {Uint8Array} blinding_point
+         * @memberof lnrpc.BlindedPath
+         * @instance
+         */
+        BlindedPath.prototype.blinding_point = $util.newBuffer([]);
+
+        /**
+         * BlindedPath blinded_hops.
+         * @member {Array.<lnrpc.IBlindedHop>} blinded_hops
+         * @memberof lnrpc.BlindedPath
+         * @instance
+         */
+        BlindedPath.prototype.blinded_hops = $util.emptyArray;
+
+        /**
+         * Creates a new BlindedPath instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {lnrpc.IBlindedPath=} [properties] Properties to set
+         * @returns {lnrpc.BlindedPath} BlindedPath instance
+         */
+        BlindedPath.create = function create(properties) {
+            return new BlindedPath(properties);
+        };
+
+        /**
+         * Encodes the specified BlindedPath message. Does not implicitly {@link lnrpc.BlindedPath.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {lnrpc.IBlindedPath} message BlindedPath message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedPath.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.introduction_node != null && Object.hasOwnProperty.call(message, "introduction_node"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.introduction_node);
+            if (message.blinding_point != null && Object.hasOwnProperty.call(message, "blinding_point"))
+                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.blinding_point);
+            if (message.blinded_hops != null && message.blinded_hops.length)
+                for (let i = 0; i < message.blinded_hops.length; ++i)
+                    $root.lnrpc.BlindedHop.encode(message.blinded_hops[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BlindedPath message, length delimited. Does not implicitly {@link lnrpc.BlindedPath.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {lnrpc.IBlindedPath} message BlindedPath message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedPath.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BlindedPath message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.BlindedPath} BlindedPath
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedPath.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.BlindedPath();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.introduction_node = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.blinding_point = reader.bytes();
+                        break;
+                    }
+                case 3: {
+                        if (!(message.blinded_hops && message.blinded_hops.length))
+                            message.blinded_hops = [];
+                        message.blinded_hops.push($root.lnrpc.BlindedHop.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BlindedPath message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.BlindedPath} BlindedPath
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedPath.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BlindedPath message.
+         * @function verify
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BlindedPath.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.introduction_node != null && message.hasOwnProperty("introduction_node"))
+                if (!(message.introduction_node && typeof message.introduction_node.length === "number" || $util.isString(message.introduction_node)))
+                    return "introduction_node: buffer expected";
+            if (message.blinding_point != null && message.hasOwnProperty("blinding_point"))
+                if (!(message.blinding_point && typeof message.blinding_point.length === "number" || $util.isString(message.blinding_point)))
+                    return "blinding_point: buffer expected";
+            if (message.blinded_hops != null && message.hasOwnProperty("blinded_hops")) {
+                if (!Array.isArray(message.blinded_hops))
+                    return "blinded_hops: array expected";
+                for (let i = 0; i < message.blinded_hops.length; ++i) {
+                    let error = $root.lnrpc.BlindedHop.verify(message.blinded_hops[i]);
+                    if (error)
+                        return "blinded_hops." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a BlindedPath message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.BlindedPath} BlindedPath
+         */
+        BlindedPath.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.BlindedPath)
+                return object;
+            let message = new $root.lnrpc.BlindedPath();
+            if (object.introduction_node != null)
+                if (typeof object.introduction_node === "string")
+                    $util.base64.decode(object.introduction_node, message.introduction_node = $util.newBuffer($util.base64.length(object.introduction_node)), 0);
+                else if (object.introduction_node.length >= 0)
+                    message.introduction_node = object.introduction_node;
+            if (object.blinding_point != null)
+                if (typeof object.blinding_point === "string")
+                    $util.base64.decode(object.blinding_point, message.blinding_point = $util.newBuffer($util.base64.length(object.blinding_point)), 0);
+                else if (object.blinding_point.length >= 0)
+                    message.blinding_point = object.blinding_point;
+            if (object.blinded_hops) {
+                if (!Array.isArray(object.blinded_hops))
+                    throw TypeError(".lnrpc.BlindedPath.blinded_hops: array expected");
+                message.blinded_hops = [];
+                for (let i = 0; i < object.blinded_hops.length; ++i) {
+                    if (typeof object.blinded_hops[i] !== "object")
+                        throw TypeError(".lnrpc.BlindedPath.blinded_hops: object expected");
+                    message.blinded_hops[i] = $root.lnrpc.BlindedHop.fromObject(object.blinded_hops[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BlindedPath message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {lnrpc.BlindedPath} message BlindedPath
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BlindedPath.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.blinded_hops = [];
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.introduction_node = "";
+                else {
+                    object.introduction_node = [];
+                    if (options.bytes !== Array)
+                        object.introduction_node = $util.newBuffer(object.introduction_node);
+                }
+                if (options.bytes === String)
+                    object.blinding_point = "";
+                else {
+                    object.blinding_point = [];
+                    if (options.bytes !== Array)
+                        object.blinding_point = $util.newBuffer(object.blinding_point);
+                }
+            }
+            if (message.introduction_node != null && message.hasOwnProperty("introduction_node"))
+                object.introduction_node = options.bytes === String ? $util.base64.encode(message.introduction_node, 0, message.introduction_node.length) : options.bytes === Array ? Array.prototype.slice.call(message.introduction_node) : message.introduction_node;
+            if (message.blinding_point != null && message.hasOwnProperty("blinding_point"))
+                object.blinding_point = options.bytes === String ? $util.base64.encode(message.blinding_point, 0, message.blinding_point.length) : options.bytes === Array ? Array.prototype.slice.call(message.blinding_point) : message.blinding_point;
+            if (message.blinded_hops && message.blinded_hops.length) {
+                object.blinded_hops = [];
+                for (let j = 0; j < message.blinded_hops.length; ++j)
+                    object.blinded_hops[j] = $root.lnrpc.BlindedHop.toObject(message.blinded_hops[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this BlindedPath to JSON.
+         * @function toJSON
+         * @memberof lnrpc.BlindedPath
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BlindedPath.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BlindedPath
+         * @function getTypeUrl
+         * @memberof lnrpc.BlindedPath
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BlindedPath.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.BlindedPath";
+        };
+
+        return BlindedPath;
+    })();
+
+    lnrpc.BlindedHop = (function() {
+
+        /**
+         * Properties of a BlindedHop.
+         * @memberof lnrpc
+         * @interface IBlindedHop
+         * @property {Uint8Array|null} [blinded_node] BlindedHop blinded_node
+         * @property {Uint8Array|null} [encrypted_data] BlindedHop encrypted_data
+         */
+
+        /**
+         * Constructs a new BlindedHop.
+         * @memberof lnrpc
+         * @classdesc Represents a BlindedHop.
+         * @implements IBlindedHop
+         * @constructor
+         * @param {lnrpc.IBlindedHop=} [properties] Properties to set
+         */
+        function BlindedHop(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BlindedHop blinded_node.
+         * @member {Uint8Array} blinded_node
+         * @memberof lnrpc.BlindedHop
+         * @instance
+         */
+        BlindedHop.prototype.blinded_node = $util.newBuffer([]);
+
+        /**
+         * BlindedHop encrypted_data.
+         * @member {Uint8Array} encrypted_data
+         * @memberof lnrpc.BlindedHop
+         * @instance
+         */
+        BlindedHop.prototype.encrypted_data = $util.newBuffer([]);
+
+        /**
+         * Creates a new BlindedHop instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {lnrpc.IBlindedHop=} [properties] Properties to set
+         * @returns {lnrpc.BlindedHop} BlindedHop instance
+         */
+        BlindedHop.create = function create(properties) {
+            return new BlindedHop(properties);
+        };
+
+        /**
+         * Encodes the specified BlindedHop message. Does not implicitly {@link lnrpc.BlindedHop.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {lnrpc.IBlindedHop} message BlindedHop message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedHop.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.blinded_node != null && Object.hasOwnProperty.call(message, "blinded_node"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.blinded_node);
+            if (message.encrypted_data != null && Object.hasOwnProperty.call(message, "encrypted_data"))
+                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.encrypted_data);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BlindedHop message, length delimited. Does not implicitly {@link lnrpc.BlindedHop.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {lnrpc.IBlindedHop} message BlindedHop message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedHop.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BlindedHop message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.BlindedHop} BlindedHop
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedHop.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.BlindedHop();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.blinded_node = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.encrypted_data = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BlindedHop message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.BlindedHop} BlindedHop
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedHop.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BlindedHop message.
+         * @function verify
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BlindedHop.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.blinded_node != null && message.hasOwnProperty("blinded_node"))
+                if (!(message.blinded_node && typeof message.blinded_node.length === "number" || $util.isString(message.blinded_node)))
+                    return "blinded_node: buffer expected";
+            if (message.encrypted_data != null && message.hasOwnProperty("encrypted_data"))
+                if (!(message.encrypted_data && typeof message.encrypted_data.length === "number" || $util.isString(message.encrypted_data)))
+                    return "encrypted_data: buffer expected";
+            return null;
+        };
+
+        /**
+         * Creates a BlindedHop message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.BlindedHop} BlindedHop
+         */
+        BlindedHop.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.BlindedHop)
+                return object;
+            let message = new $root.lnrpc.BlindedHop();
+            if (object.blinded_node != null)
+                if (typeof object.blinded_node === "string")
+                    $util.base64.decode(object.blinded_node, message.blinded_node = $util.newBuffer($util.base64.length(object.blinded_node)), 0);
+                else if (object.blinded_node.length >= 0)
+                    message.blinded_node = object.blinded_node;
+            if (object.encrypted_data != null)
+                if (typeof object.encrypted_data === "string")
+                    $util.base64.decode(object.encrypted_data, message.encrypted_data = $util.newBuffer($util.base64.length(object.encrypted_data)), 0);
+                else if (object.encrypted_data.length >= 0)
+                    message.encrypted_data = object.encrypted_data;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BlindedHop message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {lnrpc.BlindedHop} message BlindedHop
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BlindedHop.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.blinded_node = "";
+                else {
+                    object.blinded_node = [];
+                    if (options.bytes !== Array)
+                        object.blinded_node = $util.newBuffer(object.blinded_node);
+                }
+                if (options.bytes === String)
+                    object.encrypted_data = "";
+                else {
+                    object.encrypted_data = [];
+                    if (options.bytes !== Array)
+                        object.encrypted_data = $util.newBuffer(object.encrypted_data);
+                }
+            }
+            if (message.blinded_node != null && message.hasOwnProperty("blinded_node"))
+                object.blinded_node = options.bytes === String ? $util.base64.encode(message.blinded_node, 0, message.blinded_node.length) : options.bytes === Array ? Array.prototype.slice.call(message.blinded_node) : message.blinded_node;
+            if (message.encrypted_data != null && message.hasOwnProperty("encrypted_data"))
+                object.encrypted_data = options.bytes === String ? $util.base64.encode(message.encrypted_data, 0, message.encrypted_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.encrypted_data) : message.encrypted_data;
+            return object;
+        };
+
+        /**
+         * Converts this BlindedHop to JSON.
+         * @function toJSON
+         * @memberof lnrpc.BlindedHop
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BlindedHop.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BlindedHop
+         * @function getTypeUrl
+         * @memberof lnrpc.BlindedHop
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BlindedHop.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.BlindedHop";
+        };
+
+        return BlindedHop;
+    })();
+
     lnrpc.AMPInvoiceState = (function() {
 
         /**
@@ -45824,6 +48218,8 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Uint8Array|null} [payment_addr] Invoice payment_addr
          * @property {boolean|null} [is_amp] Invoice is_amp
          * @property {Object.<string,lnrpc.IAMPInvoiceState>|null} [amp_invoice_state] Invoice amp_invoice_state
+         * @property {boolean|null} [is_blinded] Invoice is_blinded
+         * @property {lnrpc.IBlindedPathConfig|null} [blinded_path_config] Invoice blinded_path_config
          * @property {number|null} [min_hop_hints] Invoice min_hop_hints
          */
 
@@ -46063,6 +48459,22 @@ export const lnrpc = $root.lnrpc = (() => {
         Invoice.prototype.amp_invoice_state = $util.emptyObject;
 
         /**
+         * Invoice is_blinded.
+         * @member {boolean} is_blinded
+         * @memberof lnrpc.Invoice
+         * @instance
+         */
+        Invoice.prototype.is_blinded = false;
+
+        /**
+         * Invoice blinded_path_config.
+         * @member {lnrpc.IBlindedPathConfig|null|undefined} blinded_path_config
+         * @memberof lnrpc.Invoice
+         * @instance
+         */
+        Invoice.prototype.blinded_path_config = null;
+
+        /**
          * Invoice min_hop_hints.
          * @member {number} min_hop_hints
          * @memberof lnrpc.Invoice
@@ -46156,8 +48568,12 @@ export const lnrpc = $root.lnrpc = (() => {
                     writer.uint32(/* id 28, wireType 2 =*/226).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
                     $root.lnrpc.AMPInvoiceState.encode(message.amp_invoice_state[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
+            if (message.is_blinded != null && Object.hasOwnProperty.call(message, "is_blinded"))
+                writer.uint32(/* id 29, wireType 0 =*/232).bool(message.is_blinded);
+            if (message.blinded_path_config != null && Object.hasOwnProperty.call(message, "blinded_path_config"))
+                $root.lnrpc.BlindedPathConfig.encode(message.blinded_path_config, writer.uint32(/* id 30, wireType 2 =*/242).fork()).ldelim();
             if (message.min_hop_hints != null && Object.hasOwnProperty.call(message, "min_hop_hints"))
-                writer.uint32(/* id 29, wireType 0 =*/232).int32(message.min_hop_hints);
+                writer.uint32(/* id 31, wireType 0 =*/248).int32(message.min_hop_hints);
             return writer;
         };
 
@@ -46343,6 +48759,14 @@ export const lnrpc = $root.lnrpc = (() => {
                         break;
                     }
                 case 29: {
+                        message.is_blinded = reader.bool();
+                        break;
+                    }
+                case 30: {
+                        message.blinded_path_config = $root.lnrpc.BlindedPathConfig.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 31: {
                         message.min_hop_hints = reader.int32();
                         break;
                     }
@@ -46498,6 +48922,14 @@ export const lnrpc = $root.lnrpc = (() => {
                     if (error)
                         return "amp_invoice_state." + error;
                 }
+            }
+            if (message.is_blinded != null && message.hasOwnProperty("is_blinded"))
+                if (typeof message.is_blinded !== "boolean")
+                    return "is_blinded: boolean expected";
+            if (message.blinded_path_config != null && message.hasOwnProperty("blinded_path_config")) {
+                let error = $root.lnrpc.BlindedPathConfig.verify(message.blinded_path_config);
+                if (error)
+                    return "blinded_path_config." + error;
             }
             if (message.min_hop_hints != null && message.hasOwnProperty("min_hop_hints"))
                 if (!$util.isInteger(message.min_hop_hints))
@@ -46714,6 +49146,13 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.amp_invoice_state[keys[i]] = $root.lnrpc.AMPInvoiceState.fromObject(object.amp_invoice_state[keys[i]]);
                 }
             }
+            if (object.is_blinded != null)
+                message.is_blinded = Boolean(object.is_blinded);
+            if (object.blinded_path_config != null) {
+                if (typeof object.blinded_path_config !== "object")
+                    throw TypeError(".lnrpc.Invoice.blinded_path_config: object expected");
+                message.blinded_path_config = $root.lnrpc.BlindedPathConfig.fromObject(object.blinded_path_config);
+            }
             if (object.min_hop_hints != null)
                 message.min_hop_hints = object.min_hop_hints | 0;
             return message;
@@ -46832,6 +49271,8 @@ export const lnrpc = $root.lnrpc = (() => {
                         object.payment_addr = $util.newBuffer(object.payment_addr);
                 }
                 object.is_amp = false;
+                object.is_blinded = false;
+                object.blinded_path_config = null;
                 object.min_hop_hints = 0;
             }
             if (message.memo != null && message.hasOwnProperty("memo"))
@@ -46934,6 +49375,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 for (let j = 0; j < keys2.length; ++j)
                     object.amp_invoice_state[keys2[j]] = $root.lnrpc.AMPInvoiceState.toObject(message.amp_invoice_state[keys2[j]], options);
             }
+            if (message.is_blinded != null && message.hasOwnProperty("is_blinded"))
+                object.is_blinded = message.is_blinded;
+            if (message.blinded_path_config != null && message.hasOwnProperty("blinded_path_config"))
+                object.blinded_path_config = $root.lnrpc.BlindedPathConfig.toObject(message.blinded_path_config, options);
             if (message.min_hop_hints != null && message.hasOwnProperty("min_hop_hints"))
                 object.min_hop_hints = message.min_hop_hints;
             return object;
@@ -46984,6 +49429,346 @@ export const lnrpc = $root.lnrpc = (() => {
         })();
 
         return Invoice;
+    })();
+
+    lnrpc.BlindedPathConfig = (function() {
+
+        /**
+         * Properties of a BlindedPathConfig.
+         * @memberof lnrpc
+         * @interface IBlindedPathConfig
+         * @property {number|null} [min_num_real_hops] BlindedPathConfig min_num_real_hops
+         * @property {number|null} [num_hops] BlindedPathConfig num_hops
+         * @property {number|null} [max_num_paths] BlindedPathConfig max_num_paths
+         * @property {Array.<Uint8Array>|null} [node_omission_list] BlindedPathConfig node_omission_list
+         */
+
+        /**
+         * Constructs a new BlindedPathConfig.
+         * @memberof lnrpc
+         * @classdesc Represents a BlindedPathConfig.
+         * @implements IBlindedPathConfig
+         * @constructor
+         * @param {lnrpc.IBlindedPathConfig=} [properties] Properties to set
+         */
+        function BlindedPathConfig(properties) {
+            this.node_omission_list = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BlindedPathConfig min_num_real_hops.
+         * @member {number|null|undefined} min_num_real_hops
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         */
+        BlindedPathConfig.prototype.min_num_real_hops = null;
+
+        /**
+         * BlindedPathConfig num_hops.
+         * @member {number|null|undefined} num_hops
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         */
+        BlindedPathConfig.prototype.num_hops = null;
+
+        /**
+         * BlindedPathConfig max_num_paths.
+         * @member {number|null|undefined} max_num_paths
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         */
+        BlindedPathConfig.prototype.max_num_paths = null;
+
+        /**
+         * BlindedPathConfig node_omission_list.
+         * @member {Array.<Uint8Array>} node_omission_list
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         */
+        BlindedPathConfig.prototype.node_omission_list = $util.emptyArray;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        /**
+         * BlindedPathConfig _min_num_real_hops.
+         * @member {"min_num_real_hops"|undefined} _min_num_real_hops
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         */
+        Object.defineProperty(BlindedPathConfig.prototype, "_min_num_real_hops", {
+            get: $util.oneOfGetter($oneOfFields = ["min_num_real_hops"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * BlindedPathConfig _num_hops.
+         * @member {"num_hops"|undefined} _num_hops
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         */
+        Object.defineProperty(BlindedPathConfig.prototype, "_num_hops", {
+            get: $util.oneOfGetter($oneOfFields = ["num_hops"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * BlindedPathConfig _max_num_paths.
+         * @member {"max_num_paths"|undefined} _max_num_paths
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         */
+        Object.defineProperty(BlindedPathConfig.prototype, "_max_num_paths", {
+            get: $util.oneOfGetter($oneOfFields = ["max_num_paths"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new BlindedPathConfig instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {lnrpc.IBlindedPathConfig=} [properties] Properties to set
+         * @returns {lnrpc.BlindedPathConfig} BlindedPathConfig instance
+         */
+        BlindedPathConfig.create = function create(properties) {
+            return new BlindedPathConfig(properties);
+        };
+
+        /**
+         * Encodes the specified BlindedPathConfig message. Does not implicitly {@link lnrpc.BlindedPathConfig.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {lnrpc.IBlindedPathConfig} message BlindedPathConfig message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedPathConfig.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.min_num_real_hops != null && Object.hasOwnProperty.call(message, "min_num_real_hops"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.min_num_real_hops);
+            if (message.num_hops != null && Object.hasOwnProperty.call(message, "num_hops"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.num_hops);
+            if (message.max_num_paths != null && Object.hasOwnProperty.call(message, "max_num_paths"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.max_num_paths);
+            if (message.node_omission_list != null && message.node_omission_list.length)
+                for (let i = 0; i < message.node_omission_list.length; ++i)
+                    writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.node_omission_list[i]);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BlindedPathConfig message, length delimited. Does not implicitly {@link lnrpc.BlindedPathConfig.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {lnrpc.IBlindedPathConfig} message BlindedPathConfig message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BlindedPathConfig.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BlindedPathConfig message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.BlindedPathConfig} BlindedPathConfig
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedPathConfig.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.BlindedPathConfig();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.min_num_real_hops = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.num_hops = reader.uint32();
+                        break;
+                    }
+                case 3: {
+                        message.max_num_paths = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        if (!(message.node_omission_list && message.node_omission_list.length))
+                            message.node_omission_list = [];
+                        message.node_omission_list.push(reader.bytes());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BlindedPathConfig message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.BlindedPathConfig} BlindedPathConfig
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BlindedPathConfig.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BlindedPathConfig message.
+         * @function verify
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BlindedPathConfig.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            let properties = {};
+            if (message.min_num_real_hops != null && message.hasOwnProperty("min_num_real_hops")) {
+                properties._min_num_real_hops = 1;
+                if (!$util.isInteger(message.min_num_real_hops))
+                    return "min_num_real_hops: integer expected";
+            }
+            if (message.num_hops != null && message.hasOwnProperty("num_hops")) {
+                properties._num_hops = 1;
+                if (!$util.isInteger(message.num_hops))
+                    return "num_hops: integer expected";
+            }
+            if (message.max_num_paths != null && message.hasOwnProperty("max_num_paths")) {
+                properties._max_num_paths = 1;
+                if (!$util.isInteger(message.max_num_paths))
+                    return "max_num_paths: integer expected";
+            }
+            if (message.node_omission_list != null && message.hasOwnProperty("node_omission_list")) {
+                if (!Array.isArray(message.node_omission_list))
+                    return "node_omission_list: array expected";
+                for (let i = 0; i < message.node_omission_list.length; ++i)
+                    if (!(message.node_omission_list[i] && typeof message.node_omission_list[i].length === "number" || $util.isString(message.node_omission_list[i])))
+                        return "node_omission_list: buffer[] expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a BlindedPathConfig message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.BlindedPathConfig} BlindedPathConfig
+         */
+        BlindedPathConfig.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.BlindedPathConfig)
+                return object;
+            let message = new $root.lnrpc.BlindedPathConfig();
+            if (object.min_num_real_hops != null)
+                message.min_num_real_hops = object.min_num_real_hops >>> 0;
+            if (object.num_hops != null)
+                message.num_hops = object.num_hops >>> 0;
+            if (object.max_num_paths != null)
+                message.max_num_paths = object.max_num_paths >>> 0;
+            if (object.node_omission_list) {
+                if (!Array.isArray(object.node_omission_list))
+                    throw TypeError(".lnrpc.BlindedPathConfig.node_omission_list: array expected");
+                message.node_omission_list = [];
+                for (let i = 0; i < object.node_omission_list.length; ++i)
+                    if (typeof object.node_omission_list[i] === "string")
+                        $util.base64.decode(object.node_omission_list[i], message.node_omission_list[i] = $util.newBuffer($util.base64.length(object.node_omission_list[i])), 0);
+                    else if (object.node_omission_list[i].length >= 0)
+                        message.node_omission_list[i] = object.node_omission_list[i];
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BlindedPathConfig message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {lnrpc.BlindedPathConfig} message BlindedPathConfig
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BlindedPathConfig.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.node_omission_list = [];
+            if (message.min_num_real_hops != null && message.hasOwnProperty("min_num_real_hops")) {
+                object.min_num_real_hops = message.min_num_real_hops;
+                if (options.oneofs)
+                    object._min_num_real_hops = "min_num_real_hops";
+            }
+            if (message.num_hops != null && message.hasOwnProperty("num_hops")) {
+                object.num_hops = message.num_hops;
+                if (options.oneofs)
+                    object._num_hops = "num_hops";
+            }
+            if (message.max_num_paths != null && message.hasOwnProperty("max_num_paths")) {
+                object.max_num_paths = message.max_num_paths;
+                if (options.oneofs)
+                    object._max_num_paths = "max_num_paths";
+            }
+            if (message.node_omission_list && message.node_omission_list.length) {
+                object.node_omission_list = [];
+                for (let j = 0; j < message.node_omission_list.length; ++j)
+                    object.node_omission_list[j] = options.bytes === String ? $util.base64.encode(message.node_omission_list[j], 0, message.node_omission_list[j].length) : options.bytes === Array ? Array.prototype.slice.call(message.node_omission_list[j]) : message.node_omission_list[j];
+            }
+            return object;
+        };
+
+        /**
+         * Converts this BlindedPathConfig to JSON.
+         * @function toJSON
+         * @memberof lnrpc.BlindedPathConfig
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BlindedPathConfig.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BlindedPathConfig
+         * @function getTypeUrl
+         * @memberof lnrpc.BlindedPathConfig
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BlindedPathConfig.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.BlindedPathConfig";
+        };
+
+        return BlindedPathConfig;
     })();
 
     /**
@@ -49404,6 +52189,7 @@ export const lnrpc = $root.lnrpc = (() => {
      * @property {number} FAILURE_REASON_ERROR=3 FAILURE_REASON_ERROR value
      * @property {number} FAILURE_REASON_INCORRECT_PAYMENT_DETAILS=4 FAILURE_REASON_INCORRECT_PAYMENT_DETAILS value
      * @property {number} FAILURE_REASON_INSUFFICIENT_BALANCE=5 FAILURE_REASON_INSUFFICIENT_BALANCE value
+     * @property {number} FAILURE_REASON_CANCELED=6 FAILURE_REASON_CANCELED value
      */
     lnrpc.PaymentFailureReason = (function() {
         const valuesById = {}, values = Object.create(valuesById);
@@ -49413,6 +52199,7 @@ export const lnrpc = $root.lnrpc = (() => {
         values[valuesById[3] = "FAILURE_REASON_ERROR"] = 3;
         values[valuesById[4] = "FAILURE_REASON_INCORRECT_PAYMENT_DETAILS"] = 4;
         values[valuesById[5] = "FAILURE_REASON_INSUFFICIENT_BALANCE"] = 5;
+        values[valuesById[6] = "FAILURE_REASON_CANCELED"] = 6;
         return values;
     })();
 
@@ -49793,6 +52580,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 1:
                 case 2:
                 case 3:
+                case 4:
                     break;
                 }
             if (message.fee_sat != null && message.hasOwnProperty("fee_sat"))
@@ -49826,6 +52614,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 3:
                 case 4:
                 case 5:
+                case 6:
                     break;
                 }
             return null;
@@ -49917,6 +52706,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case 3:
                 message.status = 3;
                 break;
+            case "INITIATED":
+            case 4:
+                message.status = 4;
+                break;
             }
             if (object.fee_sat != null)
                 if ($util.Long)
@@ -49994,6 +52787,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case "FAILURE_REASON_INSUFFICIENT_BALANCE":
             case 5:
                 message.failure_reason = 5;
+                break;
+            case "FAILURE_REASON_CANCELED":
+            case 6:
+                message.failure_reason = 6;
                 break;
             }
             return message;
@@ -50163,6 +52960,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {number} IN_FLIGHT=1 IN_FLIGHT value
          * @property {number} SUCCEEDED=2 SUCCEEDED value
          * @property {number} FAILED=3 FAILED value
+         * @property {number} INITIATED=4 INITIATED value
          */
         Payment.PaymentStatus = (function() {
             const valuesById = {}, values = Object.create(valuesById);
@@ -50170,6 +52968,7 @@ export const lnrpc = $root.lnrpc = (() => {
             values[valuesById[1] = "IN_FLIGHT"] = 1;
             values[valuesById[2] = "SUCCEEDED"] = 2;
             values[valuesById[3] = "FAILED"] = 3;
+            values[valuesById[4] = "INITIATED"] = 4;
             return values;
         })();
 
@@ -51598,6 +54397,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @interface IDeleteAllPaymentsRequest
          * @property {boolean|null} [failed_payments_only] DeleteAllPaymentsRequest failed_payments_only
          * @property {boolean|null} [failed_htlcs_only] DeleteAllPaymentsRequest failed_htlcs_only
+         * @property {boolean|null} [all_payments] DeleteAllPaymentsRequest all_payments
          */
 
         /**
@@ -51632,6 +54432,14 @@ export const lnrpc = $root.lnrpc = (() => {
         DeleteAllPaymentsRequest.prototype.failed_htlcs_only = false;
 
         /**
+         * DeleteAllPaymentsRequest all_payments.
+         * @member {boolean} all_payments
+         * @memberof lnrpc.DeleteAllPaymentsRequest
+         * @instance
+         */
+        DeleteAllPaymentsRequest.prototype.all_payments = false;
+
+        /**
          * Creates a new DeleteAllPaymentsRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.DeleteAllPaymentsRequest
@@ -51659,6 +54467,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.failed_payments_only);
             if (message.failed_htlcs_only != null && Object.hasOwnProperty.call(message, "failed_htlcs_only"))
                 writer.uint32(/* id 2, wireType 0 =*/16).bool(message.failed_htlcs_only);
+            if (message.all_payments != null && Object.hasOwnProperty.call(message, "all_payments"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.all_payments);
             return writer;
         };
 
@@ -51699,6 +54509,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 2: {
                         message.failed_htlcs_only = reader.bool();
+                        break;
+                    }
+                case 3: {
+                        message.all_payments = reader.bool();
                         break;
                     }
                 default:
@@ -51742,6 +54556,9 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.failed_htlcs_only != null && message.hasOwnProperty("failed_htlcs_only"))
                 if (typeof message.failed_htlcs_only !== "boolean")
                     return "failed_htlcs_only: boolean expected";
+            if (message.all_payments != null && message.hasOwnProperty("all_payments"))
+                if (typeof message.all_payments !== "boolean")
+                    return "all_payments: boolean expected";
             return null;
         };
 
@@ -51761,6 +54578,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 message.failed_payments_only = Boolean(object.failed_payments_only);
             if (object.failed_htlcs_only != null)
                 message.failed_htlcs_only = Boolean(object.failed_htlcs_only);
+            if (object.all_payments != null)
+                message.all_payments = Boolean(object.all_payments);
             return message;
         };
 
@@ -51780,11 +54599,14 @@ export const lnrpc = $root.lnrpc = (() => {
             if (options.defaults) {
                 object.failed_payments_only = false;
                 object.failed_htlcs_only = false;
+                object.all_payments = false;
             }
             if (message.failed_payments_only != null && message.hasOwnProperty("failed_payments_only"))
                 object.failed_payments_only = message.failed_payments_only;
             if (message.failed_htlcs_only != null && message.hasOwnProperty("failed_htlcs_only"))
                 object.failed_htlcs_only = message.failed_htlcs_only;
+            if (message.all_payments != null && message.hasOwnProperty("all_payments"))
+                object.all_payments = message.all_payments;
             return object;
         };
 
@@ -53249,6 +56071,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Uint8Array|null} [payment_addr] PayReq payment_addr
          * @property {Long|null} [num_msat] PayReq num_msat
          * @property {Object.<string,lnrpc.IFeature>|null} [features] PayReq features
+         * @property {Array.<lnrpc.IBlindedPaymentPath>|null} [blinded_paths] PayReq blinded_paths
          */
 
         /**
@@ -53262,6 +56085,7 @@ export const lnrpc = $root.lnrpc = (() => {
         function PayReq(properties) {
             this.route_hints = [];
             this.features = {};
+            this.blinded_paths = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -53373,6 +56197,14 @@ export const lnrpc = $root.lnrpc = (() => {
         PayReq.prototype.features = $util.emptyObject;
 
         /**
+         * PayReq blinded_paths.
+         * @member {Array.<lnrpc.IBlindedPaymentPath>} blinded_paths
+         * @memberof lnrpc.PayReq
+         * @instance
+         */
+        PayReq.prototype.blinded_paths = $util.emptyArray;
+
+        /**
          * Creates a new PayReq instance using the specified properties.
          * @function create
          * @memberof lnrpc.PayReq
@@ -53426,6 +56258,9 @@ export const lnrpc = $root.lnrpc = (() => {
                     writer.uint32(/* id 13, wireType 2 =*/106).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
                     $root.lnrpc.Feature.encode(message.features[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
                 }
+            if (message.blinded_paths != null && message.blinded_paths.length)
+                for (let i = 0; i < message.blinded_paths.length; ++i)
+                    $root.lnrpc.BlindedPaymentPath.encode(message.blinded_paths[i], writer.uint32(/* id 14, wireType 2 =*/114).fork()).ldelim();
             return writer;
         };
 
@@ -53533,6 +56368,12 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.features[key] = value;
                         break;
                     }
+                case 14: {
+                        if (!(message.blinded_paths && message.blinded_paths.length))
+                            message.blinded_paths = [];
+                        message.blinded_paths.push($root.lnrpc.BlindedPaymentPath.decode(reader, reader.uint32()));
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -53622,6 +56463,15 @@ export const lnrpc = $root.lnrpc = (() => {
                         if (error)
                             return "features." + error;
                     }
+                }
+            }
+            if (message.blinded_paths != null && message.hasOwnProperty("blinded_paths")) {
+                if (!Array.isArray(message.blinded_paths))
+                    return "blinded_paths: array expected";
+                for (let i = 0; i < message.blinded_paths.length; ++i) {
+                    let error = $root.lnrpc.BlindedPaymentPath.verify(message.blinded_paths[i]);
+                    if (error)
+                        return "blinded_paths." + error;
                 }
             }
             return null;
@@ -53719,6 +56569,16 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.features[keys[i]] = $root.lnrpc.Feature.fromObject(object.features[keys[i]]);
                 }
             }
+            if (object.blinded_paths) {
+                if (!Array.isArray(object.blinded_paths))
+                    throw TypeError(".lnrpc.PayReq.blinded_paths: array expected");
+                message.blinded_paths = [];
+                for (let i = 0; i < object.blinded_paths.length; ++i) {
+                    if (typeof object.blinded_paths[i] !== "object")
+                        throw TypeError(".lnrpc.PayReq.blinded_paths: object expected");
+                    message.blinded_paths[i] = $root.lnrpc.BlindedPaymentPath.fromObject(object.blinded_paths[i]);
+                }
+            }
             return message;
         };
 
@@ -53735,8 +56595,10 @@ export const lnrpc = $root.lnrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
-            if (options.arrays || options.defaults)
+            if (options.arrays || options.defaults) {
                 object.route_hints = [];
+                object.blinded_paths = [];
+            }
             if (options.objects || options.defaults)
                 object.features = {};
             if (options.defaults) {
@@ -53826,6 +56688,11 @@ export const lnrpc = $root.lnrpc = (() => {
                 for (let j = 0; j < keys2.length; ++j)
                     object.features[keys2[j]] = $root.lnrpc.Feature.toObject(message.features[keys2[j]], options);
             }
+            if (message.blinded_paths && message.blinded_paths.length) {
+                object.blinded_paths = [];
+                for (let j = 0; j < message.blinded_paths.length; ++j)
+                    object.blinded_paths[j] = $root.lnrpc.BlindedPaymentPath.toObject(message.blinded_paths[j], options);
+            }
             return object;
         };
 
@@ -53885,6 +56752,8 @@ export const lnrpc = $root.lnrpc = (() => {
      * @property {number} ANCHORS_OPT=21 ANCHORS_OPT value
      * @property {number} ANCHORS_ZERO_FEE_HTLC_REQ=22 ANCHORS_ZERO_FEE_HTLC_REQ value
      * @property {number} ANCHORS_ZERO_FEE_HTLC_OPT=23 ANCHORS_ZERO_FEE_HTLC_OPT value
+     * @property {number} ROUTE_BLINDING_REQUIRED=24 ROUTE_BLINDING_REQUIRED value
+     * @property {number} ROUTE_BLINDING_OPTIONAL=25 ROUTE_BLINDING_OPTIONAL value
      * @property {number} AMP_REQ=30 AMP_REQ value
      * @property {number} AMP_OPT=31 AMP_OPT value
      */
@@ -53913,6 +56782,8 @@ export const lnrpc = $root.lnrpc = (() => {
         values[valuesById[21] = "ANCHORS_OPT"] = 21;
         values[valuesById[22] = "ANCHORS_ZERO_FEE_HTLC_REQ"] = 22;
         values[valuesById[23] = "ANCHORS_ZERO_FEE_HTLC_OPT"] = 23;
+        values[valuesById[24] = "ROUTE_BLINDING_REQUIRED"] = 24;
+        values[valuesById[25] = "ROUTE_BLINDING_OPTIONAL"] = 25;
         values[valuesById[30] = "AMP_REQ"] = 30;
         values[valuesById[31] = "AMP_OPT"] = 31;
         return values;
@@ -54354,6 +57225,8 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Long|null} [base_fee_msat] ChannelFeeReport base_fee_msat
          * @property {Long|null} [fee_per_mil] ChannelFeeReport fee_per_mil
          * @property {number|null} [fee_rate] ChannelFeeReport fee_rate
+         * @property {number|null} [inbound_base_fee_msat] ChannelFeeReport inbound_base_fee_msat
+         * @property {number|null} [inbound_fee_per_mil] ChannelFeeReport inbound_fee_per_mil
          */
 
         /**
@@ -54412,6 +57285,22 @@ export const lnrpc = $root.lnrpc = (() => {
         ChannelFeeReport.prototype.fee_rate = 0;
 
         /**
+         * ChannelFeeReport inbound_base_fee_msat.
+         * @member {number} inbound_base_fee_msat
+         * @memberof lnrpc.ChannelFeeReport
+         * @instance
+         */
+        ChannelFeeReport.prototype.inbound_base_fee_msat = 0;
+
+        /**
+         * ChannelFeeReport inbound_fee_per_mil.
+         * @member {number} inbound_fee_per_mil
+         * @memberof lnrpc.ChannelFeeReport
+         * @instance
+         */
+        ChannelFeeReport.prototype.inbound_fee_per_mil = 0;
+
+        /**
          * Creates a new ChannelFeeReport instance using the specified properties.
          * @function create
          * @memberof lnrpc.ChannelFeeReport
@@ -54445,6 +57334,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 4, wireType 1 =*/33).double(message.fee_rate);
             if (message.chan_id != null && Object.hasOwnProperty.call(message, "chan_id"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.chan_id);
+            if (message.inbound_base_fee_msat != null && Object.hasOwnProperty.call(message, "inbound_base_fee_msat"))
+                writer.uint32(/* id 6, wireType 0 =*/48).int32(message.inbound_base_fee_msat);
+            if (message.inbound_fee_per_mil != null && Object.hasOwnProperty.call(message, "inbound_fee_per_mil"))
+                writer.uint32(/* id 7, wireType 0 =*/56).int32(message.inbound_fee_per_mil);
             return writer;
         };
 
@@ -54499,6 +57392,14 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.fee_rate = reader.double();
                         break;
                     }
+                case 6: {
+                        message.inbound_base_fee_msat = reader.int32();
+                        break;
+                    }
+                case 7: {
+                        message.inbound_fee_per_mil = reader.int32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -54549,6 +57450,12 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.fee_rate != null && message.hasOwnProperty("fee_rate"))
                 if (typeof message.fee_rate !== "number")
                     return "fee_rate: number expected";
+            if (message.inbound_base_fee_msat != null && message.hasOwnProperty("inbound_base_fee_msat"))
+                if (!$util.isInteger(message.inbound_base_fee_msat))
+                    return "inbound_base_fee_msat: integer expected";
+            if (message.inbound_fee_per_mil != null && message.hasOwnProperty("inbound_fee_per_mil"))
+                if (!$util.isInteger(message.inbound_fee_per_mil))
+                    return "inbound_fee_per_mil: integer expected";
             return null;
         };
 
@@ -54595,6 +57502,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.fee_per_mil = new $util.LongBits(object.fee_per_mil.low >>> 0, object.fee_per_mil.high >>> 0).toNumber();
             if (object.fee_rate != null)
                 message.fee_rate = Number(object.fee_rate);
+            if (object.inbound_base_fee_msat != null)
+                message.inbound_base_fee_msat = object.inbound_base_fee_msat | 0;
+            if (object.inbound_fee_per_mil != null)
+                message.inbound_fee_per_mil = object.inbound_fee_per_mil | 0;
             return message;
         };
 
@@ -54629,6 +57540,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.chan_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.chan_id = options.longs === String ? "0" : 0;
+                object.inbound_base_fee_msat = 0;
+                object.inbound_fee_per_mil = 0;
             }
             if (message.channel_point != null && message.hasOwnProperty("channel_point"))
                 object.channel_point = message.channel_point;
@@ -54649,6 +57562,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.chan_id = options.longs === String ? String(message.chan_id) : message.chan_id;
                 else
                     object.chan_id = options.longs === String ? $util.Long.prototype.toString.call(message.chan_id) : options.longs === Number ? new $util.LongBits(message.chan_id.low >>> 0, message.chan_id.high >>> 0).toNumber(true) : message.chan_id;
+            if (message.inbound_base_fee_msat != null && message.hasOwnProperty("inbound_base_fee_msat"))
+                object.inbound_base_fee_msat = message.inbound_base_fee_msat;
+            if (message.inbound_fee_per_mil != null && message.hasOwnProperty("inbound_fee_per_mil"))
+                object.inbound_fee_per_mil = message.inbound_fee_per_mil;
             return object;
         };
 
@@ -55018,6 +57935,233 @@ export const lnrpc = $root.lnrpc = (() => {
         return FeeReportResponse;
     })();
 
+    lnrpc.InboundFee = (function() {
+
+        /**
+         * Properties of an InboundFee.
+         * @memberof lnrpc
+         * @interface IInboundFee
+         * @property {number|null} [base_fee_msat] InboundFee base_fee_msat
+         * @property {number|null} [fee_rate_ppm] InboundFee fee_rate_ppm
+         */
+
+        /**
+         * Constructs a new InboundFee.
+         * @memberof lnrpc
+         * @classdesc Represents an InboundFee.
+         * @implements IInboundFee
+         * @constructor
+         * @param {lnrpc.IInboundFee=} [properties] Properties to set
+         */
+        function InboundFee(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * InboundFee base_fee_msat.
+         * @member {number} base_fee_msat
+         * @memberof lnrpc.InboundFee
+         * @instance
+         */
+        InboundFee.prototype.base_fee_msat = 0;
+
+        /**
+         * InboundFee fee_rate_ppm.
+         * @member {number} fee_rate_ppm
+         * @memberof lnrpc.InboundFee
+         * @instance
+         */
+        InboundFee.prototype.fee_rate_ppm = 0;
+
+        /**
+         * Creates a new InboundFee instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {lnrpc.IInboundFee=} [properties] Properties to set
+         * @returns {lnrpc.InboundFee} InboundFee instance
+         */
+        InboundFee.create = function create(properties) {
+            return new InboundFee(properties);
+        };
+
+        /**
+         * Encodes the specified InboundFee message. Does not implicitly {@link lnrpc.InboundFee.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {lnrpc.IInboundFee} message InboundFee message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        InboundFee.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.base_fee_msat != null && Object.hasOwnProperty.call(message, "base_fee_msat"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.base_fee_msat);
+            if (message.fee_rate_ppm != null && Object.hasOwnProperty.call(message, "fee_rate_ppm"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.fee_rate_ppm);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified InboundFee message, length delimited. Does not implicitly {@link lnrpc.InboundFee.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {lnrpc.IInboundFee} message InboundFee message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        InboundFee.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an InboundFee message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.InboundFee} InboundFee
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        InboundFee.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.InboundFee();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.base_fee_msat = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.fee_rate_ppm = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an InboundFee message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.InboundFee} InboundFee
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        InboundFee.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an InboundFee message.
+         * @function verify
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        InboundFee.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.base_fee_msat != null && message.hasOwnProperty("base_fee_msat"))
+                if (!$util.isInteger(message.base_fee_msat))
+                    return "base_fee_msat: integer expected";
+            if (message.fee_rate_ppm != null && message.hasOwnProperty("fee_rate_ppm"))
+                if (!$util.isInteger(message.fee_rate_ppm))
+                    return "fee_rate_ppm: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates an InboundFee message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.InboundFee} InboundFee
+         */
+        InboundFee.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.InboundFee)
+                return object;
+            let message = new $root.lnrpc.InboundFee();
+            if (object.base_fee_msat != null)
+                message.base_fee_msat = object.base_fee_msat | 0;
+            if (object.fee_rate_ppm != null)
+                message.fee_rate_ppm = object.fee_rate_ppm | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an InboundFee message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {lnrpc.InboundFee} message InboundFee
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        InboundFee.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.base_fee_msat = 0;
+                object.fee_rate_ppm = 0;
+            }
+            if (message.base_fee_msat != null && message.hasOwnProperty("base_fee_msat"))
+                object.base_fee_msat = message.base_fee_msat;
+            if (message.fee_rate_ppm != null && message.hasOwnProperty("fee_rate_ppm"))
+                object.fee_rate_ppm = message.fee_rate_ppm;
+            return object;
+        };
+
+        /**
+         * Converts this InboundFee to JSON.
+         * @function toJSON
+         * @memberof lnrpc.InboundFee
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        InboundFee.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for InboundFee
+         * @function getTypeUrl
+         * @memberof lnrpc.InboundFee
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        InboundFee.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.InboundFee";
+        };
+
+        return InboundFee;
+    })();
+
     lnrpc.PolicyUpdateRequest = (function() {
 
         /**
@@ -55033,6 +58177,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Long|null} [max_htlc_msat] PolicyUpdateRequest max_htlc_msat
          * @property {Long|null} [min_htlc_msat] PolicyUpdateRequest min_htlc_msat
          * @property {boolean|null} [min_htlc_msat_specified] PolicyUpdateRequest min_htlc_msat_specified
+         * @property {lnrpc.IInboundFee|null} [inbound_fee] PolicyUpdateRequest inbound_fee
          */
 
         /**
@@ -55122,6 +58267,14 @@ export const lnrpc = $root.lnrpc = (() => {
          */
         PolicyUpdateRequest.prototype.min_htlc_msat_specified = false;
 
+        /**
+         * PolicyUpdateRequest inbound_fee.
+         * @member {lnrpc.IInboundFee|null|undefined} inbound_fee
+         * @memberof lnrpc.PolicyUpdateRequest
+         * @instance
+         */
+        PolicyUpdateRequest.prototype.inbound_fee = null;
+
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
@@ -55178,6 +58331,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 8, wireType 0 =*/64).bool(message.min_htlc_msat_specified);
             if (message.fee_rate_ppm != null && Object.hasOwnProperty.call(message, "fee_rate_ppm"))
                 writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.fee_rate_ppm);
+            if (message.inbound_fee != null && Object.hasOwnProperty.call(message, "inbound_fee"))
+                $root.lnrpc.InboundFee.encode(message.inbound_fee, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
             return writer;
         };
 
@@ -55246,6 +58401,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 8: {
                         message.min_htlc_msat_specified = reader.bool();
+                        break;
+                    }
+                case 10: {
+                        message.inbound_fee = $root.lnrpc.InboundFee.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -55320,6 +58479,11 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.min_htlc_msat_specified != null && message.hasOwnProperty("min_htlc_msat_specified"))
                 if (typeof message.min_htlc_msat_specified !== "boolean")
                     return "min_htlc_msat_specified: boolean expected";
+            if (message.inbound_fee != null && message.hasOwnProperty("inbound_fee")) {
+                let error = $root.lnrpc.InboundFee.verify(message.inbound_fee);
+                if (error)
+                    return "inbound_fee." + error;
+            }
             return null;
         };
 
@@ -55377,6 +58541,11 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.min_htlc_msat = new $util.LongBits(object.min_htlc_msat.low >>> 0, object.min_htlc_msat.high >>> 0).toNumber(true);
             if (object.min_htlc_msat_specified != null)
                 message.min_htlc_msat_specified = Boolean(object.min_htlc_msat_specified);
+            if (object.inbound_fee != null) {
+                if (typeof object.inbound_fee !== "object")
+                    throw TypeError(".lnrpc.PolicyUpdateRequest.inbound_fee: object expected");
+                message.inbound_fee = $root.lnrpc.InboundFee.fromObject(object.inbound_fee);
+            }
             return message;
         };
 
@@ -55413,6 +58582,7 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.min_htlc_msat = options.longs === String ? "0" : 0;
                 object.min_htlc_msat_specified = false;
                 object.fee_rate_ppm = 0;
+                object.inbound_fee = null;
             }
             if (message.global != null && message.hasOwnProperty("global")) {
                 object.global = message.global;
@@ -55447,6 +58617,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.min_htlc_msat_specified = message.min_htlc_msat_specified;
             if (message.fee_rate_ppm != null && message.hasOwnProperty("fee_rate_ppm"))
                 object.fee_rate_ppm = message.fee_rate_ppm;
+            if (message.inbound_fee != null && message.hasOwnProperty("inbound_fee"))
+                object.inbound_fee = $root.lnrpc.InboundFee.toObject(message.inbound_fee, options);
             return object;
         };
 
@@ -61764,6 +64936,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 22:
                 case 23:
                 case 24:
+                case 25:
                 case 997:
                 case 998:
                 case 999:
@@ -61913,6 +65086,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case "INVALID_ONION_PAYLOAD":
             case 24:
                 message.code = 24;
+                break;
+            case "INVALID_ONION_BLINDING":
+            case 25:
+                message.code = 25;
                 break;
             case "INTERNAL_FAILURE":
             case 997:
@@ -62067,6 +65244,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {number} EXPIRY_TOO_FAR=22 EXPIRY_TOO_FAR value
          * @property {number} MPP_TIMEOUT=23 MPP_TIMEOUT value
          * @property {number} INVALID_ONION_PAYLOAD=24 INVALID_ONION_PAYLOAD value
+         * @property {number} INVALID_ONION_BLINDING=25 INVALID_ONION_BLINDING value
          * @property {number} INTERNAL_FAILURE=997 INTERNAL_FAILURE value
          * @property {number} UNKNOWN_FAILURE=998 UNKNOWN_FAILURE value
          * @property {number} UNREADABLE_FAILURE=999 UNREADABLE_FAILURE value
@@ -62098,6 +65276,7 @@ export const lnrpc = $root.lnrpc = (() => {
             values[valuesById[22] = "EXPIRY_TOO_FAR"] = 22;
             values[valuesById[23] = "MPP_TIMEOUT"] = 23;
             values[valuesById[24] = "INVALID_ONION_PAYLOAD"] = 24;
+            values[valuesById[25] = "INVALID_ONION_BLINDING"] = 25;
             values[valuesById[997] = "INTERNAL_FAILURE"] = 997;
             values[valuesById[998] = "UNKNOWN_FAILURE"] = 998;
             values[valuesById[999] = "UNREADABLE_FAILURE"] = 999;
@@ -81933,6 +85112,8 @@ export const routerrpc = $root.routerrpc = (() => {
                     case 21:
                     case 22:
                     case 23:
+                    case 24:
+                    case 25:
                     case 30:
                     case 31:
                         break;
@@ -82179,6 +85360,14 @@ export const routerrpc = $root.routerrpc = (() => {
                     case "ANCHORS_ZERO_FEE_HTLC_OPT":
                     case 23:
                         message.dest_features[i] = 23;
+                        break;
+                    case "ROUTE_BLINDING_REQUIRED":
+                    case 24:
+                        message.dest_features[i] = 24;
+                        break;
+                    case "ROUTE_BLINDING_OPTIONAL":
+                    case 25:
+                        message.dest_features[i] = 25;
                         break;
                     case "AMP_REQ":
                     case 30:
@@ -90919,6 +94108,7 @@ export const routerrpc = $root.routerrpc = (() => {
                 case 22:
                 case 23:
                 case 24:
+                case 25:
                 case 997:
                 case 998:
                 case 999:
@@ -91082,6 +94272,10 @@ export const routerrpc = $root.routerrpc = (() => {
             case "INVALID_ONION_PAYLOAD":
             case 24:
                 message.wire_failure = 24;
+                break;
+            case "INVALID_ONION_BLINDING":
+            case 25:
+                message.wire_failure = 25;
                 break;
             case "INTERNAL_FAILURE":
             case 997:
@@ -92684,6 +95878,7 @@ export const routerrpc = $root.routerrpc = (() => {
                 case 22:
                 case 23:
                 case 24:
+                case 25:
                 case 997:
                 case 998:
                 case 999:
@@ -92845,6 +96040,10 @@ export const routerrpc = $root.routerrpc = (() => {
             case "INVALID_ONION_PAYLOAD":
             case 24:
                 message.failure_code = 24;
+                break;
+            case "INVALID_ONION_BLINDING":
+            case 25:
+                message.failure_code = 25;
                 break;
             case "INTERNAL_FAILURE":
             case 997:

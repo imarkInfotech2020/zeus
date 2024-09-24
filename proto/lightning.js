@@ -84511,24 +84511,24 @@ export const routerrpc = $root.routerrpc = (() => {
          * @interface ISendPaymentRequest
          * @property {Uint8Array|null} [dest] SendPaymentRequest dest
          * @property {Long|null} [amt] SendPaymentRequest amt
-         * @property {Long|null} [amt_msat] SendPaymentRequest amt_msat
          * @property {Uint8Array|null} [payment_hash] SendPaymentRequest payment_hash
          * @property {number|null} [final_cltv_delta] SendPaymentRequest final_cltv_delta
-         * @property {Uint8Array|null} [payment_addr] SendPaymentRequest payment_addr
          * @property {string|null} [payment_request] SendPaymentRequest payment_request
          * @property {number|null} [timeout_seconds] SendPaymentRequest timeout_seconds
          * @property {Long|null} [fee_limit_sat] SendPaymentRequest fee_limit_sat
-         * @property {Long|null} [fee_limit_msat] SendPaymentRequest fee_limit_msat
          * @property {Long|null} [outgoing_chan_id] SendPaymentRequest outgoing_chan_id
-         * @property {Array.<Long>|null} [outgoing_chan_ids] SendPaymentRequest outgoing_chan_ids
-         * @property {Uint8Array|null} [last_hop_pubkey] SendPaymentRequest last_hop_pubkey
          * @property {number|null} [cltv_limit] SendPaymentRequest cltv_limit
          * @property {Array.<lnrpc.IRouteHint>|null} [route_hints] SendPaymentRequest route_hints
          * @property {Object.<string,Uint8Array>|null} [dest_custom_records] SendPaymentRequest dest_custom_records
+         * @property {Long|null} [amt_msat] SendPaymentRequest amt_msat
+         * @property {Long|null} [fee_limit_msat] SendPaymentRequest fee_limit_msat
+         * @property {Uint8Array|null} [last_hop_pubkey] SendPaymentRequest last_hop_pubkey
          * @property {boolean|null} [allow_self_payment] SendPaymentRequest allow_self_payment
          * @property {Array.<lnrpc.FeatureBit>|null} [dest_features] SendPaymentRequest dest_features
          * @property {number|null} [max_parts] SendPaymentRequest max_parts
          * @property {boolean|null} [no_inflight_updates] SendPaymentRequest no_inflight_updates
+         * @property {Array.<Long>|null} [outgoing_chan_ids] SendPaymentRequest outgoing_chan_ids
+         * @property {Uint8Array|null} [payment_addr] SendPaymentRequest payment_addr
          * @property {Long|null} [max_shard_size_msat] SendPaymentRequest max_shard_size_msat
          * @property {boolean|null} [amp] SendPaymentRequest amp
          * @property {number|null} [time_pref] SendPaymentRequest time_pref
@@ -84543,10 +84543,10 @@ export const routerrpc = $root.routerrpc = (() => {
          * @param {routerrpc.ISendPaymentRequest=} [properties] Properties to set
          */
         function SendPaymentRequest(properties) {
-            this.outgoing_chan_ids = [];
             this.route_hints = [];
             this.dest_custom_records = {};
             this.dest_features = [];
+            this.outgoing_chan_ids = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -84570,14 +84570,6 @@ export const routerrpc = $root.routerrpc = (() => {
         SendPaymentRequest.prototype.amt = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
-         * SendPaymentRequest amt_msat.
-         * @member {Long} amt_msat
-         * @memberof routerrpc.SendPaymentRequest
-         * @instance
-         */
-        SendPaymentRequest.prototype.amt_msat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-        /**
          * SendPaymentRequest payment_hash.
          * @member {Uint8Array} payment_hash
          * @memberof routerrpc.SendPaymentRequest
@@ -84592,14 +84584,6 @@ export const routerrpc = $root.routerrpc = (() => {
          * @instance
          */
         SendPaymentRequest.prototype.final_cltv_delta = 0;
-
-        /**
-         * SendPaymentRequest payment_addr.
-         * @member {Uint8Array} payment_addr
-         * @memberof routerrpc.SendPaymentRequest
-         * @instance
-         */
-        SendPaymentRequest.prototype.payment_addr = $util.newBuffer([]);
 
         /**
          * SendPaymentRequest payment_request.
@@ -84626,36 +84610,12 @@ export const routerrpc = $root.routerrpc = (() => {
         SendPaymentRequest.prototype.fee_limit_sat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
-         * SendPaymentRequest fee_limit_msat.
-         * @member {Long} fee_limit_msat
-         * @memberof routerrpc.SendPaymentRequest
-         * @instance
-         */
-        SendPaymentRequest.prototype.fee_limit_msat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-        /**
          * SendPaymentRequest outgoing_chan_id.
          * @member {Long} outgoing_chan_id
          * @memberof routerrpc.SendPaymentRequest
          * @instance
          */
         SendPaymentRequest.prototype.outgoing_chan_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-
-        /**
-         * SendPaymentRequest outgoing_chan_ids.
-         * @member {Array.<Long>} outgoing_chan_ids
-         * @memberof routerrpc.SendPaymentRequest
-         * @instance
-         */
-        SendPaymentRequest.prototype.outgoing_chan_ids = $util.emptyArray;
-
-        /**
-         * SendPaymentRequest last_hop_pubkey.
-         * @member {Uint8Array} last_hop_pubkey
-         * @memberof routerrpc.SendPaymentRequest
-         * @instance
-         */
-        SendPaymentRequest.prototype.last_hop_pubkey = $util.newBuffer([]);
 
         /**
          * SendPaymentRequest cltv_limit.
@@ -84680,6 +84640,30 @@ export const routerrpc = $root.routerrpc = (() => {
          * @instance
          */
         SendPaymentRequest.prototype.dest_custom_records = $util.emptyObject;
+
+        /**
+         * SendPaymentRequest amt_msat.
+         * @member {Long} amt_msat
+         * @memberof routerrpc.SendPaymentRequest
+         * @instance
+         */
+        SendPaymentRequest.prototype.amt_msat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+        /**
+         * SendPaymentRequest fee_limit_msat.
+         * @member {Long} fee_limit_msat
+         * @memberof routerrpc.SendPaymentRequest
+         * @instance
+         */
+        SendPaymentRequest.prototype.fee_limit_msat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+        /**
+         * SendPaymentRequest last_hop_pubkey.
+         * @member {Uint8Array} last_hop_pubkey
+         * @memberof routerrpc.SendPaymentRequest
+         * @instance
+         */
+        SendPaymentRequest.prototype.last_hop_pubkey = $util.newBuffer([]);
 
         /**
          * SendPaymentRequest allow_self_payment.
@@ -84712,6 +84696,22 @@ export const routerrpc = $root.routerrpc = (() => {
          * @instance
          */
         SendPaymentRequest.prototype.no_inflight_updates = false;
+
+        /**
+         * SendPaymentRequest outgoing_chan_ids.
+         * @member {Array.<Long>} outgoing_chan_ids
+         * @memberof routerrpc.SendPaymentRequest
+         * @instance
+         */
+        SendPaymentRequest.prototype.outgoing_chan_ids = $util.emptyArray;
+
+        /**
+         * SendPaymentRequest payment_addr.
+         * @member {Uint8Array} payment_addr
+         * @memberof routerrpc.SendPaymentRequest
+         * @instance
+         */
+        SendPaymentRequest.prototype.payment_addr = $util.newBuffer([]);
 
         /**
          * SendPaymentRequest max_shard_size_msat.
@@ -84859,20 +84859,12 @@ export const routerrpc = $root.routerrpc = (() => {
                         message.amt = reader.int64();
                         break;
                     }
-                case 12: {
-                        message.amt_msat = reader.int64();
-                        break;
-                    }
                 case 3: {
                         message.payment_hash = reader.bytes();
                         break;
                     }
                 case 4: {
                         message.final_cltv_delta = reader.int32();
-                        break;
-                    }
-                case 20: {
-                        message.payment_addr = reader.bytes();
                         break;
                     }
                 case 5: {
@@ -84887,27 +84879,8 @@ export const routerrpc = $root.routerrpc = (() => {
                         message.fee_limit_sat = reader.int64();
                         break;
                     }
-                case 13: {
-                        message.fee_limit_msat = reader.int64();
-                        break;
-                    }
                 case 8: {
                         message.outgoing_chan_id = reader.uint64();
-                        break;
-                    }
-                case 19: {
-                        if (!(message.outgoing_chan_ids && message.outgoing_chan_ids.length))
-                            message.outgoing_chan_ids = [];
-                        if ((tag & 7) === 2) {
-                            let end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.outgoing_chan_ids.push(reader.uint64());
-                        } else
-                            message.outgoing_chan_ids.push(reader.uint64());
-                        break;
-                    }
-                case 14: {
-                        message.last_hop_pubkey = reader.bytes();
                         break;
                     }
                 case 9: {
@@ -84943,6 +84916,18 @@ export const routerrpc = $root.routerrpc = (() => {
                         message.dest_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
                         break;
                     }
+                case 12: {
+                        message.amt_msat = reader.int64();
+                        break;
+                    }
+                case 13: {
+                        message.fee_limit_msat = reader.int64();
+                        break;
+                    }
+                case 14: {
+                        message.last_hop_pubkey = reader.bytes();
+                        break;
+                    }
                 case 15: {
                         message.allow_self_payment = reader.bool();
                         break;
@@ -84964,6 +84949,21 @@ export const routerrpc = $root.routerrpc = (() => {
                     }
                 case 18: {
                         message.no_inflight_updates = reader.bool();
+                        break;
+                    }
+                case 19: {
+                        if (!(message.outgoing_chan_ids && message.outgoing_chan_ids.length))
+                            message.outgoing_chan_ids = [];
+                        if ((tag & 7) === 2) {
+                            let end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.outgoing_chan_ids.push(reader.uint64());
+                        } else
+                            message.outgoing_chan_ids.push(reader.uint64());
+                        break;
+                    }
+                case 20: {
+                        message.payment_addr = reader.bytes();
                         break;
                     }
                 case 21: {
@@ -85019,18 +85019,12 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.amt != null && message.hasOwnProperty("amt"))
                 if (!$util.isInteger(message.amt) && !(message.amt && $util.isInteger(message.amt.low) && $util.isInteger(message.amt.high)))
                     return "amt: integer|Long expected";
-            if (message.amt_msat != null && message.hasOwnProperty("amt_msat"))
-                if (!$util.isInteger(message.amt_msat) && !(message.amt_msat && $util.isInteger(message.amt_msat.low) && $util.isInteger(message.amt_msat.high)))
-                    return "amt_msat: integer|Long expected";
             if (message.payment_hash != null && message.hasOwnProperty("payment_hash"))
                 if (!(message.payment_hash && typeof message.payment_hash.length === "number" || $util.isString(message.payment_hash)))
                     return "payment_hash: buffer expected";
             if (message.final_cltv_delta != null && message.hasOwnProperty("final_cltv_delta"))
                 if (!$util.isInteger(message.final_cltv_delta))
                     return "final_cltv_delta: integer expected";
-            if (message.payment_addr != null && message.hasOwnProperty("payment_addr"))
-                if (!(message.payment_addr && typeof message.payment_addr.length === "number" || $util.isString(message.payment_addr)))
-                    return "payment_addr: buffer expected";
             if (message.payment_request != null && message.hasOwnProperty("payment_request"))
                 if (!$util.isString(message.payment_request))
                     return "payment_request: string expected";
@@ -85040,22 +85034,9 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.fee_limit_sat != null && message.hasOwnProperty("fee_limit_sat"))
                 if (!$util.isInteger(message.fee_limit_sat) && !(message.fee_limit_sat && $util.isInteger(message.fee_limit_sat.low) && $util.isInteger(message.fee_limit_sat.high)))
                     return "fee_limit_sat: integer|Long expected";
-            if (message.fee_limit_msat != null && message.hasOwnProperty("fee_limit_msat"))
-                if (!$util.isInteger(message.fee_limit_msat) && !(message.fee_limit_msat && $util.isInteger(message.fee_limit_msat.low) && $util.isInteger(message.fee_limit_msat.high)))
-                    return "fee_limit_msat: integer|Long expected";
             if (message.outgoing_chan_id != null && message.hasOwnProperty("outgoing_chan_id"))
                 if (!$util.isInteger(message.outgoing_chan_id) && !(message.outgoing_chan_id && $util.isInteger(message.outgoing_chan_id.low) && $util.isInteger(message.outgoing_chan_id.high)))
                     return "outgoing_chan_id: integer|Long expected";
-            if (message.outgoing_chan_ids != null && message.hasOwnProperty("outgoing_chan_ids")) {
-                if (!Array.isArray(message.outgoing_chan_ids))
-                    return "outgoing_chan_ids: array expected";
-                for (let i = 0; i < message.outgoing_chan_ids.length; ++i)
-                    if (!$util.isInteger(message.outgoing_chan_ids[i]) && !(message.outgoing_chan_ids[i] && $util.isInteger(message.outgoing_chan_ids[i].low) && $util.isInteger(message.outgoing_chan_ids[i].high)))
-                        return "outgoing_chan_ids: integer|Long[] expected";
-            }
-            if (message.last_hop_pubkey != null && message.hasOwnProperty("last_hop_pubkey"))
-                if (!(message.last_hop_pubkey && typeof message.last_hop_pubkey.length === "number" || $util.isString(message.last_hop_pubkey)))
-                    return "last_hop_pubkey: buffer expected";
             if (message.cltv_limit != null && message.hasOwnProperty("cltv_limit"))
                 if (!$util.isInteger(message.cltv_limit))
                     return "cltv_limit: integer expected";
@@ -85079,6 +85060,15 @@ export const routerrpc = $root.routerrpc = (() => {
                         return "dest_custom_records: buffer{k:uint64} expected";
                 }
             }
+            if (message.amt_msat != null && message.hasOwnProperty("amt_msat"))
+                if (!$util.isInteger(message.amt_msat) && !(message.amt_msat && $util.isInteger(message.amt_msat.low) && $util.isInteger(message.amt_msat.high)))
+                    return "amt_msat: integer|Long expected";
+            if (message.fee_limit_msat != null && message.hasOwnProperty("fee_limit_msat"))
+                if (!$util.isInteger(message.fee_limit_msat) && !(message.fee_limit_msat && $util.isInteger(message.fee_limit_msat.low) && $util.isInteger(message.fee_limit_msat.high)))
+                    return "fee_limit_msat: integer|Long expected";
+            if (message.last_hop_pubkey != null && message.hasOwnProperty("last_hop_pubkey"))
+                if (!(message.last_hop_pubkey && typeof message.last_hop_pubkey.length === "number" || $util.isString(message.last_hop_pubkey)))
+                    return "last_hop_pubkey: buffer expected";
             if (message.allow_self_payment != null && message.hasOwnProperty("allow_self_payment"))
                 if (typeof message.allow_self_payment !== "boolean")
                     return "allow_self_payment: boolean expected";
@@ -85125,6 +85115,16 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.no_inflight_updates != null && message.hasOwnProperty("no_inflight_updates"))
                 if (typeof message.no_inflight_updates !== "boolean")
                     return "no_inflight_updates: boolean expected";
+            if (message.outgoing_chan_ids != null && message.hasOwnProperty("outgoing_chan_ids")) {
+                if (!Array.isArray(message.outgoing_chan_ids))
+                    return "outgoing_chan_ids: array expected";
+                for (let i = 0; i < message.outgoing_chan_ids.length; ++i)
+                    if (!$util.isInteger(message.outgoing_chan_ids[i]) && !(message.outgoing_chan_ids[i] && $util.isInteger(message.outgoing_chan_ids[i].low) && $util.isInteger(message.outgoing_chan_ids[i].high)))
+                        return "outgoing_chan_ids: integer|Long[] expected";
+            }
+            if (message.payment_addr != null && message.hasOwnProperty("payment_addr"))
+                if (!(message.payment_addr && typeof message.payment_addr.length === "number" || $util.isString(message.payment_addr)))
+                    return "payment_addr: buffer expected";
             if (message.max_shard_size_msat != null && message.hasOwnProperty("max_shard_size_msat"))
                 if (!$util.isInteger(message.max_shard_size_msat) && !(message.max_shard_size_msat && $util.isInteger(message.max_shard_size_msat.low) && $util.isInteger(message.max_shard_size_msat.high)))
                     return "max_shard_size_msat: integer|Long expected";
@@ -85163,15 +85163,6 @@ export const routerrpc = $root.routerrpc = (() => {
                     message.amt = object.amt;
                 else if (typeof object.amt === "object")
                     message.amt = new $util.LongBits(object.amt.low >>> 0, object.amt.high >>> 0).toNumber();
-            if (object.amt_msat != null)
-                if ($util.Long)
-                    (message.amt_msat = $util.Long.fromValue(object.amt_msat)).unsigned = false;
-                else if (typeof object.amt_msat === "string")
-                    message.amt_msat = parseInt(object.amt_msat, 10);
-                else if (typeof object.amt_msat === "number")
-                    message.amt_msat = object.amt_msat;
-                else if (typeof object.amt_msat === "object")
-                    message.amt_msat = new $util.LongBits(object.amt_msat.low >>> 0, object.amt_msat.high >>> 0).toNumber();
             if (object.payment_hash != null)
                 if (typeof object.payment_hash === "string")
                     $util.base64.decode(object.payment_hash, message.payment_hash = $util.newBuffer($util.base64.length(object.payment_hash)), 0);
@@ -85179,11 +85170,6 @@ export const routerrpc = $root.routerrpc = (() => {
                     message.payment_hash = object.payment_hash;
             if (object.final_cltv_delta != null)
                 message.final_cltv_delta = object.final_cltv_delta | 0;
-            if (object.payment_addr != null)
-                if (typeof object.payment_addr === "string")
-                    $util.base64.decode(object.payment_addr, message.payment_addr = $util.newBuffer($util.base64.length(object.payment_addr)), 0);
-                else if (object.payment_addr.length >= 0)
-                    message.payment_addr = object.payment_addr;
             if (object.payment_request != null)
                 message.payment_request = String(object.payment_request);
             if (object.timeout_seconds != null)
@@ -85197,15 +85183,6 @@ export const routerrpc = $root.routerrpc = (() => {
                     message.fee_limit_sat = object.fee_limit_sat;
                 else if (typeof object.fee_limit_sat === "object")
                     message.fee_limit_sat = new $util.LongBits(object.fee_limit_sat.low >>> 0, object.fee_limit_sat.high >>> 0).toNumber();
-            if (object.fee_limit_msat != null)
-                if ($util.Long)
-                    (message.fee_limit_msat = $util.Long.fromValue(object.fee_limit_msat)).unsigned = false;
-                else if (typeof object.fee_limit_msat === "string")
-                    message.fee_limit_msat = parseInt(object.fee_limit_msat, 10);
-                else if (typeof object.fee_limit_msat === "number")
-                    message.fee_limit_msat = object.fee_limit_msat;
-                else if (typeof object.fee_limit_msat === "object")
-                    message.fee_limit_msat = new $util.LongBits(object.fee_limit_msat.low >>> 0, object.fee_limit_msat.high >>> 0).toNumber();
             if (object.outgoing_chan_id != null)
                 if ($util.Long)
                     (message.outgoing_chan_id = $util.Long.fromValue(object.outgoing_chan_id)).unsigned = true;
@@ -85215,25 +85192,6 @@ export const routerrpc = $root.routerrpc = (() => {
                     message.outgoing_chan_id = object.outgoing_chan_id;
                 else if (typeof object.outgoing_chan_id === "object")
                     message.outgoing_chan_id = new $util.LongBits(object.outgoing_chan_id.low >>> 0, object.outgoing_chan_id.high >>> 0).toNumber(true);
-            if (object.outgoing_chan_ids) {
-                if (!Array.isArray(object.outgoing_chan_ids))
-                    throw TypeError(".routerrpc.SendPaymentRequest.outgoing_chan_ids: array expected");
-                message.outgoing_chan_ids = [];
-                for (let i = 0; i < object.outgoing_chan_ids.length; ++i)
-                    if ($util.Long)
-                        (message.outgoing_chan_ids[i] = $util.Long.fromValue(object.outgoing_chan_ids[i])).unsigned = true;
-                    else if (typeof object.outgoing_chan_ids[i] === "string")
-                        message.outgoing_chan_ids[i] = parseInt(object.outgoing_chan_ids[i], 10);
-                    else if (typeof object.outgoing_chan_ids[i] === "number")
-                        message.outgoing_chan_ids[i] = object.outgoing_chan_ids[i];
-                    else if (typeof object.outgoing_chan_ids[i] === "object")
-                        message.outgoing_chan_ids[i] = new $util.LongBits(object.outgoing_chan_ids[i].low >>> 0, object.outgoing_chan_ids[i].high >>> 0).toNumber(true);
-            }
-            if (object.last_hop_pubkey != null)
-                if (typeof object.last_hop_pubkey === "string")
-                    $util.base64.decode(object.last_hop_pubkey, message.last_hop_pubkey = $util.newBuffer($util.base64.length(object.last_hop_pubkey)), 0);
-                else if (object.last_hop_pubkey.length >= 0)
-                    message.last_hop_pubkey = object.last_hop_pubkey;
             if (object.cltv_limit != null)
                 message.cltv_limit = object.cltv_limit | 0;
             if (object.route_hints) {
@@ -85256,6 +85214,29 @@ export const routerrpc = $root.routerrpc = (() => {
                     else if (object.dest_custom_records[keys[i]].length >= 0)
                         message.dest_custom_records[keys[i]] = object.dest_custom_records[keys[i]];
             }
+            if (object.amt_msat != null)
+                if ($util.Long)
+                    (message.amt_msat = $util.Long.fromValue(object.amt_msat)).unsigned = false;
+                else if (typeof object.amt_msat === "string")
+                    message.amt_msat = parseInt(object.amt_msat, 10);
+                else if (typeof object.amt_msat === "number")
+                    message.amt_msat = object.amt_msat;
+                else if (typeof object.amt_msat === "object")
+                    message.amt_msat = new $util.LongBits(object.amt_msat.low >>> 0, object.amt_msat.high >>> 0).toNumber();
+            if (object.fee_limit_msat != null)
+                if ($util.Long)
+                    (message.fee_limit_msat = $util.Long.fromValue(object.fee_limit_msat)).unsigned = false;
+                else if (typeof object.fee_limit_msat === "string")
+                    message.fee_limit_msat = parseInt(object.fee_limit_msat, 10);
+                else if (typeof object.fee_limit_msat === "number")
+                    message.fee_limit_msat = object.fee_limit_msat;
+                else if (typeof object.fee_limit_msat === "object")
+                    message.fee_limit_msat = new $util.LongBits(object.fee_limit_msat.low >>> 0, object.fee_limit_msat.high >>> 0).toNumber();
+            if (object.last_hop_pubkey != null)
+                if (typeof object.last_hop_pubkey === "string")
+                    $util.base64.decode(object.last_hop_pubkey, message.last_hop_pubkey = $util.newBuffer($util.base64.length(object.last_hop_pubkey)), 0);
+                else if (object.last_hop_pubkey.length >= 0)
+                    message.last_hop_pubkey = object.last_hop_pubkey;
             if (object.allow_self_payment != null)
                 message.allow_self_payment = Boolean(object.allow_self_payment);
             if (object.dest_features) {
@@ -85383,6 +85364,25 @@ export const routerrpc = $root.routerrpc = (() => {
                 message.max_parts = object.max_parts >>> 0;
             if (object.no_inflight_updates != null)
                 message.no_inflight_updates = Boolean(object.no_inflight_updates);
+            if (object.outgoing_chan_ids) {
+                if (!Array.isArray(object.outgoing_chan_ids))
+                    throw TypeError(".routerrpc.SendPaymentRequest.outgoing_chan_ids: array expected");
+                message.outgoing_chan_ids = [];
+                for (let i = 0; i < object.outgoing_chan_ids.length; ++i)
+                    if ($util.Long)
+                        (message.outgoing_chan_ids[i] = $util.Long.fromValue(object.outgoing_chan_ids[i])).unsigned = true;
+                    else if (typeof object.outgoing_chan_ids[i] === "string")
+                        message.outgoing_chan_ids[i] = parseInt(object.outgoing_chan_ids[i], 10);
+                    else if (typeof object.outgoing_chan_ids[i] === "number")
+                        message.outgoing_chan_ids[i] = object.outgoing_chan_ids[i];
+                    else if (typeof object.outgoing_chan_ids[i] === "object")
+                        message.outgoing_chan_ids[i] = new $util.LongBits(object.outgoing_chan_ids[i].low >>> 0, object.outgoing_chan_ids[i].high >>> 0).toNumber(true);
+            }
+            if (object.payment_addr != null)
+                if (typeof object.payment_addr === "string")
+                    $util.base64.decode(object.payment_addr, message.payment_addr = $util.newBuffer($util.base64.length(object.payment_addr)), 0);
+                else if (object.payment_addr.length >= 0)
+                    message.payment_addr = object.payment_addr;
             if (object.max_shard_size_msat != null)
                 if ($util.Long)
                     (message.max_shard_size_msat = $util.Long.fromValue(object.max_shard_size_msat)).unsigned = true;
@@ -86047,6 +86047,8 @@ export const routerrpc = $root.routerrpc = (() => {
          * @interface IRouteFeeRequest
          * @property {Uint8Array|null} [dest] RouteFeeRequest dest
          * @property {Long|null} [amt_sat] RouteFeeRequest amt_sat
+         * @property {string|null} [payment_request] RouteFeeRequest payment_request
+         * @property {number|null} [timeout] RouteFeeRequest timeout
          */
 
         /**
@@ -86081,6 +86083,22 @@ export const routerrpc = $root.routerrpc = (() => {
         RouteFeeRequest.prototype.amt_sat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
+         * RouteFeeRequest payment_request.
+         * @member {string} payment_request
+         * @memberof routerrpc.RouteFeeRequest
+         * @instance
+         */
+        RouteFeeRequest.prototype.payment_request = "";
+
+        /**
+         * RouteFeeRequest timeout.
+         * @member {number} timeout
+         * @memberof routerrpc.RouteFeeRequest
+         * @instance
+         */
+        RouteFeeRequest.prototype.timeout = 0;
+
+        /**
          * Creates a new RouteFeeRequest instance using the specified properties.
          * @function create
          * @memberof routerrpc.RouteFeeRequest
@@ -86108,6 +86126,10 @@ export const routerrpc = $root.routerrpc = (() => {
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.dest);
             if (message.amt_sat != null && Object.hasOwnProperty.call(message, "amt_sat"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int64(message.amt_sat);
+            if (message.payment_request != null && Object.hasOwnProperty.call(message, "payment_request"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.payment_request);
+            if (message.timeout != null && Object.hasOwnProperty.call(message, "timeout"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.timeout);
             return writer;
         };
 
@@ -86148,6 +86170,14 @@ export const routerrpc = $root.routerrpc = (() => {
                     }
                 case 2: {
                         message.amt_sat = reader.int64();
+                        break;
+                    }
+                case 3: {
+                        message.payment_request = reader.string();
+                        break;
+                    }
+                case 4: {
+                        message.timeout = reader.uint32();
                         break;
                     }
                 default:
@@ -86191,6 +86221,12 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.amt_sat != null && message.hasOwnProperty("amt_sat"))
                 if (!$util.isInteger(message.amt_sat) && !(message.amt_sat && $util.isInteger(message.amt_sat.low) && $util.isInteger(message.amt_sat.high)))
                     return "amt_sat: integer|Long expected";
+            if (message.payment_request != null && message.hasOwnProperty("payment_request"))
+                if (!$util.isString(message.payment_request))
+                    return "payment_request: string expected";
+            if (message.timeout != null && message.hasOwnProperty("timeout"))
+                if (!$util.isInteger(message.timeout))
+                    return "timeout: integer expected";
             return null;
         };
 
@@ -86220,6 +86256,10 @@ export const routerrpc = $root.routerrpc = (() => {
                     message.amt_sat = object.amt_sat;
                 else if (typeof object.amt_sat === "object")
                     message.amt_sat = new $util.LongBits(object.amt_sat.low >>> 0, object.amt_sat.high >>> 0).toNumber();
+            if (object.payment_request != null)
+                message.payment_request = String(object.payment_request);
+            if (object.timeout != null)
+                message.timeout = object.timeout >>> 0;
             return message;
         };
 
@@ -86249,6 +86289,8 @@ export const routerrpc = $root.routerrpc = (() => {
                     object.amt_sat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.amt_sat = options.longs === String ? "0" : 0;
+                object.payment_request = "";
+                object.timeout = 0;
             }
             if (message.dest != null && message.hasOwnProperty("dest"))
                 object.dest = options.bytes === String ? $util.base64.encode(message.dest, 0, message.dest.length) : options.bytes === Array ? Array.prototype.slice.call(message.dest) : message.dest;
@@ -86257,6 +86299,10 @@ export const routerrpc = $root.routerrpc = (() => {
                     object.amt_sat = options.longs === String ? String(message.amt_sat) : message.amt_sat;
                 else
                     object.amt_sat = options.longs === String ? $util.Long.prototype.toString.call(message.amt_sat) : options.longs === Number ? new $util.LongBits(message.amt_sat.low >>> 0, message.amt_sat.high >>> 0).toNumber() : message.amt_sat;
+            if (message.payment_request != null && message.hasOwnProperty("payment_request"))
+                object.payment_request = message.payment_request;
+            if (message.timeout != null && message.hasOwnProperty("timeout"))
+                object.timeout = message.timeout;
             return object;
         };
 
@@ -86297,6 +86343,7 @@ export const routerrpc = $root.routerrpc = (() => {
          * @interface IRouteFeeResponse
          * @property {Long|null} [routing_fee_msat] RouteFeeResponse routing_fee_msat
          * @property {Long|null} [time_lock_delay] RouteFeeResponse time_lock_delay
+         * @property {lnrpc.PaymentFailureReason|null} [failure_reason] RouteFeeResponse failure_reason
          */
 
         /**
@@ -86331,6 +86378,14 @@ export const routerrpc = $root.routerrpc = (() => {
         RouteFeeResponse.prototype.time_lock_delay = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
+         * RouteFeeResponse failure_reason.
+         * @member {lnrpc.PaymentFailureReason} failure_reason
+         * @memberof routerrpc.RouteFeeResponse
+         * @instance
+         */
+        RouteFeeResponse.prototype.failure_reason = 0;
+
+        /**
          * Creates a new RouteFeeResponse instance using the specified properties.
          * @function create
          * @memberof routerrpc.RouteFeeResponse
@@ -86358,6 +86413,8 @@ export const routerrpc = $root.routerrpc = (() => {
                 writer.uint32(/* id 1, wireType 0 =*/8).int64(message.routing_fee_msat);
             if (message.time_lock_delay != null && Object.hasOwnProperty.call(message, "time_lock_delay"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int64(message.time_lock_delay);
+            if (message.failure_reason != null && Object.hasOwnProperty.call(message, "failure_reason"))
+                writer.uint32(/* id 5, wireType 0 =*/40).int32(message.failure_reason);
             return writer;
         };
 
@@ -86398,6 +86455,10 @@ export const routerrpc = $root.routerrpc = (() => {
                     }
                 case 2: {
                         message.time_lock_delay = reader.int64();
+                        break;
+                    }
+                case 5: {
+                        message.failure_reason = reader.int32();
                         break;
                     }
                 default:
@@ -86441,6 +86502,18 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.time_lock_delay != null && message.hasOwnProperty("time_lock_delay"))
                 if (!$util.isInteger(message.time_lock_delay) && !(message.time_lock_delay && $util.isInteger(message.time_lock_delay.low) && $util.isInteger(message.time_lock_delay.high)))
                     return "time_lock_delay: integer|Long expected";
+            if (message.failure_reason != null && message.hasOwnProperty("failure_reason"))
+                switch (message.failure_reason) {
+                default:
+                    return "failure_reason: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    break;
+                }
             return null;
         };
 
@@ -86474,6 +86547,38 @@ export const routerrpc = $root.routerrpc = (() => {
                     message.time_lock_delay = object.time_lock_delay;
                 else if (typeof object.time_lock_delay === "object")
                     message.time_lock_delay = new $util.LongBits(object.time_lock_delay.low >>> 0, object.time_lock_delay.high >>> 0).toNumber();
+            switch (object.failure_reason) {
+            default:
+                if (typeof object.failure_reason === "number") {
+                    message.failure_reason = object.failure_reason;
+                    break;
+                }
+                break;
+            case "FAILURE_REASON_NONE":
+            case 0:
+                message.failure_reason = 0;
+                break;
+            case "FAILURE_REASON_TIMEOUT":
+            case 1:
+                message.failure_reason = 1;
+                break;
+            case "FAILURE_REASON_NO_ROUTE":
+            case 2:
+                message.failure_reason = 2;
+                break;
+            case "FAILURE_REASON_ERROR":
+            case 3:
+                message.failure_reason = 3;
+                break;
+            case "FAILURE_REASON_INCORRECT_PAYMENT_DETAILS":
+            case 4:
+                message.failure_reason = 4;
+                break;
+            case "FAILURE_REASON_INSUFFICIENT_BALANCE":
+            case 5:
+                message.failure_reason = 5;
+                break;
+            }
             return message;
         };
 
@@ -86501,6 +86606,7 @@ export const routerrpc = $root.routerrpc = (() => {
                     object.time_lock_delay = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.time_lock_delay = options.longs === String ? "0" : 0;
+                object.failure_reason = options.enums === String ? "FAILURE_REASON_NONE" : 0;
             }
             if (message.routing_fee_msat != null && message.hasOwnProperty("routing_fee_msat"))
                 if (typeof message.routing_fee_msat === "number")
@@ -86512,6 +86618,8 @@ export const routerrpc = $root.routerrpc = (() => {
                     object.time_lock_delay = options.longs === String ? String(message.time_lock_delay) : message.time_lock_delay;
                 else
                     object.time_lock_delay = options.longs === String ? $util.Long.prototype.toString.call(message.time_lock_delay) : options.longs === Number ? new $util.LongBits(message.time_lock_delay.low >>> 0, message.time_lock_delay.high >>> 0).toNumber() : message.time_lock_delay;
+            if (message.failure_reason != null && message.hasOwnProperty("failure_reason"))
+                object.failure_reason = options.enums === String ? $root.lnrpc.PaymentFailureReason[message.failure_reason] === undefined ? message.failure_reason : $root.lnrpc.PaymentFailureReason[message.failure_reason] : message.failure_reason;
             return object;
         };
 
@@ -99222,6 +99330,7 @@ export const signrpc = $root.signrpc = (() => {
          * @property {boolean|null} [compact_sig] SignMessageReq compact_sig
          * @property {boolean|null} [schnorr_sig] SignMessageReq schnorr_sig
          * @property {Uint8Array|null} [schnorr_sig_tap_tweak] SignMessageReq schnorr_sig_tap_tweak
+         * @property {Uint8Array|null} [tag] SignMessageReq tag
          */
 
         /**
@@ -99288,6 +99397,14 @@ export const signrpc = $root.signrpc = (() => {
         SignMessageReq.prototype.schnorr_sig_tap_tweak = $util.newBuffer([]);
 
         /**
+         * SignMessageReq tag.
+         * @member {Uint8Array} tag
+         * @memberof signrpc.SignMessageReq
+         * @instance
+         */
+        SignMessageReq.prototype.tag = $util.newBuffer([]);
+
+        /**
          * Creates a new SignMessageReq instance using the specified properties.
          * @function create
          * @memberof signrpc.SignMessageReq
@@ -99323,6 +99440,8 @@ export const signrpc = $root.signrpc = (() => {
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.schnorr_sig);
             if (message.schnorr_sig_tap_tweak != null && Object.hasOwnProperty.call(message, "schnorr_sig_tap_tweak"))
                 writer.uint32(/* id 6, wireType 2 =*/50).bytes(message.schnorr_sig_tap_tweak);
+            if (message.tag != null && Object.hasOwnProperty.call(message, "tag"))
+                writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.tag);
             return writer;
         };
 
@@ -99381,6 +99500,10 @@ export const signrpc = $root.signrpc = (() => {
                         message.schnorr_sig_tap_tweak = reader.bytes();
                         break;
                     }
+                case 7: {
+                        message.tag = reader.bytes();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -99436,6 +99559,9 @@ export const signrpc = $root.signrpc = (() => {
             if (message.schnorr_sig_tap_tweak != null && message.hasOwnProperty("schnorr_sig_tap_tweak"))
                 if (!(message.schnorr_sig_tap_tweak && typeof message.schnorr_sig_tap_tweak.length === "number" || $util.isString(message.schnorr_sig_tap_tweak)))
                     return "schnorr_sig_tap_tweak: buffer expected";
+            if (message.tag != null && message.hasOwnProperty("tag"))
+                if (!(message.tag && typeof message.tag.length === "number" || $util.isString(message.tag)))
+                    return "tag: buffer expected";
             return null;
         };
 
@@ -99472,6 +99598,11 @@ export const signrpc = $root.signrpc = (() => {
                     $util.base64.decode(object.schnorr_sig_tap_tweak, message.schnorr_sig_tap_tweak = $util.newBuffer($util.base64.length(object.schnorr_sig_tap_tweak)), 0);
                 else if (object.schnorr_sig_tap_tweak.length >= 0)
                     message.schnorr_sig_tap_tweak = object.schnorr_sig_tap_tweak;
+            if (object.tag != null)
+                if (typeof object.tag === "string")
+                    $util.base64.decode(object.tag, message.tag = $util.newBuffer($util.base64.length(object.tag)), 0);
+                else if (object.tag.length >= 0)
+                    message.tag = object.tag;
             return message;
         };
 
@@ -99507,6 +99638,13 @@ export const signrpc = $root.signrpc = (() => {
                     if (options.bytes !== Array)
                         object.schnorr_sig_tap_tweak = $util.newBuffer(object.schnorr_sig_tap_tweak);
                 }
+                if (options.bytes === String)
+                    object.tag = "";
+                else {
+                    object.tag = [];
+                    if (options.bytes !== Array)
+                        object.tag = $util.newBuffer(object.tag);
+                }
             }
             if (message.msg != null && message.hasOwnProperty("msg"))
                 object.msg = options.bytes === String ? $util.base64.encode(message.msg, 0, message.msg.length) : options.bytes === Array ? Array.prototype.slice.call(message.msg) : message.msg;
@@ -99520,6 +99658,8 @@ export const signrpc = $root.signrpc = (() => {
                 object.schnorr_sig = message.schnorr_sig;
             if (message.schnorr_sig_tap_tweak != null && message.hasOwnProperty("schnorr_sig_tap_tweak"))
                 object.schnorr_sig_tap_tweak = options.bytes === String ? $util.base64.encode(message.schnorr_sig_tap_tweak, 0, message.schnorr_sig_tap_tweak.length) : options.bytes === Array ? Array.prototype.slice.call(message.schnorr_sig_tap_tweak) : message.schnorr_sig_tap_tweak;
+            if (message.tag != null && message.hasOwnProperty("tag"))
+                object.tag = options.bytes === String ? $util.base64.encode(message.tag, 0, message.tag.length) : options.bytes === Array ? Array.prototype.slice.call(message.tag) : message.tag;
             return object;
         };
 
@@ -99774,6 +99914,7 @@ export const signrpc = $root.signrpc = (() => {
          * @property {Uint8Array|null} [signature] VerifyMessageReq signature
          * @property {Uint8Array|null} [pubkey] VerifyMessageReq pubkey
          * @property {boolean|null} [is_schnorr_sig] VerifyMessageReq is_schnorr_sig
+         * @property {Uint8Array|null} [tag] VerifyMessageReq tag
          */
 
         /**
@@ -99824,6 +99965,14 @@ export const signrpc = $root.signrpc = (() => {
         VerifyMessageReq.prototype.is_schnorr_sig = false;
 
         /**
+         * VerifyMessageReq tag.
+         * @member {Uint8Array} tag
+         * @memberof signrpc.VerifyMessageReq
+         * @instance
+         */
+        VerifyMessageReq.prototype.tag = $util.newBuffer([]);
+
+        /**
          * Creates a new VerifyMessageReq instance using the specified properties.
          * @function create
          * @memberof signrpc.VerifyMessageReq
@@ -99855,6 +100004,8 @@ export const signrpc = $root.signrpc = (() => {
                 writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.pubkey);
             if (message.is_schnorr_sig != null && Object.hasOwnProperty.call(message, "is_schnorr_sig"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.is_schnorr_sig);
+            if (message.tag != null && Object.hasOwnProperty.call(message, "tag"))
+                writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.tag);
             return writer;
         };
 
@@ -99905,6 +100056,10 @@ export const signrpc = $root.signrpc = (() => {
                         message.is_schnorr_sig = reader.bool();
                         break;
                     }
+                case 5: {
+                        message.tag = reader.bytes();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -99952,6 +100107,9 @@ export const signrpc = $root.signrpc = (() => {
             if (message.is_schnorr_sig != null && message.hasOwnProperty("is_schnorr_sig"))
                 if (typeof message.is_schnorr_sig !== "boolean")
                     return "is_schnorr_sig: boolean expected";
+            if (message.tag != null && message.hasOwnProperty("tag"))
+                if (!(message.tag && typeof message.tag.length === "number" || $util.isString(message.tag)))
+                    return "tag: buffer expected";
             return null;
         };
 
@@ -99984,6 +100142,11 @@ export const signrpc = $root.signrpc = (() => {
                     message.pubkey = object.pubkey;
             if (object.is_schnorr_sig != null)
                 message.is_schnorr_sig = Boolean(object.is_schnorr_sig);
+            if (object.tag != null)
+                if (typeof object.tag === "string")
+                    $util.base64.decode(object.tag, message.tag = $util.newBuffer($util.base64.length(object.tag)), 0);
+                else if (object.tag.length >= 0)
+                    message.tag = object.tag;
             return message;
         };
 
@@ -100023,6 +100186,13 @@ export const signrpc = $root.signrpc = (() => {
                         object.pubkey = $util.newBuffer(object.pubkey);
                 }
                 object.is_schnorr_sig = false;
+                if (options.bytes === String)
+                    object.tag = "";
+                else {
+                    object.tag = [];
+                    if (options.bytes !== Array)
+                        object.tag = $util.newBuffer(object.tag);
+                }
             }
             if (message.msg != null && message.hasOwnProperty("msg"))
                 object.msg = options.bytes === String ? $util.base64.encode(message.msg, 0, message.msg.length) : options.bytes === Array ? Array.prototype.slice.call(message.msg) : message.msg;
@@ -100032,6 +100202,8 @@ export const signrpc = $root.signrpc = (() => {
                 object.pubkey = options.bytes === String ? $util.base64.encode(message.pubkey, 0, message.pubkey.length) : options.bytes === Array ? Array.prototype.slice.call(message.pubkey) : message.pubkey;
             if (message.is_schnorr_sig != null && message.hasOwnProperty("is_schnorr_sig"))
                 object.is_schnorr_sig = message.is_schnorr_sig;
+            if (message.tag != null && message.hasOwnProperty("tag"))
+                object.tag = options.bytes === String ? $util.base64.encode(message.tag, 0, message.tag.length) : options.bytes === Array ? Array.prototype.slice.call(message.tag) : message.tag;
             return object;
         };
 
@@ -101884,6 +102056,7 @@ export const signrpc = $root.signrpc = (() => {
          * @property {Array.<signrpc.ITweakDesc>|null} [tweaks] MuSig2SessionRequest tweaks
          * @property {signrpc.ITaprootTweakDesc|null} [taproot_tweak] MuSig2SessionRequest taproot_tweak
          * @property {signrpc.MuSig2Version|null} [version] MuSig2SessionRequest version
+         * @property {Uint8Array|null} [pregenerated_local_nonce] MuSig2SessionRequest pregenerated_local_nonce
          */
 
         /**
@@ -101953,6 +102126,14 @@ export const signrpc = $root.signrpc = (() => {
         MuSig2SessionRequest.prototype.version = 0;
 
         /**
+         * MuSig2SessionRequest pregenerated_local_nonce.
+         * @member {Uint8Array} pregenerated_local_nonce
+         * @memberof signrpc.MuSig2SessionRequest
+         * @instance
+         */
+        MuSig2SessionRequest.prototype.pregenerated_local_nonce = $util.newBuffer([]);
+
+        /**
          * Creates a new MuSig2SessionRequest instance using the specified properties.
          * @function create
          * @memberof signrpc.MuSig2SessionRequest
@@ -101991,6 +102172,8 @@ export const signrpc = $root.signrpc = (() => {
                 $root.signrpc.TaprootTweakDesc.encode(message.taproot_tweak, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 6, wireType 0 =*/48).int32(message.version);
+            if (message.pregenerated_local_nonce != null && Object.hasOwnProperty.call(message, "pregenerated_local_nonce"))
+                writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.pregenerated_local_nonce);
             return writer;
         };
 
@@ -102053,6 +102236,10 @@ export const signrpc = $root.signrpc = (() => {
                     }
                 case 6: {
                         message.version = reader.int32();
+                        break;
+                    }
+                case 7: {
+                        message.pregenerated_local_nonce = reader.bytes();
                         break;
                     }
                 default:
@@ -102132,6 +102319,9 @@ export const signrpc = $root.signrpc = (() => {
                 case 2:
                     break;
                 }
+            if (message.pregenerated_local_nonce != null && message.hasOwnProperty("pregenerated_local_nonce"))
+                if (!(message.pregenerated_local_nonce && typeof message.pregenerated_local_nonce.length === "number" || $util.isString(message.pregenerated_local_nonce)))
+                    return "pregenerated_local_nonce: buffer expected";
             return null;
         };
 
@@ -102207,6 +102397,11 @@ export const signrpc = $root.signrpc = (() => {
                 message.version = 2;
                 break;
             }
+            if (object.pregenerated_local_nonce != null)
+                if (typeof object.pregenerated_local_nonce === "string")
+                    $util.base64.decode(object.pregenerated_local_nonce, message.pregenerated_local_nonce = $util.newBuffer($util.base64.length(object.pregenerated_local_nonce)), 0);
+                else if (object.pregenerated_local_nonce.length >= 0)
+                    message.pregenerated_local_nonce = object.pregenerated_local_nonce;
             return message;
         };
 
@@ -102232,6 +102427,13 @@ export const signrpc = $root.signrpc = (() => {
                 object.key_loc = null;
                 object.taproot_tweak = null;
                 object.version = options.enums === String ? "MUSIG2_VERSION_UNDEFINED" : 0;
+                if (options.bytes === String)
+                    object.pregenerated_local_nonce = "";
+                else {
+                    object.pregenerated_local_nonce = [];
+                    if (options.bytes !== Array)
+                        object.pregenerated_local_nonce = $util.newBuffer(object.pregenerated_local_nonce);
+                }
             }
             if (message.key_loc != null && message.hasOwnProperty("key_loc"))
                 object.key_loc = $root.signrpc.KeyLocator.toObject(message.key_loc, options);
@@ -102254,6 +102456,8 @@ export const signrpc = $root.signrpc = (() => {
                 object.taproot_tweak = $root.signrpc.TaprootTweakDesc.toObject(message.taproot_tweak, options);
             if (message.version != null && message.hasOwnProperty("version"))
                 object.version = options.enums === String ? $root.signrpc.MuSig2Version[message.version] === undefined ? message.version : $root.signrpc.MuSig2Version[message.version] : message.version;
+            if (message.pregenerated_local_nonce != null && message.hasOwnProperty("pregenerated_local_nonce"))
+                object.pregenerated_local_nonce = options.bytes === String ? $util.base64.encode(message.pregenerated_local_nonce, 0, message.pregenerated_local_nonce.length) : options.bytes === Array ? Array.prototype.slice.call(message.pregenerated_local_nonce) : message.pregenerated_local_nonce;
             return object;
         };
 
@@ -104757,6 +104961,39 @@ export const walletrpc = $root.walletrpc = (() => {
          */
 
         /**
+         * Callback as used by {@link walletrpc.WalletKit#getTransaction}.
+         * @memberof walletrpc.WalletKit
+         * @typedef GetTransactionCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {lnrpc.Transaction} [response] Transaction
+         */
+
+        /**
+         * Calls GetTransaction.
+         * @function getTransaction
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IGetTransactionRequest} request GetTransactionRequest message or plain object
+         * @param {walletrpc.WalletKit.GetTransactionCallback} callback Node-style callback called with the error, if any, and Transaction
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WalletKit.prototype.getTransaction = function getTransaction(request, callback) {
+            return this.rpcCall(getTransaction, $root.walletrpc.GetTransactionRequest, $root.lnrpc.Transaction, request, callback);
+        }, "name", { value: "GetTransaction" });
+
+        /**
+         * Calls GetTransaction.
+         * @function getTransaction
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IGetTransactionRequest} request GetTransactionRequest message or plain object
+         * @returns {Promise<lnrpc.Transaction>} Promise
+         * @variation 2
+         */
+
+        /**
          * Callback as used by {@link walletrpc.WalletKit#listAccounts}.
          * @memberof walletrpc.WalletKit
          * @typedef ListAccountsCallback
@@ -105054,6 +105291,39 @@ export const walletrpc = $root.walletrpc = (() => {
          */
 
         /**
+         * Callback as used by {@link walletrpc.WalletKit#removeTransaction}.
+         * @memberof walletrpc.WalletKit
+         * @typedef RemoveTransactionCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {walletrpc.RemoveTransactionResponse} [response] RemoveTransactionResponse
+         */
+
+        /**
+         * Calls RemoveTransaction.
+         * @function removeTransaction
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IGetTransactionRequest} request GetTransactionRequest message or plain object
+         * @param {walletrpc.WalletKit.RemoveTransactionCallback} callback Node-style callback called with the error, if any, and RemoveTransactionResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WalletKit.prototype.removeTransaction = function removeTransaction(request, callback) {
+            return this.rpcCall(removeTransaction, $root.walletrpc.GetTransactionRequest, $root.walletrpc.RemoveTransactionResponse, request, callback);
+        }, "name", { value: "RemoveTransaction" });
+
+        /**
+         * Calls RemoveTransaction.
+         * @function removeTransaction
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IGetTransactionRequest} request GetTransactionRequest message or plain object
+         * @returns {Promise<walletrpc.RemoveTransactionResponse>} Promise
+         * @variation 2
+         */
+
+        /**
          * Callback as used by {@link walletrpc.WalletKit#sendOutputs}.
          * @memberof walletrpc.WalletKit
          * @typedef SendOutputsCallback
@@ -105347,6 +105617,39 @@ export const walletrpc = $root.walletrpc = (() => {
          * @instance
          * @param {walletrpc.IFinalizePsbtRequest} request FinalizePsbtRequest message or plain object
          * @returns {Promise<walletrpc.FinalizePsbtResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link walletrpc.WalletKit#rescan}.
+         * @memberof walletrpc.WalletKit
+         * @typedef RescanCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {walletrpc.RescanResponse} [response] RescanResponse
+         */
+
+        /**
+         * Calls Rescan.
+         * @function rescan
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IRescanRequest} request RescanRequest message or plain object
+         * @param {walletrpc.WalletKit.RescanCallback} callback Node-style callback called with the error, if any, and RescanResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WalletKit.prototype.rescan = function rescan(request, callback) {
+            return this.rpcCall(rescan, $root.walletrpc.RescanRequest, $root.walletrpc.RescanResponse, request, callback);
+        }, "name", { value: "Rescan" });
+
+        /**
+         * Calls Rescan.
+         * @function rescan
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IRescanRequest} request RescanRequest message or plain object
+         * @returns {Promise<walletrpc.RescanResponse>} Promise
          * @variation 2
          */
 
@@ -107912,6 +108215,8 @@ export const walletrpc = $root.walletrpc = (() => {
          * @property {string|null} [address] AddressProperty address
          * @property {boolean|null} [is_internal] AddressProperty is_internal
          * @property {Long|null} [balance] AddressProperty balance
+         * @property {string|null} [derivation_path] AddressProperty derivation_path
+         * @property {Uint8Array|null} [public_key] AddressProperty public_key
          */
 
         /**
@@ -107954,6 +108259,22 @@ export const walletrpc = $root.walletrpc = (() => {
         AddressProperty.prototype.balance = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
+         * AddressProperty derivation_path.
+         * @member {string} derivation_path
+         * @memberof walletrpc.AddressProperty
+         * @instance
+         */
+        AddressProperty.prototype.derivation_path = "";
+
+        /**
+         * AddressProperty public_key.
+         * @member {Uint8Array} public_key
+         * @memberof walletrpc.AddressProperty
+         * @instance
+         */
+        AddressProperty.prototype.public_key = $util.newBuffer([]);
+
+        /**
          * Creates a new AddressProperty instance using the specified properties.
          * @function create
          * @memberof walletrpc.AddressProperty
@@ -107983,6 +108304,10 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer.uint32(/* id 2, wireType 0 =*/16).bool(message.is_internal);
             if (message.balance != null && Object.hasOwnProperty.call(message, "balance"))
                 writer.uint32(/* id 3, wireType 0 =*/24).int64(message.balance);
+            if (message.derivation_path != null && Object.hasOwnProperty.call(message, "derivation_path"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.derivation_path);
+            if (message.public_key != null && Object.hasOwnProperty.call(message, "public_key"))
+                writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.public_key);
             return writer;
         };
 
@@ -108029,6 +108354,14 @@ export const walletrpc = $root.walletrpc = (() => {
                         message.balance = reader.int64();
                         break;
                     }
+                case 4: {
+                        message.derivation_path = reader.string();
+                        break;
+                    }
+                case 5: {
+                        message.public_key = reader.bytes();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -108073,6 +108406,12 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.balance != null && message.hasOwnProperty("balance"))
                 if (!$util.isInteger(message.balance) && !(message.balance && $util.isInteger(message.balance.low) && $util.isInteger(message.balance.high)))
                     return "balance: integer|Long expected";
+            if (message.derivation_path != null && message.hasOwnProperty("derivation_path"))
+                if (!$util.isString(message.derivation_path))
+                    return "derivation_path: string expected";
+            if (message.public_key != null && message.hasOwnProperty("public_key"))
+                if (!(message.public_key && typeof message.public_key.length === "number" || $util.isString(message.public_key)))
+                    return "public_key: buffer expected";
             return null;
         };
 
@@ -108101,6 +108440,13 @@ export const walletrpc = $root.walletrpc = (() => {
                     message.balance = object.balance;
                 else if (typeof object.balance === "object")
                     message.balance = new $util.LongBits(object.balance.low >>> 0, object.balance.high >>> 0).toNumber();
+            if (object.derivation_path != null)
+                message.derivation_path = String(object.derivation_path);
+            if (object.public_key != null)
+                if (typeof object.public_key === "string")
+                    $util.base64.decode(object.public_key, message.public_key = $util.newBuffer($util.base64.length(object.public_key)), 0);
+                else if (object.public_key.length >= 0)
+                    message.public_key = object.public_key;
             return message;
         };
 
@@ -108125,6 +108471,14 @@ export const walletrpc = $root.walletrpc = (() => {
                     object.balance = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.balance = options.longs === String ? "0" : 0;
+                object.derivation_path = "";
+                if (options.bytes === String)
+                    object.public_key = "";
+                else {
+                    object.public_key = [];
+                    if (options.bytes !== Array)
+                        object.public_key = $util.newBuffer(object.public_key);
+                }
             }
             if (message.address != null && message.hasOwnProperty("address"))
                 object.address = message.address;
@@ -108135,6 +108489,10 @@ export const walletrpc = $root.walletrpc = (() => {
                     object.balance = options.longs === String ? String(message.balance) : message.balance;
                 else
                     object.balance = options.longs === String ? $util.Long.prototype.toString.call(message.balance) : options.longs === Number ? new $util.LongBits(message.balance.low >>> 0, message.balance.high >>> 0).toNumber() : message.balance;
+            if (message.derivation_path != null && message.hasOwnProperty("derivation_path"))
+                object.derivation_path = message.derivation_path;
+            if (message.public_key != null && message.hasOwnProperty("public_key"))
+                object.public_key = options.bytes === String ? $util.base64.encode(message.public_key, 0, message.public_key.length) : options.bytes === Array ? Array.prototype.slice.call(message.public_key) : message.public_key;
             return object;
         };
 
@@ -109852,6 +110210,209 @@ export const walletrpc = $root.walletrpc = (() => {
         return ListAddressesResponse;
     })();
 
+    walletrpc.GetTransactionRequest = (function() {
+
+        /**
+         * Properties of a GetTransactionRequest.
+         * @memberof walletrpc
+         * @interface IGetTransactionRequest
+         * @property {string|null} [txid] GetTransactionRequest txid
+         */
+
+        /**
+         * Constructs a new GetTransactionRequest.
+         * @memberof walletrpc
+         * @classdesc Represents a GetTransactionRequest.
+         * @implements IGetTransactionRequest
+         * @constructor
+         * @param {walletrpc.IGetTransactionRequest=} [properties] Properties to set
+         */
+        function GetTransactionRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GetTransactionRequest txid.
+         * @member {string} txid
+         * @memberof walletrpc.GetTransactionRequest
+         * @instance
+         */
+        GetTransactionRequest.prototype.txid = "";
+
+        /**
+         * Creates a new GetTransactionRequest instance using the specified properties.
+         * @function create
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {walletrpc.IGetTransactionRequest=} [properties] Properties to set
+         * @returns {walletrpc.GetTransactionRequest} GetTransactionRequest instance
+         */
+        GetTransactionRequest.create = function create(properties) {
+            return new GetTransactionRequest(properties);
+        };
+
+        /**
+         * Encodes the specified GetTransactionRequest message. Does not implicitly {@link walletrpc.GetTransactionRequest.verify|verify} messages.
+         * @function encode
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {walletrpc.IGetTransactionRequest} message GetTransactionRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetTransactionRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.txid != null && Object.hasOwnProperty.call(message, "txid"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.txid);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GetTransactionRequest message, length delimited. Does not implicitly {@link walletrpc.GetTransactionRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {walletrpc.IGetTransactionRequest} message GetTransactionRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetTransactionRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GetTransactionRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {walletrpc.GetTransactionRequest} GetTransactionRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetTransactionRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.walletrpc.GetTransactionRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.txid = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GetTransactionRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {walletrpc.GetTransactionRequest} GetTransactionRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetTransactionRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GetTransactionRequest message.
+         * @function verify
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GetTransactionRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.txid != null && message.hasOwnProperty("txid"))
+                if (!$util.isString(message.txid))
+                    return "txid: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a GetTransactionRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {walletrpc.GetTransactionRequest} GetTransactionRequest
+         */
+        GetTransactionRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.walletrpc.GetTransactionRequest)
+                return object;
+            let message = new $root.walletrpc.GetTransactionRequest();
+            if (object.txid != null)
+                message.txid = String(object.txid);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GetTransactionRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {walletrpc.GetTransactionRequest} message GetTransactionRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GetTransactionRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.txid = "";
+            if (message.txid != null && message.hasOwnProperty("txid"))
+                object.txid = message.txid;
+            return object;
+        };
+
+        /**
+         * Converts this GetTransactionRequest to JSON.
+         * @function toJSON
+         * @memberof walletrpc.GetTransactionRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GetTransactionRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GetTransactionRequest
+         * @function getTypeUrl
+         * @memberof walletrpc.GetTransactionRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GetTransactionRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/walletrpc.GetTransactionRequest";
+        };
+
+        return GetTransactionRequest;
+    })();
+
     walletrpc.SignMessageWithAddrRequest = (function() {
 
         /**
@@ -110797,6 +111358,7 @@ export const walletrpc = $root.walletrpc = (() => {
          * @property {Uint8Array|null} [master_key_fingerprint] ImportAccountRequest master_key_fingerprint
          * @property {walletrpc.AddressType|null} [address_type] ImportAccountRequest address_type
          * @property {boolean|null} [dry_run] ImportAccountRequest dry_run
+         * @property {number|null} [birthday_height] ImportAccountRequest birthday_height
          */
 
         /**
@@ -110855,6 +111417,14 @@ export const walletrpc = $root.walletrpc = (() => {
         ImportAccountRequest.prototype.dry_run = false;
 
         /**
+         * ImportAccountRequest birthday_height.
+         * @member {number} birthday_height
+         * @memberof walletrpc.ImportAccountRequest
+         * @instance
+         */
+        ImportAccountRequest.prototype.birthday_height = 0;
+
+        /**
          * Creates a new ImportAccountRequest instance using the specified properties.
          * @function create
          * @memberof walletrpc.ImportAccountRequest
@@ -110888,6 +111458,8 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer.uint32(/* id 4, wireType 0 =*/32).int32(message.address_type);
             if (message.dry_run != null && Object.hasOwnProperty.call(message, "dry_run"))
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.dry_run);
+            if (message.birthday_height != null && Object.hasOwnProperty.call(message, "birthday_height"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.birthday_height);
             return writer;
         };
 
@@ -110940,6 +111512,10 @@ export const walletrpc = $root.walletrpc = (() => {
                     }
                 case 5: {
                         message.dry_run = reader.bool();
+                        break;
+                    }
+                case 6: {
+                        message.birthday_height = reader.uint32();
                         break;
                     }
                 default:
@@ -111000,6 +111576,9 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.dry_run != null && message.hasOwnProperty("dry_run"))
                 if (typeof message.dry_run !== "boolean")
                     return "dry_run: boolean expected";
+            if (message.birthday_height != null && message.hasOwnProperty("birthday_height"))
+                if (!$util.isInteger(message.birthday_height))
+                    return "birthday_height: integer expected";
             return null;
         };
 
@@ -111054,6 +111633,8 @@ export const walletrpc = $root.walletrpc = (() => {
             }
             if (object.dry_run != null)
                 message.dry_run = Boolean(object.dry_run);
+            if (object.birthday_height != null)
+                message.birthday_height = object.birthday_height >>> 0;
             return message;
         };
 
@@ -111082,6 +111663,7 @@ export const walletrpc = $root.walletrpc = (() => {
                 }
                 object.address_type = options.enums === String ? "UNKNOWN" : 0;
                 object.dry_run = false;
+                object.birthday_height = 0;
             }
             if (message.name != null && message.hasOwnProperty("name"))
                 object.name = message.name;
@@ -111093,6 +111675,8 @@ export const walletrpc = $root.walletrpc = (() => {
                 object.address_type = options.enums === String ? $root.walletrpc.AddressType[message.address_type] === undefined ? message.address_type : $root.walletrpc.AddressType[message.address_type] : message.address_type;
             if (message.dry_run != null && message.hasOwnProperty("dry_run"))
                 object.dry_run = message.dry_run;
+            if (message.birthday_height != null && message.hasOwnProperty("birthday_height"))
+                object.birthday_height = message.birthday_height;
             return object;
         };
 
@@ -111413,6 +111997,412 @@ export const walletrpc = $root.walletrpc = (() => {
         return ImportAccountResponse;
     })();
 
+    walletrpc.RescanRequest = (function() {
+
+        /**
+         * Properties of a RescanRequest.
+         * @memberof walletrpc
+         * @interface IRescanRequest
+         * @property {number|null} [start_height] RescanRequest start_height
+         */
+
+        /**
+         * Constructs a new RescanRequest.
+         * @memberof walletrpc
+         * @classdesc Represents a RescanRequest.
+         * @implements IRescanRequest
+         * @constructor
+         * @param {walletrpc.IRescanRequest=} [properties] Properties to set
+         */
+        function RescanRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * RescanRequest start_height.
+         * @member {number} start_height
+         * @memberof walletrpc.RescanRequest
+         * @instance
+         */
+        RescanRequest.prototype.start_height = 0;
+
+        /**
+         * Creates a new RescanRequest instance using the specified properties.
+         * @function create
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {walletrpc.IRescanRequest=} [properties] Properties to set
+         * @returns {walletrpc.RescanRequest} RescanRequest instance
+         */
+        RescanRequest.create = function create(properties) {
+            return new RescanRequest(properties);
+        };
+
+        /**
+         * Encodes the specified RescanRequest message. Does not implicitly {@link walletrpc.RescanRequest.verify|verify} messages.
+         * @function encode
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {walletrpc.IRescanRequest} message RescanRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RescanRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.start_height != null && Object.hasOwnProperty.call(message, "start_height"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start_height);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified RescanRequest message, length delimited. Does not implicitly {@link walletrpc.RescanRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {walletrpc.IRescanRequest} message RescanRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RescanRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a RescanRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {walletrpc.RescanRequest} RescanRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RescanRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.walletrpc.RescanRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.start_height = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a RescanRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {walletrpc.RescanRequest} RescanRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RescanRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a RescanRequest message.
+         * @function verify
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        RescanRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.start_height != null && message.hasOwnProperty("start_height"))
+                if (!$util.isInteger(message.start_height))
+                    return "start_height: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a RescanRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {walletrpc.RescanRequest} RescanRequest
+         */
+        RescanRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.walletrpc.RescanRequest)
+                return object;
+            let message = new $root.walletrpc.RescanRequest();
+            if (object.start_height != null)
+                message.start_height = object.start_height | 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a RescanRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {walletrpc.RescanRequest} message RescanRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        RescanRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.start_height = 0;
+            if (message.start_height != null && message.hasOwnProperty("start_height"))
+                object.start_height = message.start_height;
+            return object;
+        };
+
+        /**
+         * Converts this RescanRequest to JSON.
+         * @function toJSON
+         * @memberof walletrpc.RescanRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        RescanRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for RescanRequest
+         * @function getTypeUrl
+         * @memberof walletrpc.RescanRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        RescanRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/walletrpc.RescanRequest";
+        };
+
+        return RescanRequest;
+    })();
+
+    walletrpc.RescanResponse = (function() {
+
+        /**
+         * Properties of a RescanResponse.
+         * @memberof walletrpc
+         * @interface IRescanResponse
+         * @property {string|null} [status] RescanResponse status
+         */
+
+        /**
+         * Constructs a new RescanResponse.
+         * @memberof walletrpc
+         * @classdesc Represents a RescanResponse.
+         * @implements IRescanResponse
+         * @constructor
+         * @param {walletrpc.IRescanResponse=} [properties] Properties to set
+         */
+        function RescanResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * RescanResponse status.
+         * @member {string} status
+         * @memberof walletrpc.RescanResponse
+         * @instance
+         */
+        RescanResponse.prototype.status = "";
+
+        /**
+         * Creates a new RescanResponse instance using the specified properties.
+         * @function create
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {walletrpc.IRescanResponse=} [properties] Properties to set
+         * @returns {walletrpc.RescanResponse} RescanResponse instance
+         */
+        RescanResponse.create = function create(properties) {
+            return new RescanResponse(properties);
+        };
+
+        /**
+         * Encodes the specified RescanResponse message. Does not implicitly {@link walletrpc.RescanResponse.verify|verify} messages.
+         * @function encode
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {walletrpc.IRescanResponse} message RescanResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RescanResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified RescanResponse message, length delimited. Does not implicitly {@link walletrpc.RescanResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {walletrpc.IRescanResponse} message RescanResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RescanResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a RescanResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {walletrpc.RescanResponse} RescanResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RescanResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.walletrpc.RescanResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.status = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a RescanResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {walletrpc.RescanResponse} RescanResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RescanResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a RescanResponse message.
+         * @function verify
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        RescanResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.status != null && message.hasOwnProperty("status"))
+                if (!$util.isString(message.status))
+                    return "status: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a RescanResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {walletrpc.RescanResponse} RescanResponse
+         */
+        RescanResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.walletrpc.RescanResponse)
+                return object;
+            let message = new $root.walletrpc.RescanResponse();
+            if (object.status != null)
+                message.status = String(object.status);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a RescanResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {walletrpc.RescanResponse} message RescanResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        RescanResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.status = "";
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this RescanResponse to JSON.
+         * @function toJSON
+         * @memberof walletrpc.RescanResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        RescanResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for RescanResponse
+         * @function getTypeUrl
+         * @memberof walletrpc.RescanResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        RescanResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/walletrpc.RescanResponse";
+        };
+
+        return RescanResponse;
+    })();
+
     walletrpc.ImportPublicKeyRequest = (function() {
 
         /**
@@ -111421,6 +112411,8 @@ export const walletrpc = $root.walletrpc = (() => {
          * @interface IImportPublicKeyRequest
          * @property {Uint8Array|null} [public_key] ImportPublicKeyRequest public_key
          * @property {walletrpc.AddressType|null} [address_type] ImportPublicKeyRequest address_type
+         * @property {boolean|null} [rescan] ImportPublicKeyRequest rescan
+         * @property {number|null} [birthday_height] ImportPublicKeyRequest birthday_height
          */
 
         /**
@@ -111455,6 +112447,22 @@ export const walletrpc = $root.walletrpc = (() => {
         ImportPublicKeyRequest.prototype.address_type = 0;
 
         /**
+         * ImportPublicKeyRequest rescan.
+         * @member {boolean} rescan
+         * @memberof walletrpc.ImportPublicKeyRequest
+         * @instance
+         */
+        ImportPublicKeyRequest.prototype.rescan = false;
+
+        /**
+         * ImportPublicKeyRequest birthday_height.
+         * @member {number} birthday_height
+         * @memberof walletrpc.ImportPublicKeyRequest
+         * @instance
+         */
+        ImportPublicKeyRequest.prototype.birthday_height = 0;
+
+        /**
          * Creates a new ImportPublicKeyRequest instance using the specified properties.
          * @function create
          * @memberof walletrpc.ImportPublicKeyRequest
@@ -111482,6 +112490,10 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.public_key);
             if (message.address_type != null && Object.hasOwnProperty.call(message, "address_type"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int32(message.address_type);
+            if (message.rescan != null && Object.hasOwnProperty.call(message, "rescan"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.rescan);
+            if (message.birthday_height != null && Object.hasOwnProperty.call(message, "birthday_height"))
+                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.birthday_height);
             return writer;
         };
 
@@ -111522,6 +112534,14 @@ export const walletrpc = $root.walletrpc = (() => {
                     }
                 case 2: {
                         message.address_type = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.rescan = reader.bool();
+                        break;
+                    }
+                case 4: {
+                        message.birthday_height = reader.int32();
                         break;
                     }
                 default:
@@ -111573,6 +112593,12 @@ export const walletrpc = $root.walletrpc = (() => {
                 case 4:
                     break;
                 }
+            if (message.rescan != null && message.hasOwnProperty("rescan"))
+                if (typeof message.rescan !== "boolean")
+                    return "rescan: boolean expected";
+            if (message.birthday_height != null && message.hasOwnProperty("birthday_height"))
+                if (!$util.isInteger(message.birthday_height))
+                    return "birthday_height: integer expected";
             return null;
         };
 
@@ -111621,6 +112647,10 @@ export const walletrpc = $root.walletrpc = (() => {
                 message.address_type = 4;
                 break;
             }
+            if (object.rescan != null)
+                message.rescan = Boolean(object.rescan);
+            if (object.birthday_height != null)
+                message.birthday_height = object.birthday_height | 0;
             return message;
         };
 
@@ -111646,11 +112676,17 @@ export const walletrpc = $root.walletrpc = (() => {
                         object.public_key = $util.newBuffer(object.public_key);
                 }
                 object.address_type = options.enums === String ? "UNKNOWN" : 0;
+                object.rescan = false;
+                object.birthday_height = 0;
             }
             if (message.public_key != null && message.hasOwnProperty("public_key"))
                 object.public_key = options.bytes === String ? $util.base64.encode(message.public_key, 0, message.public_key.length) : options.bytes === Array ? Array.prototype.slice.call(message.public_key) : message.public_key;
             if (message.address_type != null && message.hasOwnProperty("address_type"))
                 object.address_type = options.enums === String ? $root.walletrpc.AddressType[message.address_type] === undefined ? message.address_type : $root.walletrpc.AddressType[message.address_type] : message.address_type;
+            if (message.rescan != null && message.hasOwnProperty("rescan"))
+                object.rescan = message.rescan;
+            if (message.birthday_height != null && message.hasOwnProperty("birthday_height"))
+                object.birthday_height = message.birthday_height;
             return object;
         };
 
@@ -113557,6 +114593,209 @@ export const walletrpc = $root.walletrpc = (() => {
         return PublishResponse;
     })();
 
+    walletrpc.RemoveTransactionResponse = (function() {
+
+        /**
+         * Properties of a RemoveTransactionResponse.
+         * @memberof walletrpc
+         * @interface IRemoveTransactionResponse
+         * @property {string|null} [status] RemoveTransactionResponse status
+         */
+
+        /**
+         * Constructs a new RemoveTransactionResponse.
+         * @memberof walletrpc
+         * @classdesc Represents a RemoveTransactionResponse.
+         * @implements IRemoveTransactionResponse
+         * @constructor
+         * @param {walletrpc.IRemoveTransactionResponse=} [properties] Properties to set
+         */
+        function RemoveTransactionResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * RemoveTransactionResponse status.
+         * @member {string} status
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @instance
+         */
+        RemoveTransactionResponse.prototype.status = "";
+
+        /**
+         * Creates a new RemoveTransactionResponse instance using the specified properties.
+         * @function create
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {walletrpc.IRemoveTransactionResponse=} [properties] Properties to set
+         * @returns {walletrpc.RemoveTransactionResponse} RemoveTransactionResponse instance
+         */
+        RemoveTransactionResponse.create = function create(properties) {
+            return new RemoveTransactionResponse(properties);
+        };
+
+        /**
+         * Encodes the specified RemoveTransactionResponse message. Does not implicitly {@link walletrpc.RemoveTransactionResponse.verify|verify} messages.
+         * @function encode
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {walletrpc.IRemoveTransactionResponse} message RemoveTransactionResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RemoveTransactionResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified RemoveTransactionResponse message, length delimited. Does not implicitly {@link walletrpc.RemoveTransactionResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {walletrpc.IRemoveTransactionResponse} message RemoveTransactionResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RemoveTransactionResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a RemoveTransactionResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {walletrpc.RemoveTransactionResponse} RemoveTransactionResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RemoveTransactionResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.walletrpc.RemoveTransactionResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.status = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a RemoveTransactionResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {walletrpc.RemoveTransactionResponse} RemoveTransactionResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RemoveTransactionResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a RemoveTransactionResponse message.
+         * @function verify
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        RemoveTransactionResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.status != null && message.hasOwnProperty("status"))
+                if (!$util.isString(message.status))
+                    return "status: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a RemoveTransactionResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {walletrpc.RemoveTransactionResponse} RemoveTransactionResponse
+         */
+        RemoveTransactionResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.walletrpc.RemoveTransactionResponse)
+                return object;
+            let message = new $root.walletrpc.RemoveTransactionResponse();
+            if (object.status != null)
+                message.status = String(object.status);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a RemoveTransactionResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {walletrpc.RemoveTransactionResponse} message RemoveTransactionResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        RemoveTransactionResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.status = "";
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this RemoveTransactionResponse to JSON.
+         * @function toJSON
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        RemoveTransactionResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for RemoveTransactionResponse
+         * @function getTypeUrl
+         * @memberof walletrpc.RemoveTransactionResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        RemoveTransactionResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/walletrpc.RemoveTransactionResponse";
+        };
+
+        return RemoveTransactionResponse;
+    })();
+
     walletrpc.SendOutputsRequest = (function() {
 
         /**
@@ -113568,6 +114807,7 @@ export const walletrpc = $root.walletrpc = (() => {
          * @property {string|null} [label] SendOutputsRequest label
          * @property {number|null} [min_confs] SendOutputsRequest min_confs
          * @property {boolean|null} [spend_unconfirmed] SendOutputsRequest spend_unconfirmed
+         * @property {lnrpc.CoinSelectionStrategy|null} [coin_selection_strategy] SendOutputsRequest coin_selection_strategy
          */
 
         /**
@@ -113627,6 +114867,14 @@ export const walletrpc = $root.walletrpc = (() => {
         SendOutputsRequest.prototype.spend_unconfirmed = false;
 
         /**
+         * SendOutputsRequest coin_selection_strategy.
+         * @member {lnrpc.CoinSelectionStrategy} coin_selection_strategy
+         * @memberof walletrpc.SendOutputsRequest
+         * @instance
+         */
+        SendOutputsRequest.prototype.coin_selection_strategy = 0;
+
+        /**
          * Creates a new SendOutputsRequest instance using the specified properties.
          * @function create
          * @memberof walletrpc.SendOutputsRequest
@@ -113661,6 +114909,8 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer.uint32(/* id 4, wireType 0 =*/32).int32(message.min_confs);
             if (message.spend_unconfirmed != null && Object.hasOwnProperty.call(message, "spend_unconfirmed"))
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.spend_unconfirmed);
+            if (message.coin_selection_strategy != null && Object.hasOwnProperty.call(message, "coin_selection_strategy"))
+                writer.uint32(/* id 6, wireType 0 =*/48).int32(message.coin_selection_strategy);
             return writer;
         };
 
@@ -113715,6 +114965,10 @@ export const walletrpc = $root.walletrpc = (() => {
                     }
                 case 5: {
                         message.spend_unconfirmed = reader.bool();
+                        break;
+                    }
+                case 6: {
+                        message.coin_selection_strategy = reader.int32();
                         break;
                     }
                 default:
@@ -113773,6 +115027,15 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 if (typeof message.spend_unconfirmed !== "boolean")
                     return "spend_unconfirmed: boolean expected";
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                switch (message.coin_selection_strategy) {
+                default:
+                    return "coin_selection_strategy: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
             return null;
         };
 
@@ -113813,6 +115076,26 @@ export const walletrpc = $root.walletrpc = (() => {
                 message.min_confs = object.min_confs | 0;
             if (object.spend_unconfirmed != null)
                 message.spend_unconfirmed = Boolean(object.spend_unconfirmed);
+            switch (object.coin_selection_strategy) {
+            default:
+                if (typeof object.coin_selection_strategy === "number") {
+                    message.coin_selection_strategy = object.coin_selection_strategy;
+                    break;
+                }
+                break;
+            case "STRATEGY_USE_GLOBAL_CONFIG":
+            case 0:
+                message.coin_selection_strategy = 0;
+                break;
+            case "STRATEGY_LARGEST":
+            case 1:
+                message.coin_selection_strategy = 1;
+                break;
+            case "STRATEGY_RANDOM":
+            case 2:
+                message.coin_selection_strategy = 2;
+                break;
+            }
             return message;
         };
 
@@ -113840,6 +115123,7 @@ export const walletrpc = $root.walletrpc = (() => {
                 object.label = "";
                 object.min_confs = 0;
                 object.spend_unconfirmed = false;
+                object.coin_selection_strategy = options.enums === String ? "STRATEGY_USE_GLOBAL_CONFIG" : 0;
             }
             if (message.sat_per_kw != null && message.hasOwnProperty("sat_per_kw"))
                 if (typeof message.sat_per_kw === "number")
@@ -113857,6 +115141,8 @@ export const walletrpc = $root.walletrpc = (() => {
                 object.min_confs = message.min_confs;
             if (message.spend_unconfirmed != null && message.hasOwnProperty("spend_unconfirmed"))
                 object.spend_unconfirmed = message.spend_unconfirmed;
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                object.coin_selection_strategy = options.enums === String ? $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] === undefined ? message.coin_selection_strategy : $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] : message.coin_selection_strategy;
             return object;
         };
 
@@ -114548,6 +115834,19 @@ export const walletrpc = $root.walletrpc = (() => {
      * @property {number} LEASE_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL=20 LEASE_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL value
      * @property {number} LEASE_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL=21 LEASE_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL value
      * @property {number} TAPROOT_PUB_KEY_SPEND=22 TAPROOT_PUB_KEY_SPEND value
+     * @property {number} TAPROOT_LOCAL_COMMIT_SPEND=23 TAPROOT_LOCAL_COMMIT_SPEND value
+     * @property {number} TAPROOT_REMOTE_COMMIT_SPEND=24 TAPROOT_REMOTE_COMMIT_SPEND value
+     * @property {number} TAPROOT_ANCHOR_SWEEP_SPEND=25 TAPROOT_ANCHOR_SWEEP_SPEND value
+     * @property {number} TAPROOT_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL=26 TAPROOT_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL value
+     * @property {number} TAPROOT_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL=27 TAPROOT_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL value
+     * @property {number} TAPROOT_HTLC_SECOND_LEVEL_REVOKE=28 TAPROOT_HTLC_SECOND_LEVEL_REVOKE value
+     * @property {number} TAPROOT_HTLC_ACCEPTED_REVOKE=29 TAPROOT_HTLC_ACCEPTED_REVOKE value
+     * @property {number} TAPROOT_HTLC_OFFERED_REVOKE=30 TAPROOT_HTLC_OFFERED_REVOKE value
+     * @property {number} TAPROOT_HTLC_OFFERED_REMOTE_TIMEOUT=31 TAPROOT_HTLC_OFFERED_REMOTE_TIMEOUT value
+     * @property {number} TAPROOT_HTLC_LOCAL_OFFERED_TIMEOUT=32 TAPROOT_HTLC_LOCAL_OFFERED_TIMEOUT value
+     * @property {number} TAPROOT_HTLC_ACCEPTED_REMOTE_SUCCESS=33 TAPROOT_HTLC_ACCEPTED_REMOTE_SUCCESS value
+     * @property {number} TAPROOT_HTLC_ACCEPTED_LOCAL_SUCCESS=34 TAPROOT_HTLC_ACCEPTED_LOCAL_SUCCESS value
+     * @property {number} TAPROOT_COMMITMENT_REVOKE=35 TAPROOT_COMMITMENT_REVOKE value
      */
     walletrpc.WitnessType = (function() {
         const valuesById = {}, values = Object.create(valuesById);
@@ -114574,6 +115873,19 @@ export const walletrpc = $root.walletrpc = (() => {
         values[valuesById[20] = "LEASE_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL"] = 20;
         values[valuesById[21] = "LEASE_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL"] = 21;
         values[valuesById[22] = "TAPROOT_PUB_KEY_SPEND"] = 22;
+        values[valuesById[23] = "TAPROOT_LOCAL_COMMIT_SPEND"] = 23;
+        values[valuesById[24] = "TAPROOT_REMOTE_COMMIT_SPEND"] = 24;
+        values[valuesById[25] = "TAPROOT_ANCHOR_SWEEP_SPEND"] = 25;
+        values[valuesById[26] = "TAPROOT_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL"] = 26;
+        values[valuesById[27] = "TAPROOT_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL"] = 27;
+        values[valuesById[28] = "TAPROOT_HTLC_SECOND_LEVEL_REVOKE"] = 28;
+        values[valuesById[29] = "TAPROOT_HTLC_ACCEPTED_REVOKE"] = 29;
+        values[valuesById[30] = "TAPROOT_HTLC_OFFERED_REVOKE"] = 30;
+        values[valuesById[31] = "TAPROOT_HTLC_OFFERED_REMOTE_TIMEOUT"] = 31;
+        values[valuesById[32] = "TAPROOT_HTLC_LOCAL_OFFERED_TIMEOUT"] = 32;
+        values[valuesById[33] = "TAPROOT_HTLC_ACCEPTED_REMOTE_SUCCESS"] = 33;
+        values[valuesById[34] = "TAPROOT_HTLC_ACCEPTED_LOCAL_SUCCESS"] = 34;
+        values[valuesById[35] = "TAPROOT_COMMITMENT_REVOKE"] = 35;
         return values;
     })();
 
@@ -114589,11 +115901,14 @@ export const walletrpc = $root.walletrpc = (() => {
          * @property {number|null} [sat_per_byte] PendingSweep sat_per_byte
          * @property {number|null} [broadcast_attempts] PendingSweep broadcast_attempts
          * @property {number|null} [next_broadcast_height] PendingSweep next_broadcast_height
+         * @property {boolean|null} [force] PendingSweep force
          * @property {number|null} [requested_conf_target] PendingSweep requested_conf_target
          * @property {number|null} [requested_sat_per_byte] PendingSweep requested_sat_per_byte
          * @property {Long|null} [sat_per_vbyte] PendingSweep sat_per_vbyte
          * @property {Long|null} [requested_sat_per_vbyte] PendingSweep requested_sat_per_vbyte
-         * @property {boolean|null} [force] PendingSweep force
+         * @property {boolean|null} [immediate] PendingSweep immediate
+         * @property {Long|null} [budget] PendingSweep budget
+         * @property {number|null} [deadline_height] PendingSweep deadline_height
          */
 
         /**
@@ -114660,6 +115975,14 @@ export const walletrpc = $root.walletrpc = (() => {
         PendingSweep.prototype.next_broadcast_height = 0;
 
         /**
+         * PendingSweep force.
+         * @member {boolean} force
+         * @memberof walletrpc.PendingSweep
+         * @instance
+         */
+        PendingSweep.prototype.force = false;
+
+        /**
          * PendingSweep requested_conf_target.
          * @member {number} requested_conf_target
          * @memberof walletrpc.PendingSweep
@@ -114692,12 +116015,28 @@ export const walletrpc = $root.walletrpc = (() => {
         PendingSweep.prototype.requested_sat_per_vbyte = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
-         * PendingSweep force.
-         * @member {boolean} force
+         * PendingSweep immediate.
+         * @member {boolean} immediate
          * @memberof walletrpc.PendingSweep
          * @instance
          */
-        PendingSweep.prototype.force = false;
+        PendingSweep.prototype.immediate = false;
+
+        /**
+         * PendingSweep budget.
+         * @member {Long} budget
+         * @memberof walletrpc.PendingSweep
+         * @instance
+         */
+        PendingSweep.prototype.budget = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * PendingSweep deadline_height.
+         * @member {number} deadline_height
+         * @memberof walletrpc.PendingSweep
+         * @instance
+         */
+        PendingSweep.prototype.deadline_height = 0;
 
         /**
          * Creates a new PendingSweep instance using the specified properties.
@@ -114745,6 +116084,12 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer.uint32(/* id 10, wireType 0 =*/80).uint64(message.sat_per_vbyte);
             if (message.requested_sat_per_vbyte != null && Object.hasOwnProperty.call(message, "requested_sat_per_vbyte"))
                 writer.uint32(/* id 11, wireType 0 =*/88).uint64(message.requested_sat_per_vbyte);
+            if (message.immediate != null && Object.hasOwnProperty.call(message, "immediate"))
+                writer.uint32(/* id 12, wireType 0 =*/96).bool(message.immediate);
+            if (message.budget != null && Object.hasOwnProperty.call(message, "budget"))
+                writer.uint32(/* id 13, wireType 0 =*/104).uint64(message.budget);
+            if (message.deadline_height != null && Object.hasOwnProperty.call(message, "deadline_height"))
+                writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.deadline_height);
             return writer;
         };
 
@@ -114803,6 +116148,10 @@ export const walletrpc = $root.walletrpc = (() => {
                         message.next_broadcast_height = reader.uint32();
                         break;
                     }
+                case 7: {
+                        message.force = reader.bool();
+                        break;
+                    }
                 case 8: {
                         message.requested_conf_target = reader.uint32();
                         break;
@@ -114819,8 +116168,16 @@ export const walletrpc = $root.walletrpc = (() => {
                         message.requested_sat_per_vbyte = reader.uint64();
                         break;
                     }
-                case 7: {
-                        message.force = reader.bool();
+                case 12: {
+                        message.immediate = reader.bool();
+                        break;
+                    }
+                case 13: {
+                        message.budget = reader.uint64();
+                        break;
+                    }
+                case 14: {
+                        message.deadline_height = reader.uint32();
                         break;
                     }
                 default:
@@ -114890,6 +116247,19 @@ export const walletrpc = $root.walletrpc = (() => {
                 case 20:
                 case 21:
                 case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
                     break;
                 }
             if (message.amount_sat != null && message.hasOwnProperty("amount_sat"))
@@ -114904,6 +116274,9 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.next_broadcast_height != null && message.hasOwnProperty("next_broadcast_height"))
                 if (!$util.isInteger(message.next_broadcast_height))
                     return "next_broadcast_height: integer expected";
+            if (message.force != null && message.hasOwnProperty("force"))
+                if (typeof message.force !== "boolean")
+                    return "force: boolean expected";
             if (message.requested_conf_target != null && message.hasOwnProperty("requested_conf_target"))
                 if (!$util.isInteger(message.requested_conf_target))
                     return "requested_conf_target: integer expected";
@@ -114916,9 +116289,15 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.requested_sat_per_vbyte != null && message.hasOwnProperty("requested_sat_per_vbyte"))
                 if (!$util.isInteger(message.requested_sat_per_vbyte) && !(message.requested_sat_per_vbyte && $util.isInteger(message.requested_sat_per_vbyte.low) && $util.isInteger(message.requested_sat_per_vbyte.high)))
                     return "requested_sat_per_vbyte: integer|Long expected";
-            if (message.force != null && message.hasOwnProperty("force"))
-                if (typeof message.force !== "boolean")
-                    return "force: boolean expected";
+            if (message.immediate != null && message.hasOwnProperty("immediate"))
+                if (typeof message.immediate !== "boolean")
+                    return "immediate: boolean expected";
+            if (message.budget != null && message.hasOwnProperty("budget"))
+                if (!$util.isInteger(message.budget) && !(message.budget && $util.isInteger(message.budget.low) && $util.isInteger(message.budget.high)))
+                    return "budget: integer|Long expected";
+            if (message.deadline_height != null && message.hasOwnProperty("deadline_height"))
+                if (!$util.isInteger(message.deadline_height))
+                    return "deadline_height: integer expected";
             return null;
         };
 
@@ -115038,6 +116417,58 @@ export const walletrpc = $root.walletrpc = (() => {
             case 22:
                 message.witness_type = 22;
                 break;
+            case "TAPROOT_LOCAL_COMMIT_SPEND":
+            case 23:
+                message.witness_type = 23;
+                break;
+            case "TAPROOT_REMOTE_COMMIT_SPEND":
+            case 24:
+                message.witness_type = 24;
+                break;
+            case "TAPROOT_ANCHOR_SWEEP_SPEND":
+            case 25:
+                message.witness_type = 25;
+                break;
+            case "TAPROOT_HTLC_OFFERED_TIMEOUT_SECOND_LEVEL":
+            case 26:
+                message.witness_type = 26;
+                break;
+            case "TAPROOT_HTLC_ACCEPTED_SUCCESS_SECOND_LEVEL":
+            case 27:
+                message.witness_type = 27;
+                break;
+            case "TAPROOT_HTLC_SECOND_LEVEL_REVOKE":
+            case 28:
+                message.witness_type = 28;
+                break;
+            case "TAPROOT_HTLC_ACCEPTED_REVOKE":
+            case 29:
+                message.witness_type = 29;
+                break;
+            case "TAPROOT_HTLC_OFFERED_REVOKE":
+            case 30:
+                message.witness_type = 30;
+                break;
+            case "TAPROOT_HTLC_OFFERED_REMOTE_TIMEOUT":
+            case 31:
+                message.witness_type = 31;
+                break;
+            case "TAPROOT_HTLC_LOCAL_OFFERED_TIMEOUT":
+            case 32:
+                message.witness_type = 32;
+                break;
+            case "TAPROOT_HTLC_ACCEPTED_REMOTE_SUCCESS":
+            case 33:
+                message.witness_type = 33;
+                break;
+            case "TAPROOT_HTLC_ACCEPTED_LOCAL_SUCCESS":
+            case 34:
+                message.witness_type = 34;
+                break;
+            case "TAPROOT_COMMITMENT_REVOKE":
+            case 35:
+                message.witness_type = 35;
+                break;
             }
             if (object.amount_sat != null)
                 message.amount_sat = object.amount_sat >>> 0;
@@ -115047,6 +116478,8 @@ export const walletrpc = $root.walletrpc = (() => {
                 message.broadcast_attempts = object.broadcast_attempts >>> 0;
             if (object.next_broadcast_height != null)
                 message.next_broadcast_height = object.next_broadcast_height >>> 0;
+            if (object.force != null)
+                message.force = Boolean(object.force);
             if (object.requested_conf_target != null)
                 message.requested_conf_target = object.requested_conf_target >>> 0;
             if (object.requested_sat_per_byte != null)
@@ -115069,8 +116502,19 @@ export const walletrpc = $root.walletrpc = (() => {
                     message.requested_sat_per_vbyte = object.requested_sat_per_vbyte;
                 else if (typeof object.requested_sat_per_vbyte === "object")
                     message.requested_sat_per_vbyte = new $util.LongBits(object.requested_sat_per_vbyte.low >>> 0, object.requested_sat_per_vbyte.high >>> 0).toNumber(true);
-            if (object.force != null)
-                message.force = Boolean(object.force);
+            if (object.immediate != null)
+                message.immediate = Boolean(object.immediate);
+            if (object.budget != null)
+                if ($util.Long)
+                    (message.budget = $util.Long.fromValue(object.budget)).unsigned = true;
+                else if (typeof object.budget === "string")
+                    message.budget = parseInt(object.budget, 10);
+                else if (typeof object.budget === "number")
+                    message.budget = object.budget;
+                else if (typeof object.budget === "object")
+                    message.budget = new $util.LongBits(object.budget.low >>> 0, object.budget.high >>> 0).toNumber(true);
+            if (object.deadline_height != null)
+                message.deadline_height = object.deadline_height >>> 0;
             return message;
         };
 
@@ -115107,6 +116551,13 @@ export const walletrpc = $root.walletrpc = (() => {
                     object.requested_sat_per_vbyte = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.requested_sat_per_vbyte = options.longs === String ? "0" : 0;
+                object.immediate = false;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.budget = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.budget = options.longs === String ? "0" : 0;
+                object.deadline_height = 0;
             }
             if (message.outpoint != null && message.hasOwnProperty("outpoint"))
                 object.outpoint = $root.lnrpc.OutPoint.toObject(message.outpoint, options);
@@ -115136,6 +116587,15 @@ export const walletrpc = $root.walletrpc = (() => {
                     object.requested_sat_per_vbyte = options.longs === String ? String(message.requested_sat_per_vbyte) : message.requested_sat_per_vbyte;
                 else
                     object.requested_sat_per_vbyte = options.longs === String ? $util.Long.prototype.toString.call(message.requested_sat_per_vbyte) : options.longs === Number ? new $util.LongBits(message.requested_sat_per_vbyte.low >>> 0, message.requested_sat_per_vbyte.high >>> 0).toNumber(true) : message.requested_sat_per_vbyte;
+            if (message.immediate != null && message.hasOwnProperty("immediate"))
+                object.immediate = message.immediate;
+            if (message.budget != null && message.hasOwnProperty("budget"))
+                if (typeof message.budget === "number")
+                    object.budget = options.longs === String ? String(message.budget) : message.budget;
+                else
+                    object.budget = options.longs === String ? $util.Long.prototype.toString.call(message.budget) : options.longs === Number ? new $util.LongBits(message.budget.low >>> 0, message.budget.high >>> 0).toNumber(true) : message.budget;
+            if (message.deadline_height != null && message.hasOwnProperty("deadline_height"))
+                object.deadline_height = message.deadline_height;
             return object;
         };
 
@@ -115578,6 +117038,8 @@ export const walletrpc = $root.walletrpc = (() => {
          * @property {number|null} [sat_per_byte] BumpFeeRequest sat_per_byte
          * @property {boolean|null} [force] BumpFeeRequest force
          * @property {Long|null} [sat_per_vbyte] BumpFeeRequest sat_per_vbyte
+         * @property {boolean|null} [immediate] BumpFeeRequest immediate
+         * @property {Long|null} [budget] BumpFeeRequest budget
          */
 
         /**
@@ -115636,6 +117098,22 @@ export const walletrpc = $root.walletrpc = (() => {
         BumpFeeRequest.prototype.sat_per_vbyte = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
 
         /**
+         * BumpFeeRequest immediate.
+         * @member {boolean} immediate
+         * @memberof walletrpc.BumpFeeRequest
+         * @instance
+         */
+        BumpFeeRequest.prototype.immediate = false;
+
+        /**
+         * BumpFeeRequest budget.
+         * @member {Long} budget
+         * @memberof walletrpc.BumpFeeRequest
+         * @instance
+         */
+        BumpFeeRequest.prototype.budget = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
          * Creates a new BumpFeeRequest instance using the specified properties.
          * @function create
          * @memberof walletrpc.BumpFeeRequest
@@ -115669,6 +117147,10 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.force);
             if (message.sat_per_vbyte != null && Object.hasOwnProperty.call(message, "sat_per_vbyte"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.sat_per_vbyte);
+            if (message.immediate != null && Object.hasOwnProperty.call(message, "immediate"))
+                writer.uint32(/* id 6, wireType 0 =*/48).bool(message.immediate);
+            if (message.budget != null && Object.hasOwnProperty.call(message, "budget"))
+                writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.budget);
             return writer;
         };
 
@@ -115723,6 +117205,14 @@ export const walletrpc = $root.walletrpc = (() => {
                         message.sat_per_vbyte = reader.uint64();
                         break;
                     }
+                case 6: {
+                        message.immediate = reader.bool();
+                        break;
+                    }
+                case 7: {
+                        message.budget = reader.uint64();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -115775,6 +117265,12 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.sat_per_vbyte != null && message.hasOwnProperty("sat_per_vbyte"))
                 if (!$util.isInteger(message.sat_per_vbyte) && !(message.sat_per_vbyte && $util.isInteger(message.sat_per_vbyte.low) && $util.isInteger(message.sat_per_vbyte.high)))
                     return "sat_per_vbyte: integer|Long expected";
+            if (message.immediate != null && message.hasOwnProperty("immediate"))
+                if (typeof message.immediate !== "boolean")
+                    return "immediate: boolean expected";
+            if (message.budget != null && message.hasOwnProperty("budget"))
+                if (!$util.isInteger(message.budget) && !(message.budget && $util.isInteger(message.budget.low) && $util.isInteger(message.budget.high)))
+                    return "budget: integer|Long expected";
             return null;
         };
 
@@ -115810,6 +117306,17 @@ export const walletrpc = $root.walletrpc = (() => {
                     message.sat_per_vbyte = object.sat_per_vbyte;
                 else if (typeof object.sat_per_vbyte === "object")
                     message.sat_per_vbyte = new $util.LongBits(object.sat_per_vbyte.low >>> 0, object.sat_per_vbyte.high >>> 0).toNumber(true);
+            if (object.immediate != null)
+                message.immediate = Boolean(object.immediate);
+            if (object.budget != null)
+                if ($util.Long)
+                    (message.budget = $util.Long.fromValue(object.budget)).unsigned = true;
+                else if (typeof object.budget === "string")
+                    message.budget = parseInt(object.budget, 10);
+                else if (typeof object.budget === "number")
+                    message.budget = object.budget;
+                else if (typeof object.budget === "object")
+                    message.budget = new $util.LongBits(object.budget.low >>> 0, object.budget.high >>> 0).toNumber(true);
             return message;
         };
 
@@ -115836,6 +117343,12 @@ export const walletrpc = $root.walletrpc = (() => {
                     object.sat_per_vbyte = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.sat_per_vbyte = options.longs === String ? "0" : 0;
+                object.immediate = false;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.budget = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.budget = options.longs === String ? "0" : 0;
             }
             if (message.outpoint != null && message.hasOwnProperty("outpoint"))
                 object.outpoint = $root.lnrpc.OutPoint.toObject(message.outpoint, options);
@@ -115850,6 +117363,13 @@ export const walletrpc = $root.walletrpc = (() => {
                     object.sat_per_vbyte = options.longs === String ? String(message.sat_per_vbyte) : message.sat_per_vbyte;
                 else
                     object.sat_per_vbyte = options.longs === String ? $util.Long.prototype.toString.call(message.sat_per_vbyte) : options.longs === Number ? new $util.LongBits(message.sat_per_vbyte.low >>> 0, message.sat_per_vbyte.high >>> 0).toNumber(true) : message.sat_per_vbyte;
+            if (message.immediate != null && message.hasOwnProperty("immediate"))
+                object.immediate = message.immediate;
+            if (message.budget != null && message.hasOwnProperty("budget"))
+                if (typeof message.budget === "number")
+                    object.budget = options.longs === String ? String(message.budget) : message.budget;
+                else
+                    object.budget = options.longs === String ? $util.Long.prototype.toString.call(message.budget) : options.longs === Number ? new $util.LongBits(message.budget.low >>> 0, message.budget.high >>> 0).toNumber(true) : message.budget;
             return object;
         };
 
@@ -115888,6 +117408,7 @@ export const walletrpc = $root.walletrpc = (() => {
          * Properties of a BumpFeeResponse.
          * @memberof walletrpc
          * @interface IBumpFeeResponse
+         * @property {string|null} [status] BumpFeeResponse status
          */
 
         /**
@@ -115904,6 +117425,14 @@ export const walletrpc = $root.walletrpc = (() => {
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
+
+        /**
+         * BumpFeeResponse status.
+         * @member {string} status
+         * @memberof walletrpc.BumpFeeResponse
+         * @instance
+         */
+        BumpFeeResponse.prototype.status = "";
 
         /**
          * Creates a new BumpFeeResponse instance using the specified properties.
@@ -115929,6 +117458,8 @@ export const walletrpc = $root.walletrpc = (() => {
         BumpFeeResponse.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.status);
             return writer;
         };
 
@@ -115963,6 +117494,10 @@ export const walletrpc = $root.walletrpc = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
+                case 1: {
+                        message.status = reader.string();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -115998,6 +117533,9 @@ export const walletrpc = $root.walletrpc = (() => {
         BumpFeeResponse.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (message.status != null && message.hasOwnProperty("status"))
+                if (!$util.isString(message.status))
+                    return "status: string expected";
             return null;
         };
 
@@ -116012,7 +117550,10 @@ export const walletrpc = $root.walletrpc = (() => {
         BumpFeeResponse.fromObject = function fromObject(object) {
             if (object instanceof $root.walletrpc.BumpFeeResponse)
                 return object;
-            return new $root.walletrpc.BumpFeeResponse();
+            let message = new $root.walletrpc.BumpFeeResponse();
+            if (object.status != null)
+                message.status = String(object.status);
+            return message;
         };
 
         /**
@@ -116024,8 +117565,15 @@ export const walletrpc = $root.walletrpc = (() => {
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        BumpFeeResponse.toObject = function toObject() {
-            return {};
+        BumpFeeResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.status = "";
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
         };
 
         /**
@@ -116064,6 +117612,7 @@ export const walletrpc = $root.walletrpc = (() => {
          * @memberof walletrpc
          * @interface IListSweepsRequest
          * @property {boolean|null} [verbose] ListSweepsRequest verbose
+         * @property {number|null} [start_height] ListSweepsRequest start_height
          */
 
         /**
@@ -116088,6 +117637,14 @@ export const walletrpc = $root.walletrpc = (() => {
          * @instance
          */
         ListSweepsRequest.prototype.verbose = false;
+
+        /**
+         * ListSweepsRequest start_height.
+         * @member {number} start_height
+         * @memberof walletrpc.ListSweepsRequest
+         * @instance
+         */
+        ListSweepsRequest.prototype.start_height = 0;
 
         /**
          * Creates a new ListSweepsRequest instance using the specified properties.
@@ -116115,6 +117672,8 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer = $Writer.create();
             if (message.verbose != null && Object.hasOwnProperty.call(message, "verbose"))
                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.verbose);
+            if (message.start_height != null && Object.hasOwnProperty.call(message, "start_height"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.start_height);
             return writer;
         };
 
@@ -116151,6 +117710,10 @@ export const walletrpc = $root.walletrpc = (() => {
                 switch (tag >>> 3) {
                 case 1: {
                         message.verbose = reader.bool();
+                        break;
+                    }
+                case 2: {
+                        message.start_height = reader.int32();
                         break;
                     }
                 default:
@@ -116191,6 +117754,9 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.verbose != null && message.hasOwnProperty("verbose"))
                 if (typeof message.verbose !== "boolean")
                     return "verbose: boolean expected";
+            if (message.start_height != null && message.hasOwnProperty("start_height"))
+                if (!$util.isInteger(message.start_height))
+                    return "start_height: integer expected";
             return null;
         };
 
@@ -116208,6 +117774,8 @@ export const walletrpc = $root.walletrpc = (() => {
             let message = new $root.walletrpc.ListSweepsRequest();
             if (object.verbose != null)
                 message.verbose = Boolean(object.verbose);
+            if (object.start_height != null)
+                message.start_height = object.start_height | 0;
             return message;
         };
 
@@ -116224,10 +117792,14 @@ export const walletrpc = $root.walletrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
-            if (options.defaults)
+            if (options.defaults) {
                 object.verbose = false;
+                object.start_height = 0;
+            }
             if (message.verbose != null && message.hasOwnProperty("verbose"))
                 object.verbose = message.verbose;
+            if (message.start_height != null && message.hasOwnProperty("start_height"))
+                object.start_height = message.start_height;
             return object;
         };
 
@@ -117197,12 +118769,14 @@ export const walletrpc = $root.walletrpc = (() => {
          * @interface IFundPsbtRequest
          * @property {Uint8Array|null} [psbt] FundPsbtRequest psbt
          * @property {walletrpc.ITxTemplate|null} [raw] FundPsbtRequest raw
+         * @property {walletrpc.IPsbtCoinSelect|null} [coin_select] FundPsbtRequest coin_select
          * @property {number|null} [target_conf] FundPsbtRequest target_conf
          * @property {Long|null} [sat_per_vbyte] FundPsbtRequest sat_per_vbyte
          * @property {string|null} [account] FundPsbtRequest account
          * @property {number|null} [min_confs] FundPsbtRequest min_confs
          * @property {boolean|null} [spend_unconfirmed] FundPsbtRequest spend_unconfirmed
          * @property {walletrpc.ChangeAddressType|null} [change_type] FundPsbtRequest change_type
+         * @property {lnrpc.CoinSelectionStrategy|null} [coin_selection_strategy] FundPsbtRequest coin_selection_strategy
          */
 
         /**
@@ -117235,6 +118809,14 @@ export const walletrpc = $root.walletrpc = (() => {
          * @instance
          */
         FundPsbtRequest.prototype.raw = null;
+
+        /**
+         * FundPsbtRequest coin_select.
+         * @member {walletrpc.IPsbtCoinSelect|null|undefined} coin_select
+         * @memberof walletrpc.FundPsbtRequest
+         * @instance
+         */
+        FundPsbtRequest.prototype.coin_select = null;
 
         /**
          * FundPsbtRequest target_conf.
@@ -117284,17 +118866,25 @@ export const walletrpc = $root.walletrpc = (() => {
          */
         FundPsbtRequest.prototype.change_type = 0;
 
+        /**
+         * FundPsbtRequest coin_selection_strategy.
+         * @member {lnrpc.CoinSelectionStrategy} coin_selection_strategy
+         * @memberof walletrpc.FundPsbtRequest
+         * @instance
+         */
+        FundPsbtRequest.prototype.coin_selection_strategy = 0;
+
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
         /**
          * FundPsbtRequest template.
-         * @member {"psbt"|"raw"|undefined} template
+         * @member {"psbt"|"raw"|"coin_select"|undefined} template
          * @memberof walletrpc.FundPsbtRequest
          * @instance
          */
         Object.defineProperty(FundPsbtRequest.prototype, "template", {
-            get: $util.oneOfGetter($oneOfFields = ["psbt", "raw"]),
+            get: $util.oneOfGetter($oneOfFields = ["psbt", "raw", "coin_select"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -117349,6 +118939,10 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer.uint32(/* id 7, wireType 0 =*/56).bool(message.spend_unconfirmed);
             if (message.change_type != null && Object.hasOwnProperty.call(message, "change_type"))
                 writer.uint32(/* id 8, wireType 0 =*/64).int32(message.change_type);
+            if (message.coin_select != null && Object.hasOwnProperty.call(message, "coin_select"))
+                $root.walletrpc.PsbtCoinSelect.encode(message.coin_select, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+            if (message.coin_selection_strategy != null && Object.hasOwnProperty.call(message, "coin_selection_strategy"))
+                writer.uint32(/* id 10, wireType 0 =*/80).int32(message.coin_selection_strategy);
             return writer;
         };
 
@@ -117391,6 +118985,10 @@ export const walletrpc = $root.walletrpc = (() => {
                         message.raw = $root.walletrpc.TxTemplate.decode(reader, reader.uint32());
                         break;
                     }
+                case 9: {
+                        message.coin_select = $root.walletrpc.PsbtCoinSelect.decode(reader, reader.uint32());
+                        break;
+                    }
                 case 3: {
                         message.target_conf = reader.uint32();
                         break;
@@ -117413,6 +119011,10 @@ export const walletrpc = $root.walletrpc = (() => {
                     }
                 case 8: {
                         message.change_type = reader.int32();
+                        break;
+                    }
+                case 10: {
+                        message.coin_selection_strategy = reader.int32();
                         break;
                     }
                 default:
@@ -117466,6 +119068,16 @@ export const walletrpc = $root.walletrpc = (() => {
                         return "raw." + error;
                 }
             }
+            if (message.coin_select != null && message.hasOwnProperty("coin_select")) {
+                if (properties.template === 1)
+                    return "template: multiple values";
+                properties.template = 1;
+                {
+                    let error = $root.walletrpc.PsbtCoinSelect.verify(message.coin_select);
+                    if (error)
+                        return "coin_select." + error;
+                }
+            }
             if (message.target_conf != null && message.hasOwnProperty("target_conf")) {
                 properties.fees = 1;
                 if (!$util.isInteger(message.target_conf))
@@ -117495,6 +119107,15 @@ export const walletrpc = $root.walletrpc = (() => {
                 case 1:
                     break;
                 }
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                switch (message.coin_selection_strategy) {
+                default:
+                    return "coin_selection_strategy: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
             return null;
         };
 
@@ -117519,6 +119140,11 @@ export const walletrpc = $root.walletrpc = (() => {
                 if (typeof object.raw !== "object")
                     throw TypeError(".walletrpc.FundPsbtRequest.raw: object expected");
                 message.raw = $root.walletrpc.TxTemplate.fromObject(object.raw);
+            }
+            if (object.coin_select != null) {
+                if (typeof object.coin_select !== "object")
+                    throw TypeError(".walletrpc.FundPsbtRequest.coin_select: object expected");
+                message.coin_select = $root.walletrpc.PsbtCoinSelect.fromObject(object.coin_select);
             }
             if (object.target_conf != null)
                 message.target_conf = object.target_conf >>> 0;
@@ -117553,6 +119179,26 @@ export const walletrpc = $root.walletrpc = (() => {
                 message.change_type = 1;
                 break;
             }
+            switch (object.coin_selection_strategy) {
+            default:
+                if (typeof object.coin_selection_strategy === "number") {
+                    message.coin_selection_strategy = object.coin_selection_strategy;
+                    break;
+                }
+                break;
+            case "STRATEGY_USE_GLOBAL_CONFIG":
+            case 0:
+                message.coin_selection_strategy = 0;
+                break;
+            case "STRATEGY_LARGEST":
+            case 1:
+                message.coin_selection_strategy = 1;
+                break;
+            case "STRATEGY_RANDOM":
+            case 2:
+                message.coin_selection_strategy = 2;
+                break;
+            }
             return message;
         };
 
@@ -117574,6 +119220,7 @@ export const walletrpc = $root.walletrpc = (() => {
                 object.min_confs = 0;
                 object.spend_unconfirmed = false;
                 object.change_type = options.enums === String ? "CHANGE_ADDRESS_TYPE_UNSPECIFIED" : 0;
+                object.coin_selection_strategy = options.enums === String ? "STRATEGY_USE_GLOBAL_CONFIG" : 0;
             }
             if (message.psbt != null && message.hasOwnProperty("psbt")) {
                 object.psbt = options.bytes === String ? $util.base64.encode(message.psbt, 0, message.psbt.length) : options.bytes === Array ? Array.prototype.slice.call(message.psbt) : message.psbt;
@@ -117606,6 +119253,13 @@ export const walletrpc = $root.walletrpc = (() => {
                 object.spend_unconfirmed = message.spend_unconfirmed;
             if (message.change_type != null && message.hasOwnProperty("change_type"))
                 object.change_type = options.enums === String ? $root.walletrpc.ChangeAddressType[message.change_type] === undefined ? message.change_type : $root.walletrpc.ChangeAddressType[message.change_type] : message.change_type;
+            if (message.coin_select != null && message.hasOwnProperty("coin_select")) {
+                object.coin_select = $root.walletrpc.PsbtCoinSelect.toObject(message.coin_select, options);
+                if (options.oneofs)
+                    object.template = "coin_select";
+            }
+            if (message.coin_selection_strategy != null && message.hasOwnProperty("coin_selection_strategy"))
+                object.coin_selection_strategy = options.enums === String ? $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] === undefined ? message.coin_selection_strategy : $root.lnrpc.CoinSelectionStrategy[message.coin_selection_strategy] : message.coin_selection_strategy;
             return object;
         };
 
@@ -118210,6 +119864,289 @@ export const walletrpc = $root.walletrpc = (() => {
         };
 
         return TxTemplate;
+    })();
+
+    walletrpc.PsbtCoinSelect = (function() {
+
+        /**
+         * Properties of a PsbtCoinSelect.
+         * @memberof walletrpc
+         * @interface IPsbtCoinSelect
+         * @property {Uint8Array|null} [psbt] PsbtCoinSelect psbt
+         * @property {number|null} [existing_output_index] PsbtCoinSelect existing_output_index
+         * @property {boolean|null} [add] PsbtCoinSelect add
+         */
+
+        /**
+         * Constructs a new PsbtCoinSelect.
+         * @memberof walletrpc
+         * @classdesc Represents a PsbtCoinSelect.
+         * @implements IPsbtCoinSelect
+         * @constructor
+         * @param {walletrpc.IPsbtCoinSelect=} [properties] Properties to set
+         */
+        function PsbtCoinSelect(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * PsbtCoinSelect psbt.
+         * @member {Uint8Array} psbt
+         * @memberof walletrpc.PsbtCoinSelect
+         * @instance
+         */
+        PsbtCoinSelect.prototype.psbt = $util.newBuffer([]);
+
+        /**
+         * PsbtCoinSelect existing_output_index.
+         * @member {number|null|undefined} existing_output_index
+         * @memberof walletrpc.PsbtCoinSelect
+         * @instance
+         */
+        PsbtCoinSelect.prototype.existing_output_index = null;
+
+        /**
+         * PsbtCoinSelect add.
+         * @member {boolean|null|undefined} add
+         * @memberof walletrpc.PsbtCoinSelect
+         * @instance
+         */
+        PsbtCoinSelect.prototype.add = null;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        /**
+         * PsbtCoinSelect change_output.
+         * @member {"existing_output_index"|"add"|undefined} change_output
+         * @memberof walletrpc.PsbtCoinSelect
+         * @instance
+         */
+        Object.defineProperty(PsbtCoinSelect.prototype, "change_output", {
+            get: $util.oneOfGetter($oneOfFields = ["existing_output_index", "add"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new PsbtCoinSelect instance using the specified properties.
+         * @function create
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {walletrpc.IPsbtCoinSelect=} [properties] Properties to set
+         * @returns {walletrpc.PsbtCoinSelect} PsbtCoinSelect instance
+         */
+        PsbtCoinSelect.create = function create(properties) {
+            return new PsbtCoinSelect(properties);
+        };
+
+        /**
+         * Encodes the specified PsbtCoinSelect message. Does not implicitly {@link walletrpc.PsbtCoinSelect.verify|verify} messages.
+         * @function encode
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {walletrpc.IPsbtCoinSelect} message PsbtCoinSelect message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PsbtCoinSelect.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.psbt != null && Object.hasOwnProperty.call(message, "psbt"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.psbt);
+            if (message.existing_output_index != null && Object.hasOwnProperty.call(message, "existing_output_index"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.existing_output_index);
+            if (message.add != null && Object.hasOwnProperty.call(message, "add"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.add);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified PsbtCoinSelect message, length delimited. Does not implicitly {@link walletrpc.PsbtCoinSelect.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {walletrpc.IPsbtCoinSelect} message PsbtCoinSelect message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PsbtCoinSelect.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a PsbtCoinSelect message from the specified reader or buffer.
+         * @function decode
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {walletrpc.PsbtCoinSelect} PsbtCoinSelect
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PsbtCoinSelect.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.walletrpc.PsbtCoinSelect();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.psbt = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.existing_output_index = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.add = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a PsbtCoinSelect message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {walletrpc.PsbtCoinSelect} PsbtCoinSelect
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PsbtCoinSelect.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a PsbtCoinSelect message.
+         * @function verify
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        PsbtCoinSelect.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            let properties = {};
+            if (message.psbt != null && message.hasOwnProperty("psbt"))
+                if (!(message.psbt && typeof message.psbt.length === "number" || $util.isString(message.psbt)))
+                    return "psbt: buffer expected";
+            if (message.existing_output_index != null && message.hasOwnProperty("existing_output_index")) {
+                properties.change_output = 1;
+                if (!$util.isInteger(message.existing_output_index))
+                    return "existing_output_index: integer expected";
+            }
+            if (message.add != null && message.hasOwnProperty("add")) {
+                if (properties.change_output === 1)
+                    return "change_output: multiple values";
+                properties.change_output = 1;
+                if (typeof message.add !== "boolean")
+                    return "add: boolean expected";
+            }
+            return null;
+        };
+
+        /**
+         * Creates a PsbtCoinSelect message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {walletrpc.PsbtCoinSelect} PsbtCoinSelect
+         */
+        PsbtCoinSelect.fromObject = function fromObject(object) {
+            if (object instanceof $root.walletrpc.PsbtCoinSelect)
+                return object;
+            let message = new $root.walletrpc.PsbtCoinSelect();
+            if (object.psbt != null)
+                if (typeof object.psbt === "string")
+                    $util.base64.decode(object.psbt, message.psbt = $util.newBuffer($util.base64.length(object.psbt)), 0);
+                else if (object.psbt.length >= 0)
+                    message.psbt = object.psbt;
+            if (object.existing_output_index != null)
+                message.existing_output_index = object.existing_output_index | 0;
+            if (object.add != null)
+                message.add = Boolean(object.add);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a PsbtCoinSelect message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {walletrpc.PsbtCoinSelect} message PsbtCoinSelect
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        PsbtCoinSelect.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                if (options.bytes === String)
+                    object.psbt = "";
+                else {
+                    object.psbt = [];
+                    if (options.bytes !== Array)
+                        object.psbt = $util.newBuffer(object.psbt);
+                }
+            if (message.psbt != null && message.hasOwnProperty("psbt"))
+                object.psbt = options.bytes === String ? $util.base64.encode(message.psbt, 0, message.psbt.length) : options.bytes === Array ? Array.prototype.slice.call(message.psbt) : message.psbt;
+            if (message.existing_output_index != null && message.hasOwnProperty("existing_output_index")) {
+                object.existing_output_index = message.existing_output_index;
+                if (options.oneofs)
+                    object.change_output = "existing_output_index";
+            }
+            if (message.add != null && message.hasOwnProperty("add")) {
+                object.add = message.add;
+                if (options.oneofs)
+                    object.change_output = "add";
+            }
+            return object;
+        };
+
+        /**
+         * Converts this PsbtCoinSelect to JSON.
+         * @function toJSON
+         * @memberof walletrpc.PsbtCoinSelect
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        PsbtCoinSelect.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for PsbtCoinSelect
+         * @function getTypeUrl
+         * @memberof walletrpc.PsbtCoinSelect
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        PsbtCoinSelect.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/walletrpc.PsbtCoinSelect";
+        };
+
+        return PsbtCoinSelect;
     })();
 
     walletrpc.UtxoLease = (function() {

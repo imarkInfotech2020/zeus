@@ -86512,6 +86512,7 @@ export const routerrpc = $root.routerrpc = (() => {
                 case 3:
                 case 4:
                 case 5:
+                case 6:
                     break;
                 }
             return null;
@@ -86577,6 +86578,10 @@ export const routerrpc = $root.routerrpc = (() => {
             case "FAILURE_REASON_INSUFFICIENT_BALANCE":
             case 5:
                 message.failure_reason = 5;
+                break;
+            case "FAILURE_REASON_CANCELED":
+            case 6:
+                message.failure_reason = 6;
                 break;
             }
             return message;

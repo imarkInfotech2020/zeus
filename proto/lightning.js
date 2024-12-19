@@ -7646,6 +7646,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 3:
                 case 4:
                 case 5:
+                case 6:
                     break;
                 }
             if (message.wants_zero_conf != null && message.hasOwnProperty("wants_zero_conf"))
@@ -7783,6 +7784,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case "SIMPLE_TAPROOT":
             case 5:
                 message.commitment_type = 5;
+                break;
+            case "SIMPLE_TAPROOT_OVERLAY":
+            case 6:
+                message.commitment_type = 6;
                 break;
             }
             if (object.wants_zero_conf != null)
@@ -14600,6 +14605,7 @@ export const lnrpc = $root.lnrpc = (() => {
      * @property {number} ANCHORS=3 ANCHORS value
      * @property {number} SCRIPT_ENFORCED_LEASE=4 SCRIPT_ENFORCED_LEASE value
      * @property {number} SIMPLE_TAPROOT=5 SIMPLE_TAPROOT value
+     * @property {number} SIMPLE_TAPROOT_OVERLAY=6 SIMPLE_TAPROOT_OVERLAY value
      */
     lnrpc.CommitmentType = (function() {
         const valuesById = {}, values = Object.create(valuesById);
@@ -14609,6 +14615,7 @@ export const lnrpc = $root.lnrpc = (() => {
         values[valuesById[3] = "ANCHORS"] = 3;
         values[valuesById[4] = "SCRIPT_ENFORCED_LEASE"] = 4;
         values[valuesById[5] = "SIMPLE_TAPROOT"] = 5;
+        values[valuesById[6] = "SIMPLE_TAPROOT_OVERLAY"] = 6;
         return values;
     })();
 
@@ -15029,6 +15036,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {string|null} [peer_alias] Channel peer_alias
          * @property {Long|null} [peer_scid_alias] Channel peer_scid_alias
          * @property {string|null} [memo] Channel memo
+         * @property {Uint8Array|null} [custom_channel_data] Channel custom_channel_data
          */
 
         /**
@@ -15337,6 +15345,14 @@ export const lnrpc = $root.lnrpc = (() => {
         Channel.prototype.memo = "";
 
         /**
+         * Channel custom_channel_data.
+         * @member {Uint8Array} custom_channel_data
+         * @memberof lnrpc.Channel
+         * @instance
+         */
+        Channel.prototype.custom_channel_data = $util.newBuffer([]);
+
+        /**
          * Creates a new Channel instance using the specified properties.
          * @function create
          * @memberof lnrpc.Channel
@@ -15437,6 +15453,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 35, wireType 0 =*/280).uint64(message.peer_scid_alias);
             if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
                 writer.uint32(/* id 36, wireType 2 =*/290).string(message.memo);
+            if (message.custom_channel_data != null && Object.hasOwnProperty.call(message, "custom_channel_data"))
+                writer.uint32(/* id 37, wireType 2 =*/298).bytes(message.custom_channel_data);
             return writer;
         };
 
@@ -15624,6 +15642,10 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.memo = reader.string();
                         break;
                     }
+                case 37: {
+                        message.custom_channel_data = reader.bytes();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -15741,6 +15763,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 3:
                 case 4:
                 case 5:
+                case 6:
                     break;
                 }
             if (message.lifetime != null && message.hasOwnProperty("lifetime"))
@@ -15790,6 +15813,9 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.memo != null && message.hasOwnProperty("memo"))
                 if (!$util.isString(message.memo))
                     return "memo: string expected";
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                if (!(message.custom_channel_data && typeof message.custom_channel_data.length === "number" || $util.isString(message.custom_channel_data)))
+                    return "custom_channel_data: buffer expected";
             return null;
         };
 
@@ -15979,6 +16005,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case 5:
                 message.commitment_type = 5;
                 break;
+            case "SIMPLE_TAPROOT_OVERLAY":
+            case 6:
+                message.commitment_type = 6;
+                break;
             }
             if (object.lifetime != null)
                 if ($util.Long)
@@ -16059,6 +16089,11 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.peer_scid_alias = new $util.LongBits(object.peer_scid_alias.low >>> 0, object.peer_scid_alias.high >>> 0).toNumber(true);
             if (object.memo != null)
                 message.memo = String(object.memo);
+            if (object.custom_channel_data != null)
+                if (typeof object.custom_channel_data === "string")
+                    $util.base64.decode(object.custom_channel_data, message.custom_channel_data = $util.newBuffer($util.base64.length(object.custom_channel_data)), 0);
+                else if (object.custom_channel_data.length >= 0)
+                    message.custom_channel_data = object.custom_channel_data;
             return message;
         };
 
@@ -16186,6 +16221,13 @@ export const lnrpc = $root.lnrpc = (() => {
                 } else
                     object.peer_scid_alias = options.longs === String ? "0" : 0;
                 object.memo = "";
+                if (options.bytes === String)
+                    object.custom_channel_data = "";
+                else {
+                    object.custom_channel_data = [];
+                    if (options.bytes !== Array)
+                        object.custom_channel_data = $util.newBuffer(object.custom_channel_data);
+                }
             }
             if (message.active != null && message.hasOwnProperty("active"))
                 object.active = message.active;
@@ -16322,6 +16364,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.peer_scid_alias = options.longs === String ? $util.Long.prototype.toString.call(message.peer_scid_alias) : options.longs === Number ? new $util.LongBits(message.peer_scid_alias.low >>> 0, message.peer_scid_alias.high >>> 0).toNumber(true) : message.peer_scid_alias;
             if (message.memo != null && message.hasOwnProperty("memo"))
                 object.memo = message.memo;
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                object.custom_channel_data = options.bytes === String ? $util.base64.encode(message.custom_channel_data, 0, message.custom_channel_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.custom_channel_data) : message.custom_channel_data;
             return object;
         };
 
@@ -23646,6 +23690,311 @@ export const lnrpc = $root.lnrpc = (() => {
         return ChannelOpenUpdate;
     })();
 
+    lnrpc.CloseOutput = (function() {
+
+        /**
+         * Properties of a CloseOutput.
+         * @memberof lnrpc
+         * @interface ICloseOutput
+         * @property {Long|null} [amount_sat] CloseOutput amount_sat
+         * @property {Uint8Array|null} [pk_script] CloseOutput pk_script
+         * @property {boolean|null} [is_local] CloseOutput is_local
+         * @property {Uint8Array|null} [custom_channel_data] CloseOutput custom_channel_data
+         */
+
+        /**
+         * Constructs a new CloseOutput.
+         * @memberof lnrpc
+         * @classdesc Represents a CloseOutput.
+         * @implements ICloseOutput
+         * @constructor
+         * @param {lnrpc.ICloseOutput=} [properties] Properties to set
+         */
+        function CloseOutput(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * CloseOutput amount_sat.
+         * @member {Long} amount_sat
+         * @memberof lnrpc.CloseOutput
+         * @instance
+         */
+        CloseOutput.prototype.amount_sat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+        /**
+         * CloseOutput pk_script.
+         * @member {Uint8Array} pk_script
+         * @memberof lnrpc.CloseOutput
+         * @instance
+         */
+        CloseOutput.prototype.pk_script = $util.newBuffer([]);
+
+        /**
+         * CloseOutput is_local.
+         * @member {boolean} is_local
+         * @memberof lnrpc.CloseOutput
+         * @instance
+         */
+        CloseOutput.prototype.is_local = false;
+
+        /**
+         * CloseOutput custom_channel_data.
+         * @member {Uint8Array} custom_channel_data
+         * @memberof lnrpc.CloseOutput
+         * @instance
+         */
+        CloseOutput.prototype.custom_channel_data = $util.newBuffer([]);
+
+        /**
+         * Creates a new CloseOutput instance using the specified properties.
+         * @function create
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {lnrpc.ICloseOutput=} [properties] Properties to set
+         * @returns {lnrpc.CloseOutput} CloseOutput instance
+         */
+        CloseOutput.create = function create(properties) {
+            return new CloseOutput(properties);
+        };
+
+        /**
+         * Encodes the specified CloseOutput message. Does not implicitly {@link lnrpc.CloseOutput.verify|verify} messages.
+         * @function encode
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {lnrpc.ICloseOutput} message CloseOutput message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CloseOutput.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.amount_sat != null && Object.hasOwnProperty.call(message, "amount_sat"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int64(message.amount_sat);
+            if (message.pk_script != null && Object.hasOwnProperty.call(message, "pk_script"))
+                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.pk_script);
+            if (message.is_local != null && Object.hasOwnProperty.call(message, "is_local"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.is_local);
+            if (message.custom_channel_data != null && Object.hasOwnProperty.call(message, "custom_channel_data"))
+                writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.custom_channel_data);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified CloseOutput message, length delimited. Does not implicitly {@link lnrpc.CloseOutput.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {lnrpc.ICloseOutput} message CloseOutput message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CloseOutput.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a CloseOutput message from the specified reader or buffer.
+         * @function decode
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {lnrpc.CloseOutput} CloseOutput
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CloseOutput.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.CloseOutput();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.amount_sat = reader.int64();
+                        break;
+                    }
+                case 2: {
+                        message.pk_script = reader.bytes();
+                        break;
+                    }
+                case 3: {
+                        message.is_local = reader.bool();
+                        break;
+                    }
+                case 4: {
+                        message.custom_channel_data = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a CloseOutput message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {lnrpc.CloseOutput} CloseOutput
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CloseOutput.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a CloseOutput message.
+         * @function verify
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CloseOutput.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.amount_sat != null && message.hasOwnProperty("amount_sat"))
+                if (!$util.isInteger(message.amount_sat) && !(message.amount_sat && $util.isInteger(message.amount_sat.low) && $util.isInteger(message.amount_sat.high)))
+                    return "amount_sat: integer|Long expected";
+            if (message.pk_script != null && message.hasOwnProperty("pk_script"))
+                if (!(message.pk_script && typeof message.pk_script.length === "number" || $util.isString(message.pk_script)))
+                    return "pk_script: buffer expected";
+            if (message.is_local != null && message.hasOwnProperty("is_local"))
+                if (typeof message.is_local !== "boolean")
+                    return "is_local: boolean expected";
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                if (!(message.custom_channel_data && typeof message.custom_channel_data.length === "number" || $util.isString(message.custom_channel_data)))
+                    return "custom_channel_data: buffer expected";
+            return null;
+        };
+
+        /**
+         * Creates a CloseOutput message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {lnrpc.CloseOutput} CloseOutput
+         */
+        CloseOutput.fromObject = function fromObject(object) {
+            if (object instanceof $root.lnrpc.CloseOutput)
+                return object;
+            let message = new $root.lnrpc.CloseOutput();
+            if (object.amount_sat != null)
+                if ($util.Long)
+                    (message.amount_sat = $util.Long.fromValue(object.amount_sat)).unsigned = false;
+                else if (typeof object.amount_sat === "string")
+                    message.amount_sat = parseInt(object.amount_sat, 10);
+                else if (typeof object.amount_sat === "number")
+                    message.amount_sat = object.amount_sat;
+                else if (typeof object.amount_sat === "object")
+                    message.amount_sat = new $util.LongBits(object.amount_sat.low >>> 0, object.amount_sat.high >>> 0).toNumber();
+            if (object.pk_script != null)
+                if (typeof object.pk_script === "string")
+                    $util.base64.decode(object.pk_script, message.pk_script = $util.newBuffer($util.base64.length(object.pk_script)), 0);
+                else if (object.pk_script.length >= 0)
+                    message.pk_script = object.pk_script;
+            if (object.is_local != null)
+                message.is_local = Boolean(object.is_local);
+            if (object.custom_channel_data != null)
+                if (typeof object.custom_channel_data === "string")
+                    $util.base64.decode(object.custom_channel_data, message.custom_channel_data = $util.newBuffer($util.base64.length(object.custom_channel_data)), 0);
+                else if (object.custom_channel_data.length >= 0)
+                    message.custom_channel_data = object.custom_channel_data;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a CloseOutput message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {lnrpc.CloseOutput} message CloseOutput
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CloseOutput.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, false);
+                    object.amount_sat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.amount_sat = options.longs === String ? "0" : 0;
+                if (options.bytes === String)
+                    object.pk_script = "";
+                else {
+                    object.pk_script = [];
+                    if (options.bytes !== Array)
+                        object.pk_script = $util.newBuffer(object.pk_script);
+                }
+                object.is_local = false;
+                if (options.bytes === String)
+                    object.custom_channel_data = "";
+                else {
+                    object.custom_channel_data = [];
+                    if (options.bytes !== Array)
+                        object.custom_channel_data = $util.newBuffer(object.custom_channel_data);
+                }
+            }
+            if (message.amount_sat != null && message.hasOwnProperty("amount_sat"))
+                if (typeof message.amount_sat === "number")
+                    object.amount_sat = options.longs === String ? String(message.amount_sat) : message.amount_sat;
+                else
+                    object.amount_sat = options.longs === String ? $util.Long.prototype.toString.call(message.amount_sat) : options.longs === Number ? new $util.LongBits(message.amount_sat.low >>> 0, message.amount_sat.high >>> 0).toNumber() : message.amount_sat;
+            if (message.pk_script != null && message.hasOwnProperty("pk_script"))
+                object.pk_script = options.bytes === String ? $util.base64.encode(message.pk_script, 0, message.pk_script.length) : options.bytes === Array ? Array.prototype.slice.call(message.pk_script) : message.pk_script;
+            if (message.is_local != null && message.hasOwnProperty("is_local"))
+                object.is_local = message.is_local;
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                object.custom_channel_data = options.bytes === String ? $util.base64.encode(message.custom_channel_data, 0, message.custom_channel_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.custom_channel_data) : message.custom_channel_data;
+            return object;
+        };
+
+        /**
+         * Converts this CloseOutput to JSON.
+         * @function toJSON
+         * @memberof lnrpc.CloseOutput
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CloseOutput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for CloseOutput
+         * @function getTypeUrl
+         * @memberof lnrpc.CloseOutput
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CloseOutput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/lnrpc.CloseOutput";
+        };
+
+        return CloseOutput;
+    })();
+
     lnrpc.ChannelCloseUpdate = (function() {
 
         /**
@@ -23654,6 +24003,9 @@ export const lnrpc = $root.lnrpc = (() => {
          * @interface IChannelCloseUpdate
          * @property {Uint8Array|null} [closing_txid] ChannelCloseUpdate closing_txid
          * @property {boolean|null} [success] ChannelCloseUpdate success
+         * @property {lnrpc.ICloseOutput|null} [local_close_output] ChannelCloseUpdate local_close_output
+         * @property {lnrpc.ICloseOutput|null} [remote_close_output] ChannelCloseUpdate remote_close_output
+         * @property {Array.<lnrpc.ICloseOutput>|null} [additional_outputs] ChannelCloseUpdate additional_outputs
          */
 
         /**
@@ -23665,6 +24017,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @param {lnrpc.IChannelCloseUpdate=} [properties] Properties to set
          */
         function ChannelCloseUpdate(properties) {
+            this.additional_outputs = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -23686,6 +24039,30 @@ export const lnrpc = $root.lnrpc = (() => {
          * @instance
          */
         ChannelCloseUpdate.prototype.success = false;
+
+        /**
+         * ChannelCloseUpdate local_close_output.
+         * @member {lnrpc.ICloseOutput|null|undefined} local_close_output
+         * @memberof lnrpc.ChannelCloseUpdate
+         * @instance
+         */
+        ChannelCloseUpdate.prototype.local_close_output = null;
+
+        /**
+         * ChannelCloseUpdate remote_close_output.
+         * @member {lnrpc.ICloseOutput|null|undefined} remote_close_output
+         * @memberof lnrpc.ChannelCloseUpdate
+         * @instance
+         */
+        ChannelCloseUpdate.prototype.remote_close_output = null;
+
+        /**
+         * ChannelCloseUpdate additional_outputs.
+         * @member {Array.<lnrpc.ICloseOutput>} additional_outputs
+         * @memberof lnrpc.ChannelCloseUpdate
+         * @instance
+         */
+        ChannelCloseUpdate.prototype.additional_outputs = $util.emptyArray;
 
         /**
          * Creates a new ChannelCloseUpdate instance using the specified properties.
@@ -23715,6 +24092,13 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.closing_txid);
             if (message.success != null && Object.hasOwnProperty.call(message, "success"))
                 writer.uint32(/* id 2, wireType 0 =*/16).bool(message.success);
+            if (message.local_close_output != null && Object.hasOwnProperty.call(message, "local_close_output"))
+                $root.lnrpc.CloseOutput.encode(message.local_close_output, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.remote_close_output != null && Object.hasOwnProperty.call(message, "remote_close_output"))
+                $root.lnrpc.CloseOutput.encode(message.remote_close_output, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            if (message.additional_outputs != null && message.additional_outputs.length)
+                for (let i = 0; i < message.additional_outputs.length; ++i)
+                    $root.lnrpc.CloseOutput.encode(message.additional_outputs[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
             return writer;
         };
 
@@ -23755,6 +24139,20 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 2: {
                         message.success = reader.bool();
+                        break;
+                    }
+                case 3: {
+                        message.local_close_output = $root.lnrpc.CloseOutput.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 4: {
+                        message.remote_close_output = $root.lnrpc.CloseOutput.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 5: {
+                        if (!(message.additional_outputs && message.additional_outputs.length))
+                            message.additional_outputs = [];
+                        message.additional_outputs.push($root.lnrpc.CloseOutput.decode(reader, reader.uint32()));
                         break;
                     }
                 default:
@@ -23798,6 +24196,25 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.success != null && message.hasOwnProperty("success"))
                 if (typeof message.success !== "boolean")
                     return "success: boolean expected";
+            if (message.local_close_output != null && message.hasOwnProperty("local_close_output")) {
+                let error = $root.lnrpc.CloseOutput.verify(message.local_close_output);
+                if (error)
+                    return "local_close_output." + error;
+            }
+            if (message.remote_close_output != null && message.hasOwnProperty("remote_close_output")) {
+                let error = $root.lnrpc.CloseOutput.verify(message.remote_close_output);
+                if (error)
+                    return "remote_close_output." + error;
+            }
+            if (message.additional_outputs != null && message.hasOwnProperty("additional_outputs")) {
+                if (!Array.isArray(message.additional_outputs))
+                    return "additional_outputs: array expected";
+                for (let i = 0; i < message.additional_outputs.length; ++i) {
+                    let error = $root.lnrpc.CloseOutput.verify(message.additional_outputs[i]);
+                    if (error)
+                        return "additional_outputs." + error;
+                }
+            }
             return null;
         };
 
@@ -23820,6 +24237,26 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.closing_txid = object.closing_txid;
             if (object.success != null)
                 message.success = Boolean(object.success);
+            if (object.local_close_output != null) {
+                if (typeof object.local_close_output !== "object")
+                    throw TypeError(".lnrpc.ChannelCloseUpdate.local_close_output: object expected");
+                message.local_close_output = $root.lnrpc.CloseOutput.fromObject(object.local_close_output);
+            }
+            if (object.remote_close_output != null) {
+                if (typeof object.remote_close_output !== "object")
+                    throw TypeError(".lnrpc.ChannelCloseUpdate.remote_close_output: object expected");
+                message.remote_close_output = $root.lnrpc.CloseOutput.fromObject(object.remote_close_output);
+            }
+            if (object.additional_outputs) {
+                if (!Array.isArray(object.additional_outputs))
+                    throw TypeError(".lnrpc.ChannelCloseUpdate.additional_outputs: array expected");
+                message.additional_outputs = [];
+                for (let i = 0; i < object.additional_outputs.length; ++i) {
+                    if (typeof object.additional_outputs[i] !== "object")
+                        throw TypeError(".lnrpc.ChannelCloseUpdate.additional_outputs: object expected");
+                    message.additional_outputs[i] = $root.lnrpc.CloseOutput.fromObject(object.additional_outputs[i]);
+                }
+            }
             return message;
         };
 
@@ -23836,6 +24273,8 @@ export const lnrpc = $root.lnrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
+            if (options.arrays || options.defaults)
+                object.additional_outputs = [];
             if (options.defaults) {
                 if (options.bytes === String)
                     object.closing_txid = "";
@@ -23845,11 +24284,22 @@ export const lnrpc = $root.lnrpc = (() => {
                         object.closing_txid = $util.newBuffer(object.closing_txid);
                 }
                 object.success = false;
+                object.local_close_output = null;
+                object.remote_close_output = null;
             }
             if (message.closing_txid != null && message.hasOwnProperty("closing_txid"))
                 object.closing_txid = options.bytes === String ? $util.base64.encode(message.closing_txid, 0, message.closing_txid.length) : options.bytes === Array ? Array.prototype.slice.call(message.closing_txid) : message.closing_txid;
             if (message.success != null && message.hasOwnProperty("success"))
                 object.success = message.success;
+            if (message.local_close_output != null && message.hasOwnProperty("local_close_output"))
+                object.local_close_output = $root.lnrpc.CloseOutput.toObject(message.local_close_output, options);
+            if (message.remote_close_output != null && message.hasOwnProperty("remote_close_output"))
+                object.remote_close_output = $root.lnrpc.CloseOutput.toObject(message.remote_close_output, options);
+            if (message.additional_outputs && message.additional_outputs.length) {
+                object.additional_outputs = [];
+                for (let j = 0; j < message.additional_outputs.length; ++j)
+                    object.additional_outputs[j] = $root.lnrpc.CloseOutput.toObject(message.additional_outputs[j], options);
+            }
             return object;
         };
 
@@ -26127,6 +26577,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 3:
                 case 4:
                 case 5:
+                case 6:
                     break;
                 }
             if (message.remote_max_value_in_flight_msat != null && message.hasOwnProperty("remote_max_value_in_flight_msat"))
@@ -26250,6 +26701,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case "SIMPLE_TAPROOT":
             case 5:
                 message.commitment_type = 5;
+                break;
+            case "SIMPLE_TAPROOT_OVERLAY":
+            case 6:
+                message.commitment_type = 6;
                 break;
             }
             if (object.remote_max_value_in_flight_msat != null)
@@ -27300,6 +27755,7 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 3:
                 case 4:
                 case 5:
+                case 6:
                     break;
                 }
             if (message.zero_conf != null && message.hasOwnProperty("zero_conf"))
@@ -27465,6 +27921,10 @@ export const lnrpc = $root.lnrpc = (() => {
             case "SIMPLE_TAPROOT":
             case 5:
                 message.commitment_type = 5;
+                break;
+            case "SIMPLE_TAPROOT_OVERLAY":
+            case 6:
+                message.commitment_type = 6;
                 break;
             }
             if (object.zero_conf != null)
@@ -31646,6 +32106,7 @@ export const lnrpc = $root.lnrpc = (() => {
              * @property {string|null} [chan_status_flags] PendingChannel chan_status_flags
              * @property {boolean|null} ["private"] PendingChannel private
              * @property {string|null} [memo] PendingChannel memo
+             * @property {Uint8Array|null} [custom_channel_data] PendingChannel custom_channel_data
              */
 
             /**
@@ -31768,6 +32229,14 @@ export const lnrpc = $root.lnrpc = (() => {
             PendingChannel.prototype.memo = "";
 
             /**
+             * PendingChannel custom_channel_data.
+             * @member {Uint8Array} custom_channel_data
+             * @memberof lnrpc.PendingChannelsResponse.PendingChannel
+             * @instance
+             */
+            PendingChannel.prototype.custom_channel_data = $util.newBuffer([]);
+
+            /**
              * Creates a new PendingChannel instance using the specified properties.
              * @function create
              * @memberof lnrpc.PendingChannelsResponse.PendingChannel
@@ -31817,6 +32286,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     writer.uint32(/* id 12, wireType 0 =*/96).bool(message["private"]);
                 if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
                     writer.uint32(/* id 13, wireType 2 =*/106).string(message.memo);
+                if (message.custom_channel_data != null && Object.hasOwnProperty.call(message, "custom_channel_data"))
+                    writer.uint32(/* id 34, wireType 2 =*/274).bytes(message.custom_channel_data);
                 return writer;
             };
 
@@ -31903,6 +32374,10 @@ export const lnrpc = $root.lnrpc = (() => {
                             message.memo = reader.string();
                             break;
                         }
+                    case 34: {
+                            message.custom_channel_data = reader.bytes();
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -31979,6 +32454,7 @@ export const lnrpc = $root.lnrpc = (() => {
                     case 3:
                     case 4:
                     case 5:
+                    case 6:
                         break;
                     }
                 if (message.num_forwarding_packages != null && message.hasOwnProperty("num_forwarding_packages"))
@@ -31993,6 +32469,9 @@ export const lnrpc = $root.lnrpc = (() => {
                 if (message.memo != null && message.hasOwnProperty("memo"))
                     if (!$util.isString(message.memo))
                         return "memo: string expected";
+                if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                    if (!(message.custom_channel_data && typeof message.custom_channel_data.length === "number" || $util.isString(message.custom_channel_data)))
+                        return "custom_channel_data: buffer expected";
                 return null;
             };
 
@@ -32112,6 +32591,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 5:
                     message.commitment_type = 5;
                     break;
+                case "SIMPLE_TAPROOT_OVERLAY":
+                case 6:
+                    message.commitment_type = 6;
+                    break;
                 }
                 if (object.num_forwarding_packages != null)
                     if ($util.Long)
@@ -32128,6 +32611,11 @@ export const lnrpc = $root.lnrpc = (() => {
                     message["private"] = Boolean(object["private"]);
                 if (object.memo != null)
                     message.memo = String(object.memo);
+                if (object.custom_channel_data != null)
+                    if (typeof object.custom_channel_data === "string")
+                        $util.base64.decode(object.custom_channel_data, message.custom_channel_data = $util.newBuffer($util.base64.length(object.custom_channel_data)), 0);
+                    else if (object.custom_channel_data.length >= 0)
+                        message.custom_channel_data = object.custom_channel_data;
                 return message;
             };
 
@@ -32182,6 +32670,13 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.chan_status_flags = "";
                     object["private"] = false;
                     object.memo = "";
+                    if (options.bytes === String)
+                        object.custom_channel_data = "";
+                    else {
+                        object.custom_channel_data = [];
+                        if (options.bytes !== Array)
+                            object.custom_channel_data = $util.newBuffer(object.custom_channel_data);
+                    }
                 }
                 if (message.remote_node_pub != null && message.hasOwnProperty("remote_node_pub"))
                     object.remote_node_pub = message.remote_node_pub;
@@ -32227,6 +32722,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object["private"] = message["private"];
                 if (message.memo != null && message.hasOwnProperty("memo"))
                     object.memo = message.memo;
+                if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                    object.custom_channel_data = options.bytes === String ? $util.base64.encode(message.custom_channel_data, 0, message.custom_channel_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.custom_channel_data) : message.custom_channel_data;
                 return object;
             };
 
@@ -35998,6 +36495,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {lnrpc.IAmount|null} [unsettled_remote_balance] ChannelBalanceResponse unsettled_remote_balance
          * @property {lnrpc.IAmount|null} [pending_open_local_balance] ChannelBalanceResponse pending_open_local_balance
          * @property {lnrpc.IAmount|null} [pending_open_remote_balance] ChannelBalanceResponse pending_open_remote_balance
+         * @property {Uint8Array|null} [custom_channel_data] ChannelBalanceResponse custom_channel_data
          */
 
         /**
@@ -36080,6 +36578,14 @@ export const lnrpc = $root.lnrpc = (() => {
         ChannelBalanceResponse.prototype.pending_open_remote_balance = null;
 
         /**
+         * ChannelBalanceResponse custom_channel_data.
+         * @member {Uint8Array} custom_channel_data
+         * @memberof lnrpc.ChannelBalanceResponse
+         * @instance
+         */
+        ChannelBalanceResponse.prototype.custom_channel_data = $util.newBuffer([]);
+
+        /**
          * Creates a new ChannelBalanceResponse instance using the specified properties.
          * @function create
          * @memberof lnrpc.ChannelBalanceResponse
@@ -36119,6 +36625,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 $root.lnrpc.Amount.encode(message.pending_open_local_balance, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
             if (message.pending_open_remote_balance != null && Object.hasOwnProperty.call(message, "pending_open_remote_balance"))
                 $root.lnrpc.Amount.encode(message.pending_open_remote_balance, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+            if (message.custom_channel_data != null && Object.hasOwnProperty.call(message, "custom_channel_data"))
+                writer.uint32(/* id 9, wireType 2 =*/74).bytes(message.custom_channel_data);
             return writer;
         };
 
@@ -36183,6 +36691,10 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 8: {
                         message.pending_open_remote_balance = $root.lnrpc.Amount.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 9: {
+                        message.custom_channel_data = reader.bytes();
                         break;
                     }
                 default:
@@ -36256,6 +36768,9 @@ export const lnrpc = $root.lnrpc = (() => {
                 if (error)
                     return "pending_open_remote_balance." + error;
             }
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                if (!(message.custom_channel_data && typeof message.custom_channel_data.length === "number" || $util.isString(message.custom_channel_data)))
+                    return "custom_channel_data: buffer expected";
             return null;
         };
 
@@ -36319,6 +36834,11 @@ export const lnrpc = $root.lnrpc = (() => {
                     throw TypeError(".lnrpc.ChannelBalanceResponse.pending_open_remote_balance: object expected");
                 message.pending_open_remote_balance = $root.lnrpc.Amount.fromObject(object.pending_open_remote_balance);
             }
+            if (object.custom_channel_data != null)
+                if (typeof object.custom_channel_data === "string")
+                    $util.base64.decode(object.custom_channel_data, message.custom_channel_data = $util.newBuffer($util.base64.length(object.custom_channel_data)), 0);
+                else if (object.custom_channel_data.length >= 0)
+                    message.custom_channel_data = object.custom_channel_data;
             return message;
         };
 
@@ -36352,6 +36872,13 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.unsettled_remote_balance = null;
                 object.pending_open_local_balance = null;
                 object.pending_open_remote_balance = null;
+                if (options.bytes === String)
+                    object.custom_channel_data = "";
+                else {
+                    object.custom_channel_data = [];
+                    if (options.bytes !== Array)
+                        object.custom_channel_data = $util.newBuffer(object.custom_channel_data);
+                }
             }
             if (message.balance != null && message.hasOwnProperty("balance"))
                 if (typeof message.balance === "number")
@@ -36375,6 +36902,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.pending_open_local_balance = $root.lnrpc.Amount.toObject(message.pending_open_local_balance, options);
             if (message.pending_open_remote_balance != null && message.hasOwnProperty("pending_open_remote_balance"))
                 object.pending_open_remote_balance = $root.lnrpc.Amount.toObject(message.pending_open_remote_balance, options);
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                object.custom_channel_data = options.bytes === String ? $util.base64.encode(message.custom_channel_data, 0, message.custom_channel_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.custom_channel_data) : message.custom_channel_data;
             return object;
         };
 
@@ -39363,6 +39892,8 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Array.<lnrpc.IHop>|null} [hops] Route hops
          * @property {Long|null} [total_fees_msat] Route total_fees_msat
          * @property {Long|null} [total_amt_msat] Route total_amt_msat
+         * @property {Long|null} [first_hop_amount_msat] Route first_hop_amount_msat
+         * @property {Uint8Array|null} [custom_channel_data] Route custom_channel_data
          */
 
         /**
@@ -39430,6 +39961,22 @@ export const lnrpc = $root.lnrpc = (() => {
         Route.prototype.total_amt_msat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
+         * Route first_hop_amount_msat.
+         * @member {Long} first_hop_amount_msat
+         * @memberof lnrpc.Route
+         * @instance
+         */
+        Route.prototype.first_hop_amount_msat = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+        /**
+         * Route custom_channel_data.
+         * @member {Uint8Array} custom_channel_data
+         * @memberof lnrpc.Route
+         * @instance
+         */
+        Route.prototype.custom_channel_data = $util.newBuffer([]);
+
+        /**
          * Creates a new Route instance using the specified properties.
          * @function create
          * @memberof lnrpc.Route
@@ -39466,6 +40013,10 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 5, wireType 0 =*/40).int64(message.total_fees_msat);
             if (message.total_amt_msat != null && Object.hasOwnProperty.call(message, "total_amt_msat"))
                 writer.uint32(/* id 6, wireType 0 =*/48).int64(message.total_amt_msat);
+            if (message.first_hop_amount_msat != null && Object.hasOwnProperty.call(message, "first_hop_amount_msat"))
+                writer.uint32(/* id 7, wireType 0 =*/56).int64(message.first_hop_amount_msat);
+            if (message.custom_channel_data != null && Object.hasOwnProperty.call(message, "custom_channel_data"))
+                writer.uint32(/* id 8, wireType 2 =*/66).bytes(message.custom_channel_data);
             return writer;
         };
 
@@ -39524,6 +40075,14 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 6: {
                         message.total_amt_msat = reader.int64();
+                        break;
+                    }
+                case 7: {
+                        message.first_hop_amount_msat = reader.int64();
+                        break;
+                    }
+                case 8: {
+                        message.custom_channel_data = reader.bytes();
                         break;
                     }
                 default:
@@ -39585,6 +40144,12 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.total_amt_msat != null && message.hasOwnProperty("total_amt_msat"))
                 if (!$util.isInteger(message.total_amt_msat) && !(message.total_amt_msat && $util.isInteger(message.total_amt_msat.low) && $util.isInteger(message.total_amt_msat.high)))
                     return "total_amt_msat: integer|Long expected";
+            if (message.first_hop_amount_msat != null && message.hasOwnProperty("first_hop_amount_msat"))
+                if (!$util.isInteger(message.first_hop_amount_msat) && !(message.first_hop_amount_msat && $util.isInteger(message.first_hop_amount_msat.low) && $util.isInteger(message.first_hop_amount_msat.high)))
+                    return "first_hop_amount_msat: integer|Long expected";
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                if (!(message.custom_channel_data && typeof message.custom_channel_data.length === "number" || $util.isString(message.custom_channel_data)))
+                    return "custom_channel_data: buffer expected";
             return null;
         };
 
@@ -39648,6 +40213,20 @@ export const lnrpc = $root.lnrpc = (() => {
                     message.total_amt_msat = object.total_amt_msat;
                 else if (typeof object.total_amt_msat === "object")
                     message.total_amt_msat = new $util.LongBits(object.total_amt_msat.low >>> 0, object.total_amt_msat.high >>> 0).toNumber();
+            if (object.first_hop_amount_msat != null)
+                if ($util.Long)
+                    (message.first_hop_amount_msat = $util.Long.fromValue(object.first_hop_amount_msat)).unsigned = false;
+                else if (typeof object.first_hop_amount_msat === "string")
+                    message.first_hop_amount_msat = parseInt(object.first_hop_amount_msat, 10);
+                else if (typeof object.first_hop_amount_msat === "number")
+                    message.first_hop_amount_msat = object.first_hop_amount_msat;
+                else if (typeof object.first_hop_amount_msat === "object")
+                    message.first_hop_amount_msat = new $util.LongBits(object.first_hop_amount_msat.low >>> 0, object.first_hop_amount_msat.high >>> 0).toNumber();
+            if (object.custom_channel_data != null)
+                if (typeof object.custom_channel_data === "string")
+                    $util.base64.decode(object.custom_channel_data, message.custom_channel_data = $util.newBuffer($util.base64.length(object.custom_channel_data)), 0);
+                else if (object.custom_channel_data.length >= 0)
+                    message.custom_channel_data = object.custom_channel_data;
             return message;
         };
 
@@ -39688,6 +40267,18 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.total_amt_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.total_amt_msat = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, false);
+                    object.first_hop_amount_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.first_hop_amount_msat = options.longs === String ? "0" : 0;
+                if (options.bytes === String)
+                    object.custom_channel_data = "";
+                else {
+                    object.custom_channel_data = [];
+                    if (options.bytes !== Array)
+                        object.custom_channel_data = $util.newBuffer(object.custom_channel_data);
+                }
             }
             if (message.total_time_lock != null && message.hasOwnProperty("total_time_lock"))
                 object.total_time_lock = message.total_time_lock;
@@ -39716,6 +40307,13 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.total_amt_msat = options.longs === String ? String(message.total_amt_msat) : message.total_amt_msat;
                 else
                     object.total_amt_msat = options.longs === String ? $util.Long.prototype.toString.call(message.total_amt_msat) : options.longs === Number ? new $util.LongBits(message.total_amt_msat.low >>> 0, message.total_amt_msat.high >>> 0).toNumber() : message.total_amt_msat;
+            if (message.first_hop_amount_msat != null && message.hasOwnProperty("first_hop_amount_msat"))
+                if (typeof message.first_hop_amount_msat === "number")
+                    object.first_hop_amount_msat = options.longs === String ? String(message.first_hop_amount_msat) : message.first_hop_amount_msat;
+                else
+                    object.first_hop_amount_msat = options.longs === String ? $util.Long.prototype.toString.call(message.first_hop_amount_msat) : options.longs === Number ? new $util.LongBits(message.first_hop_amount_msat.low >>> 0, message.first_hop_amount_msat.high >>> 0).toNumber() : message.first_hop_amount_msat;
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                object.custom_channel_data = options.bytes === String ? $util.base64.encode(message.custom_channel_data, 0, message.custom_channel_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.custom_channel_data) : message.custom_channel_data;
             return object;
         };
 
@@ -49804,6 +50402,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Object.<string,Uint8Array>|null} [custom_records] InvoiceHTLC custom_records
          * @property {Long|null} [mpp_total_amt_msat] InvoiceHTLC mpp_total_amt_msat
          * @property {lnrpc.IAMP|null} [amp] InvoiceHTLC amp
+         * @property {Uint8Array|null} [custom_channel_data] InvoiceHTLC custom_channel_data
          */
 
         /**
@@ -49911,6 +50510,14 @@ export const lnrpc = $root.lnrpc = (() => {
         InvoiceHTLC.prototype.amp = null;
 
         /**
+         * InvoiceHTLC custom_channel_data.
+         * @member {Uint8Array} custom_channel_data
+         * @memberof lnrpc.InvoiceHTLC
+         * @instance
+         */
+        InvoiceHTLC.prototype.custom_channel_data = $util.newBuffer([]);
+
+        /**
          * Creates a new InvoiceHTLC instance using the specified properties.
          * @function create
          * @memberof lnrpc.InvoiceHTLC
@@ -49957,6 +50564,8 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 10, wireType 0 =*/80).uint64(message.mpp_total_amt_msat);
             if (message.amp != null && Object.hasOwnProperty.call(message, "amp"))
                 $root.lnrpc.AMP.encode(message.amp, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
+            if (message.custom_channel_data != null && Object.hasOwnProperty.call(message, "custom_channel_data"))
+                writer.uint32(/* id 12, wireType 2 =*/98).bytes(message.custom_channel_data);
             return writer;
         };
 
@@ -50054,6 +50663,10 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.amp = $root.lnrpc.AMP.decode(reader, reader.uint32());
                         break;
                     }
+                case 12: {
+                        message.custom_channel_data = reader.bytes();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -50138,6 +50751,9 @@ export const lnrpc = $root.lnrpc = (() => {
                 if (error)
                     return "amp." + error;
             }
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                if (!(message.custom_channel_data && typeof message.custom_channel_data.length === "number" || $util.isString(message.custom_channel_data)))
+                    return "custom_channel_data: buffer expected";
             return null;
         };
 
@@ -50246,6 +50862,11 @@ export const lnrpc = $root.lnrpc = (() => {
                     throw TypeError(".lnrpc.InvoiceHTLC.amp: object expected");
                 message.amp = $root.lnrpc.AMP.fromObject(object.amp);
             }
+            if (object.custom_channel_data != null)
+                if (typeof object.custom_channel_data === "string")
+                    $util.base64.decode(object.custom_channel_data, message.custom_channel_data = $util.newBuffer($util.base64.length(object.custom_channel_data)), 0);
+                else if (object.custom_channel_data.length >= 0)
+                    message.custom_channel_data = object.custom_channel_data;
             return message;
         };
 
@@ -50299,6 +50920,13 @@ export const lnrpc = $root.lnrpc = (() => {
                 } else
                     object.mpp_total_amt_msat = options.longs === String ? "0" : 0;
                 object.amp = null;
+                if (options.bytes === String)
+                    object.custom_channel_data = "";
+                else {
+                    object.custom_channel_data = [];
+                    if (options.bytes !== Array)
+                        object.custom_channel_data = $util.newBuffer(object.custom_channel_data);
+                }
             }
             if (message.chan_id != null && message.hasOwnProperty("chan_id"))
                 if (typeof message.chan_id === "number")
@@ -50344,6 +50972,8 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.mpp_total_amt_msat = options.longs === String ? $util.Long.prototype.toString.call(message.mpp_total_amt_msat) : options.longs === Number ? new $util.LongBits(message.mpp_total_amt_msat.low >>> 0, message.mpp_total_amt_msat.high >>> 0).toNumber(true) : message.mpp_total_amt_msat;
             if (message.amp != null && message.hasOwnProperty("amp"))
                 object.amp = $root.lnrpc.AMP.toObject(message.amp, options);
+            if (message.custom_channel_data != null && message.hasOwnProperty("custom_channel_data"))
+                object.custom_channel_data = options.bytes === String ? $util.base64.encode(message.custom_channel_data, 0, message.custom_channel_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.custom_channel_data) : message.custom_channel_data;
             return object;
         };
 
@@ -52224,6 +52854,7 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {Array.<lnrpc.IHTLCAttempt>|null} [htlcs] Payment htlcs
          * @property {Long|null} [payment_index] Payment payment_index
          * @property {lnrpc.PaymentFailureReason|null} [failure_reason] Payment failure_reason
+         * @property {Object.<string,Uint8Array>|null} [first_hop_custom_records] Payment first_hop_custom_records
          */
 
         /**
@@ -52236,6 +52867,7 @@ export const lnrpc = $root.lnrpc = (() => {
          */
         function Payment(properties) {
             this.htlcs = [];
+            this.first_hop_custom_records = {};
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -52363,6 +52995,14 @@ export const lnrpc = $root.lnrpc = (() => {
         Payment.prototype.failure_reason = 0;
 
         /**
+         * Payment first_hop_custom_records.
+         * @member {Object.<string,Uint8Array>} first_hop_custom_records
+         * @memberof lnrpc.Payment
+         * @instance
+         */
+        Payment.prototype.first_hop_custom_records = $util.emptyObject;
+
+        /**
          * Creates a new Payment instance using the specified properties.
          * @function create
          * @memberof lnrpc.Payment
@@ -52417,6 +53057,9 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 15, wireType 0 =*/120).uint64(message.payment_index);
             if (message.failure_reason != null && Object.hasOwnProperty.call(message, "failure_reason"))
                 writer.uint32(/* id 16, wireType 0 =*/128).int32(message.failure_reason);
+            if (message.first_hop_custom_records != null && Object.hasOwnProperty.call(message, "first_hop_custom_records"))
+                for (let keys = Object.keys(message.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 17, wireType 2 =*/138).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.first_hop_custom_records[keys[i]]).ldelim();
             return writer;
         };
 
@@ -52447,7 +53090,7 @@ export const lnrpc = $root.lnrpc = (() => {
         Payment.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.Payment();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.lnrpc.Payment(), key, value;
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -52511,6 +53154,29 @@ export const lnrpc = $root.lnrpc = (() => {
                     }
                 case 16: {
                         message.failure_reason = reader.int32();
+                        break;
+                    }
+                case 17: {
+                        if (message.first_hop_custom_records === $util.emptyObject)
+                            message.first_hop_custom_records = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = 0;
+                        value = [];
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.uint64();
+                                break;
+                            case 2:
+                                value = reader.bytes();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.first_hop_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
                         break;
                     }
                 default:
@@ -52617,6 +53283,17 @@ export const lnrpc = $root.lnrpc = (() => {
                 case 6:
                     break;
                 }
+            if (message.first_hop_custom_records != null && message.hasOwnProperty("first_hop_custom_records")) {
+                if (!$util.isObject(message.first_hop_custom_records))
+                    return "first_hop_custom_records: object expected";
+                let key = Object.keys(message.first_hop_custom_records);
+                for (let i = 0; i < key.length; ++i) {
+                    if (!$util.key64Re.test(key[i]))
+                        return "first_hop_custom_records: integer|Long key{k:uint64} expected";
+                    if (!(message.first_hop_custom_records[key[i]] && typeof message.first_hop_custom_records[key[i]].length === "number" || $util.isString(message.first_hop_custom_records[key[i]])))
+                        return "first_hop_custom_records: buffer{k:uint64} expected";
+                }
+            }
             return null;
         };
 
@@ -52793,6 +53470,16 @@ export const lnrpc = $root.lnrpc = (() => {
                 message.failure_reason = 6;
                 break;
             }
+            if (object.first_hop_custom_records) {
+                if (typeof object.first_hop_custom_records !== "object")
+                    throw TypeError(".lnrpc.Payment.first_hop_custom_records: object expected");
+                message.first_hop_custom_records = {};
+                for (let keys = Object.keys(object.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    if (typeof object.first_hop_custom_records[keys[i]] === "string")
+                        $util.base64.decode(object.first_hop_custom_records[keys[i]], message.first_hop_custom_records[keys[i]] = $util.newBuffer($util.base64.length(object.first_hop_custom_records[keys[i]])), 0);
+                    else if (object.first_hop_custom_records[keys[i]].length >= 0)
+                        message.first_hop_custom_records[keys[i]] = object.first_hop_custom_records[keys[i]];
+            }
             return message;
         };
 
@@ -52811,6 +53498,8 @@ export const lnrpc = $root.lnrpc = (() => {
             let object = {};
             if (options.arrays || options.defaults)
                 object.htlcs = [];
+            if (options.objects || options.defaults)
+                object.first_hop_custom_records = {};
             if (options.defaults) {
                 object.payment_hash = "";
                 if ($util.Long) {
@@ -52923,6 +53612,12 @@ export const lnrpc = $root.lnrpc = (() => {
                     object.payment_index = options.longs === String ? $util.Long.prototype.toString.call(message.payment_index) : options.longs === Number ? new $util.LongBits(message.payment_index.low >>> 0, message.payment_index.high >>> 0).toNumber(true) : message.payment_index;
             if (message.failure_reason != null && message.hasOwnProperty("failure_reason"))
                 object.failure_reason = options.enums === String ? $root.lnrpc.PaymentFailureReason[message.failure_reason] === undefined ? message.failure_reason : $root.lnrpc.PaymentFailureReason[message.failure_reason] : message.failure_reason;
+            let keys2;
+            if (message.first_hop_custom_records && (keys2 = Object.keys(message.first_hop_custom_records)).length) {
+                object.first_hop_custom_records = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.first_hop_custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.first_hop_custom_records[keys2[j]], 0, message.first_hop_custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.first_hop_custom_records[keys2[j]]) : message.first_hop_custom_records[keys2[j]];
+            }
             return object;
         };
 
@@ -77295,6 +77990,39 @@ export const invoicesrpc = $root.invoicesrpc = (() => {
          * @variation 2
          */
 
+        /**
+         * Callback as used by {@link invoicesrpc.Invoices#htlcModifier}.
+         * @memberof invoicesrpc.Invoices
+         * @typedef HtlcModifierCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {invoicesrpc.HtlcModifyRequest} [response] HtlcModifyRequest
+         */
+
+        /**
+         * Calls HtlcModifier.
+         * @function htlcModifier
+         * @memberof invoicesrpc.Invoices
+         * @instance
+         * @param {invoicesrpc.IHtlcModifyResponse} request HtlcModifyResponse message or plain object
+         * @param {invoicesrpc.Invoices.HtlcModifierCallback} callback Node-style callback called with the error, if any, and HtlcModifyRequest
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(Invoices.prototype.htlcModifier = function htlcModifier(request, callback) {
+            return this.rpcCall(htlcModifier, $root.invoicesrpc.HtlcModifyResponse, $root.invoicesrpc.HtlcModifyRequest, request, callback);
+        }, "name", { value: "HtlcModifier" });
+
+        /**
+         * Calls HtlcModifier.
+         * @function htlcModifier
+         * @memberof invoicesrpc.Invoices
+         * @instance
+         * @param {invoicesrpc.IHtlcModifyResponse} request HtlcModifyResponse message or plain object
+         * @returns {Promise<invoicesrpc.HtlcModifyRequest>} Promise
+         * @variation 2
+         */
+
         return Invoices;
     })();
 
@@ -79414,6 +80142,930 @@ export const invoicesrpc = $root.invoicesrpc = (() => {
         };
 
         return LookupInvoiceMsg;
+    })();
+
+    invoicesrpc.CircuitKey = (function() {
+
+        /**
+         * Properties of a CircuitKey.
+         * @memberof invoicesrpc
+         * @interface ICircuitKey
+         * @property {Long|null} [chan_id] CircuitKey chan_id
+         * @property {Long|null} [htlc_id] CircuitKey htlc_id
+         */
+
+        /**
+         * Constructs a new CircuitKey.
+         * @memberof invoicesrpc
+         * @classdesc Represents a CircuitKey.
+         * @implements ICircuitKey
+         * @constructor
+         * @param {invoicesrpc.ICircuitKey=} [properties] Properties to set
+         */
+        function CircuitKey(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * CircuitKey chan_id.
+         * @member {Long} chan_id
+         * @memberof invoicesrpc.CircuitKey
+         * @instance
+         */
+        CircuitKey.prototype.chan_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * CircuitKey htlc_id.
+         * @member {Long} htlc_id
+         * @memberof invoicesrpc.CircuitKey
+         * @instance
+         */
+        CircuitKey.prototype.htlc_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * Creates a new CircuitKey instance using the specified properties.
+         * @function create
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {invoicesrpc.ICircuitKey=} [properties] Properties to set
+         * @returns {invoicesrpc.CircuitKey} CircuitKey instance
+         */
+        CircuitKey.create = function create(properties) {
+            return new CircuitKey(properties);
+        };
+
+        /**
+         * Encodes the specified CircuitKey message. Does not implicitly {@link invoicesrpc.CircuitKey.verify|verify} messages.
+         * @function encode
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {invoicesrpc.ICircuitKey} message CircuitKey message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CircuitKey.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.chan_id != null && Object.hasOwnProperty.call(message, "chan_id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.chan_id);
+            if (message.htlc_id != null && Object.hasOwnProperty.call(message, "htlc_id"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.htlc_id);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified CircuitKey message, length delimited. Does not implicitly {@link invoicesrpc.CircuitKey.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {invoicesrpc.ICircuitKey} message CircuitKey message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CircuitKey.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a CircuitKey message from the specified reader or buffer.
+         * @function decode
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {invoicesrpc.CircuitKey} CircuitKey
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CircuitKey.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.invoicesrpc.CircuitKey();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.chan_id = reader.uint64();
+                        break;
+                    }
+                case 2: {
+                        message.htlc_id = reader.uint64();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a CircuitKey message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {invoicesrpc.CircuitKey} CircuitKey
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CircuitKey.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a CircuitKey message.
+         * @function verify
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CircuitKey.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.chan_id != null && message.hasOwnProperty("chan_id"))
+                if (!$util.isInteger(message.chan_id) && !(message.chan_id && $util.isInteger(message.chan_id.low) && $util.isInteger(message.chan_id.high)))
+                    return "chan_id: integer|Long expected";
+            if (message.htlc_id != null && message.hasOwnProperty("htlc_id"))
+                if (!$util.isInteger(message.htlc_id) && !(message.htlc_id && $util.isInteger(message.htlc_id.low) && $util.isInteger(message.htlc_id.high)))
+                    return "htlc_id: integer|Long expected";
+            return null;
+        };
+
+        /**
+         * Creates a CircuitKey message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {invoicesrpc.CircuitKey} CircuitKey
+         */
+        CircuitKey.fromObject = function fromObject(object) {
+            if (object instanceof $root.invoicesrpc.CircuitKey)
+                return object;
+            let message = new $root.invoicesrpc.CircuitKey();
+            if (object.chan_id != null)
+                if ($util.Long)
+                    (message.chan_id = $util.Long.fromValue(object.chan_id)).unsigned = true;
+                else if (typeof object.chan_id === "string")
+                    message.chan_id = parseInt(object.chan_id, 10);
+                else if (typeof object.chan_id === "number")
+                    message.chan_id = object.chan_id;
+                else if (typeof object.chan_id === "object")
+                    message.chan_id = new $util.LongBits(object.chan_id.low >>> 0, object.chan_id.high >>> 0).toNumber(true);
+            if (object.htlc_id != null)
+                if ($util.Long)
+                    (message.htlc_id = $util.Long.fromValue(object.htlc_id)).unsigned = true;
+                else if (typeof object.htlc_id === "string")
+                    message.htlc_id = parseInt(object.htlc_id, 10);
+                else if (typeof object.htlc_id === "number")
+                    message.htlc_id = object.htlc_id;
+                else if (typeof object.htlc_id === "object")
+                    message.htlc_id = new $util.LongBits(object.htlc_id.low >>> 0, object.htlc_id.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a CircuitKey message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {invoicesrpc.CircuitKey} message CircuitKey
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CircuitKey.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.chan_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.chan_id = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.htlc_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.htlc_id = options.longs === String ? "0" : 0;
+            }
+            if (message.chan_id != null && message.hasOwnProperty("chan_id"))
+                if (typeof message.chan_id === "number")
+                    object.chan_id = options.longs === String ? String(message.chan_id) : message.chan_id;
+                else
+                    object.chan_id = options.longs === String ? $util.Long.prototype.toString.call(message.chan_id) : options.longs === Number ? new $util.LongBits(message.chan_id.low >>> 0, message.chan_id.high >>> 0).toNumber(true) : message.chan_id;
+            if (message.htlc_id != null && message.hasOwnProperty("htlc_id"))
+                if (typeof message.htlc_id === "number")
+                    object.htlc_id = options.longs === String ? String(message.htlc_id) : message.htlc_id;
+                else
+                    object.htlc_id = options.longs === String ? $util.Long.prototype.toString.call(message.htlc_id) : options.longs === Number ? new $util.LongBits(message.htlc_id.low >>> 0, message.htlc_id.high >>> 0).toNumber(true) : message.htlc_id;
+            return object;
+        };
+
+        /**
+         * Converts this CircuitKey to JSON.
+         * @function toJSON
+         * @memberof invoicesrpc.CircuitKey
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CircuitKey.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for CircuitKey
+         * @function getTypeUrl
+         * @memberof invoicesrpc.CircuitKey
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CircuitKey.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/invoicesrpc.CircuitKey";
+        };
+
+        return CircuitKey;
+    })();
+
+    invoicesrpc.HtlcModifyRequest = (function() {
+
+        /**
+         * Properties of a HtlcModifyRequest.
+         * @memberof invoicesrpc
+         * @interface IHtlcModifyRequest
+         * @property {lnrpc.IInvoice|null} [invoice] HtlcModifyRequest invoice
+         * @property {invoicesrpc.ICircuitKey|null} [exit_htlc_circuit_key] HtlcModifyRequest exit_htlc_circuit_key
+         * @property {Long|null} [exit_htlc_amt] HtlcModifyRequest exit_htlc_amt
+         * @property {number|null} [exit_htlc_expiry] HtlcModifyRequest exit_htlc_expiry
+         * @property {number|null} [current_height] HtlcModifyRequest current_height
+         * @property {Object.<string,Uint8Array>|null} [exit_htlc_wire_custom_records] HtlcModifyRequest exit_htlc_wire_custom_records
+         */
+
+        /**
+         * Constructs a new HtlcModifyRequest.
+         * @memberof invoicesrpc
+         * @classdesc Represents a HtlcModifyRequest.
+         * @implements IHtlcModifyRequest
+         * @constructor
+         * @param {invoicesrpc.IHtlcModifyRequest=} [properties] Properties to set
+         */
+        function HtlcModifyRequest(properties) {
+            this.exit_htlc_wire_custom_records = {};
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * HtlcModifyRequest invoice.
+         * @member {lnrpc.IInvoice|null|undefined} invoice
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @instance
+         */
+        HtlcModifyRequest.prototype.invoice = null;
+
+        /**
+         * HtlcModifyRequest exit_htlc_circuit_key.
+         * @member {invoicesrpc.ICircuitKey|null|undefined} exit_htlc_circuit_key
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @instance
+         */
+        HtlcModifyRequest.prototype.exit_htlc_circuit_key = null;
+
+        /**
+         * HtlcModifyRequest exit_htlc_amt.
+         * @member {Long} exit_htlc_amt
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @instance
+         */
+        HtlcModifyRequest.prototype.exit_htlc_amt = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * HtlcModifyRequest exit_htlc_expiry.
+         * @member {number} exit_htlc_expiry
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @instance
+         */
+        HtlcModifyRequest.prototype.exit_htlc_expiry = 0;
+
+        /**
+         * HtlcModifyRequest current_height.
+         * @member {number} current_height
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @instance
+         */
+        HtlcModifyRequest.prototype.current_height = 0;
+
+        /**
+         * HtlcModifyRequest exit_htlc_wire_custom_records.
+         * @member {Object.<string,Uint8Array>} exit_htlc_wire_custom_records
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @instance
+         */
+        HtlcModifyRequest.prototype.exit_htlc_wire_custom_records = $util.emptyObject;
+
+        /**
+         * Creates a new HtlcModifyRequest instance using the specified properties.
+         * @function create
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {invoicesrpc.IHtlcModifyRequest=} [properties] Properties to set
+         * @returns {invoicesrpc.HtlcModifyRequest} HtlcModifyRequest instance
+         */
+        HtlcModifyRequest.create = function create(properties) {
+            return new HtlcModifyRequest(properties);
+        };
+
+        /**
+         * Encodes the specified HtlcModifyRequest message. Does not implicitly {@link invoicesrpc.HtlcModifyRequest.verify|verify} messages.
+         * @function encode
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {invoicesrpc.IHtlcModifyRequest} message HtlcModifyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        HtlcModifyRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.invoice != null && Object.hasOwnProperty.call(message, "invoice"))
+                $root.lnrpc.Invoice.encode(message.invoice, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.exit_htlc_circuit_key != null && Object.hasOwnProperty.call(message, "exit_htlc_circuit_key"))
+                $root.invoicesrpc.CircuitKey.encode(message.exit_htlc_circuit_key, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.exit_htlc_amt != null && Object.hasOwnProperty.call(message, "exit_htlc_amt"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.exit_htlc_amt);
+            if (message.exit_htlc_expiry != null && Object.hasOwnProperty.call(message, "exit_htlc_expiry"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.exit_htlc_expiry);
+            if (message.current_height != null && Object.hasOwnProperty.call(message, "current_height"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.current_height);
+            if (message.exit_htlc_wire_custom_records != null && Object.hasOwnProperty.call(message, "exit_htlc_wire_custom_records"))
+                for (let keys = Object.keys(message.exit_htlc_wire_custom_records), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.exit_htlc_wire_custom_records[keys[i]]).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified HtlcModifyRequest message, length delimited. Does not implicitly {@link invoicesrpc.HtlcModifyRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {invoicesrpc.IHtlcModifyRequest} message HtlcModifyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        HtlcModifyRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a HtlcModifyRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {invoicesrpc.HtlcModifyRequest} HtlcModifyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        HtlcModifyRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.invoicesrpc.HtlcModifyRequest(), key, value;
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.invoice = $root.lnrpc.Invoice.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 2: {
+                        message.exit_htlc_circuit_key = $root.invoicesrpc.CircuitKey.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 3: {
+                        message.exit_htlc_amt = reader.uint64();
+                        break;
+                    }
+                case 4: {
+                        message.exit_htlc_expiry = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.current_height = reader.uint32();
+                        break;
+                    }
+                case 6: {
+                        if (message.exit_htlc_wire_custom_records === $util.emptyObject)
+                            message.exit_htlc_wire_custom_records = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = 0;
+                        value = [];
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.uint64();
+                                break;
+                            case 2:
+                                value = reader.bytes();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.exit_htlc_wire_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a HtlcModifyRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {invoicesrpc.HtlcModifyRequest} HtlcModifyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        HtlcModifyRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a HtlcModifyRequest message.
+         * @function verify
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        HtlcModifyRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.invoice != null && message.hasOwnProperty("invoice")) {
+                let error = $root.lnrpc.Invoice.verify(message.invoice);
+                if (error)
+                    return "invoice." + error;
+            }
+            if (message.exit_htlc_circuit_key != null && message.hasOwnProperty("exit_htlc_circuit_key")) {
+                let error = $root.invoicesrpc.CircuitKey.verify(message.exit_htlc_circuit_key);
+                if (error)
+                    return "exit_htlc_circuit_key." + error;
+            }
+            if (message.exit_htlc_amt != null && message.hasOwnProperty("exit_htlc_amt"))
+                if (!$util.isInteger(message.exit_htlc_amt) && !(message.exit_htlc_amt && $util.isInteger(message.exit_htlc_amt.low) && $util.isInteger(message.exit_htlc_amt.high)))
+                    return "exit_htlc_amt: integer|Long expected";
+            if (message.exit_htlc_expiry != null && message.hasOwnProperty("exit_htlc_expiry"))
+                if (!$util.isInteger(message.exit_htlc_expiry))
+                    return "exit_htlc_expiry: integer expected";
+            if (message.current_height != null && message.hasOwnProperty("current_height"))
+                if (!$util.isInteger(message.current_height))
+                    return "current_height: integer expected";
+            if (message.exit_htlc_wire_custom_records != null && message.hasOwnProperty("exit_htlc_wire_custom_records")) {
+                if (!$util.isObject(message.exit_htlc_wire_custom_records))
+                    return "exit_htlc_wire_custom_records: object expected";
+                let key = Object.keys(message.exit_htlc_wire_custom_records);
+                for (let i = 0; i < key.length; ++i) {
+                    if (!$util.key64Re.test(key[i]))
+                        return "exit_htlc_wire_custom_records: integer|Long key{k:uint64} expected";
+                    if (!(message.exit_htlc_wire_custom_records[key[i]] && typeof message.exit_htlc_wire_custom_records[key[i]].length === "number" || $util.isString(message.exit_htlc_wire_custom_records[key[i]])))
+                        return "exit_htlc_wire_custom_records: buffer{k:uint64} expected";
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a HtlcModifyRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {invoicesrpc.HtlcModifyRequest} HtlcModifyRequest
+         */
+        HtlcModifyRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.invoicesrpc.HtlcModifyRequest)
+                return object;
+            let message = new $root.invoicesrpc.HtlcModifyRequest();
+            if (object.invoice != null) {
+                if (typeof object.invoice !== "object")
+                    throw TypeError(".invoicesrpc.HtlcModifyRequest.invoice: object expected");
+                message.invoice = $root.lnrpc.Invoice.fromObject(object.invoice);
+            }
+            if (object.exit_htlc_circuit_key != null) {
+                if (typeof object.exit_htlc_circuit_key !== "object")
+                    throw TypeError(".invoicesrpc.HtlcModifyRequest.exit_htlc_circuit_key: object expected");
+                message.exit_htlc_circuit_key = $root.invoicesrpc.CircuitKey.fromObject(object.exit_htlc_circuit_key);
+            }
+            if (object.exit_htlc_amt != null)
+                if ($util.Long)
+                    (message.exit_htlc_amt = $util.Long.fromValue(object.exit_htlc_amt)).unsigned = true;
+                else if (typeof object.exit_htlc_amt === "string")
+                    message.exit_htlc_amt = parseInt(object.exit_htlc_amt, 10);
+                else if (typeof object.exit_htlc_amt === "number")
+                    message.exit_htlc_amt = object.exit_htlc_amt;
+                else if (typeof object.exit_htlc_amt === "object")
+                    message.exit_htlc_amt = new $util.LongBits(object.exit_htlc_amt.low >>> 0, object.exit_htlc_amt.high >>> 0).toNumber(true);
+            if (object.exit_htlc_expiry != null)
+                message.exit_htlc_expiry = object.exit_htlc_expiry >>> 0;
+            if (object.current_height != null)
+                message.current_height = object.current_height >>> 0;
+            if (object.exit_htlc_wire_custom_records) {
+                if (typeof object.exit_htlc_wire_custom_records !== "object")
+                    throw TypeError(".invoicesrpc.HtlcModifyRequest.exit_htlc_wire_custom_records: object expected");
+                message.exit_htlc_wire_custom_records = {};
+                for (let keys = Object.keys(object.exit_htlc_wire_custom_records), i = 0; i < keys.length; ++i)
+                    if (typeof object.exit_htlc_wire_custom_records[keys[i]] === "string")
+                        $util.base64.decode(object.exit_htlc_wire_custom_records[keys[i]], message.exit_htlc_wire_custom_records[keys[i]] = $util.newBuffer($util.base64.length(object.exit_htlc_wire_custom_records[keys[i]])), 0);
+                    else if (object.exit_htlc_wire_custom_records[keys[i]].length >= 0)
+                        message.exit_htlc_wire_custom_records[keys[i]] = object.exit_htlc_wire_custom_records[keys[i]];
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a HtlcModifyRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {invoicesrpc.HtlcModifyRequest} message HtlcModifyRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        HtlcModifyRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.objects || options.defaults)
+                object.exit_htlc_wire_custom_records = {};
+            if (options.defaults) {
+                object.invoice = null;
+                object.exit_htlc_circuit_key = null;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.exit_htlc_amt = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.exit_htlc_amt = options.longs === String ? "0" : 0;
+                object.exit_htlc_expiry = 0;
+                object.current_height = 0;
+            }
+            if (message.invoice != null && message.hasOwnProperty("invoice"))
+                object.invoice = $root.lnrpc.Invoice.toObject(message.invoice, options);
+            if (message.exit_htlc_circuit_key != null && message.hasOwnProperty("exit_htlc_circuit_key"))
+                object.exit_htlc_circuit_key = $root.invoicesrpc.CircuitKey.toObject(message.exit_htlc_circuit_key, options);
+            if (message.exit_htlc_amt != null && message.hasOwnProperty("exit_htlc_amt"))
+                if (typeof message.exit_htlc_amt === "number")
+                    object.exit_htlc_amt = options.longs === String ? String(message.exit_htlc_amt) : message.exit_htlc_amt;
+                else
+                    object.exit_htlc_amt = options.longs === String ? $util.Long.prototype.toString.call(message.exit_htlc_amt) : options.longs === Number ? new $util.LongBits(message.exit_htlc_amt.low >>> 0, message.exit_htlc_amt.high >>> 0).toNumber(true) : message.exit_htlc_amt;
+            if (message.exit_htlc_expiry != null && message.hasOwnProperty("exit_htlc_expiry"))
+                object.exit_htlc_expiry = message.exit_htlc_expiry;
+            if (message.current_height != null && message.hasOwnProperty("current_height"))
+                object.current_height = message.current_height;
+            let keys2;
+            if (message.exit_htlc_wire_custom_records && (keys2 = Object.keys(message.exit_htlc_wire_custom_records)).length) {
+                object.exit_htlc_wire_custom_records = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.exit_htlc_wire_custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.exit_htlc_wire_custom_records[keys2[j]], 0, message.exit_htlc_wire_custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.exit_htlc_wire_custom_records[keys2[j]]) : message.exit_htlc_wire_custom_records[keys2[j]];
+            }
+            return object;
+        };
+
+        /**
+         * Converts this HtlcModifyRequest to JSON.
+         * @function toJSON
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        HtlcModifyRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for HtlcModifyRequest
+         * @function getTypeUrl
+         * @memberof invoicesrpc.HtlcModifyRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        HtlcModifyRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/invoicesrpc.HtlcModifyRequest";
+        };
+
+        return HtlcModifyRequest;
+    })();
+
+    invoicesrpc.HtlcModifyResponse = (function() {
+
+        /**
+         * Properties of a HtlcModifyResponse.
+         * @memberof invoicesrpc
+         * @interface IHtlcModifyResponse
+         * @property {invoicesrpc.ICircuitKey|null} [circuit_key] HtlcModifyResponse circuit_key
+         * @property {Long|null} [amt_paid] HtlcModifyResponse amt_paid
+         * @property {boolean|null} [cancel_set] HtlcModifyResponse cancel_set
+         */
+
+        /**
+         * Constructs a new HtlcModifyResponse.
+         * @memberof invoicesrpc
+         * @classdesc Represents a HtlcModifyResponse.
+         * @implements IHtlcModifyResponse
+         * @constructor
+         * @param {invoicesrpc.IHtlcModifyResponse=} [properties] Properties to set
+         */
+        function HtlcModifyResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * HtlcModifyResponse circuit_key.
+         * @member {invoicesrpc.ICircuitKey|null|undefined} circuit_key
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @instance
+         */
+        HtlcModifyResponse.prototype.circuit_key = null;
+
+        /**
+         * HtlcModifyResponse amt_paid.
+         * @member {Long|null|undefined} amt_paid
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @instance
+         */
+        HtlcModifyResponse.prototype.amt_paid = null;
+
+        /**
+         * HtlcModifyResponse cancel_set.
+         * @member {boolean} cancel_set
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @instance
+         */
+        HtlcModifyResponse.prototype.cancel_set = false;
+
+        // OneOf field names bound to virtual getters and setters
+        let $oneOfFields;
+
+        /**
+         * HtlcModifyResponse _amt_paid.
+         * @member {"amt_paid"|undefined} _amt_paid
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @instance
+         */
+        Object.defineProperty(HtlcModifyResponse.prototype, "_amt_paid", {
+            get: $util.oneOfGetter($oneOfFields = ["amt_paid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        /**
+         * Creates a new HtlcModifyResponse instance using the specified properties.
+         * @function create
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {invoicesrpc.IHtlcModifyResponse=} [properties] Properties to set
+         * @returns {invoicesrpc.HtlcModifyResponse} HtlcModifyResponse instance
+         */
+        HtlcModifyResponse.create = function create(properties) {
+            return new HtlcModifyResponse(properties);
+        };
+
+        /**
+         * Encodes the specified HtlcModifyResponse message. Does not implicitly {@link invoicesrpc.HtlcModifyResponse.verify|verify} messages.
+         * @function encode
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {invoicesrpc.IHtlcModifyResponse} message HtlcModifyResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        HtlcModifyResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.circuit_key != null && Object.hasOwnProperty.call(message, "circuit_key"))
+                $root.invoicesrpc.CircuitKey.encode(message.circuit_key, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.amt_paid != null && Object.hasOwnProperty.call(message, "amt_paid"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.amt_paid);
+            if (message.cancel_set != null && Object.hasOwnProperty.call(message, "cancel_set"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.cancel_set);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified HtlcModifyResponse message, length delimited. Does not implicitly {@link invoicesrpc.HtlcModifyResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {invoicesrpc.IHtlcModifyResponse} message HtlcModifyResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        HtlcModifyResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a HtlcModifyResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {invoicesrpc.HtlcModifyResponse} HtlcModifyResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        HtlcModifyResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.invoicesrpc.HtlcModifyResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.circuit_key = $root.invoicesrpc.CircuitKey.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 2: {
+                        message.amt_paid = reader.uint64();
+                        break;
+                    }
+                case 3: {
+                        message.cancel_set = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a HtlcModifyResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {invoicesrpc.HtlcModifyResponse} HtlcModifyResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        HtlcModifyResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a HtlcModifyResponse message.
+         * @function verify
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        HtlcModifyResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            let properties = {};
+            if (message.circuit_key != null && message.hasOwnProperty("circuit_key")) {
+                let error = $root.invoicesrpc.CircuitKey.verify(message.circuit_key);
+                if (error)
+                    return "circuit_key." + error;
+            }
+            if (message.amt_paid != null && message.hasOwnProperty("amt_paid")) {
+                properties._amt_paid = 1;
+                if (!$util.isInteger(message.amt_paid) && !(message.amt_paid && $util.isInteger(message.amt_paid.low) && $util.isInteger(message.amt_paid.high)))
+                    return "amt_paid: integer|Long expected";
+            }
+            if (message.cancel_set != null && message.hasOwnProperty("cancel_set"))
+                if (typeof message.cancel_set !== "boolean")
+                    return "cancel_set: boolean expected";
+            return null;
+        };
+
+        /**
+         * Creates a HtlcModifyResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {invoicesrpc.HtlcModifyResponse} HtlcModifyResponse
+         */
+        HtlcModifyResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.invoicesrpc.HtlcModifyResponse)
+                return object;
+            let message = new $root.invoicesrpc.HtlcModifyResponse();
+            if (object.circuit_key != null) {
+                if (typeof object.circuit_key !== "object")
+                    throw TypeError(".invoicesrpc.HtlcModifyResponse.circuit_key: object expected");
+                message.circuit_key = $root.invoicesrpc.CircuitKey.fromObject(object.circuit_key);
+            }
+            if (object.amt_paid != null)
+                if ($util.Long)
+                    (message.amt_paid = $util.Long.fromValue(object.amt_paid)).unsigned = true;
+                else if (typeof object.amt_paid === "string")
+                    message.amt_paid = parseInt(object.amt_paid, 10);
+                else if (typeof object.amt_paid === "number")
+                    message.amt_paid = object.amt_paid;
+                else if (typeof object.amt_paid === "object")
+                    message.amt_paid = new $util.LongBits(object.amt_paid.low >>> 0, object.amt_paid.high >>> 0).toNumber(true);
+            if (object.cancel_set != null)
+                message.cancel_set = Boolean(object.cancel_set);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a HtlcModifyResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {invoicesrpc.HtlcModifyResponse} message HtlcModifyResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        HtlcModifyResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.circuit_key = null;
+                object.cancel_set = false;
+            }
+            if (message.circuit_key != null && message.hasOwnProperty("circuit_key"))
+                object.circuit_key = $root.invoicesrpc.CircuitKey.toObject(message.circuit_key, options);
+            if (message.amt_paid != null && message.hasOwnProperty("amt_paid")) {
+                if (typeof message.amt_paid === "number")
+                    object.amt_paid = options.longs === String ? String(message.amt_paid) : message.amt_paid;
+                else
+                    object.amt_paid = options.longs === String ? $util.Long.prototype.toString.call(message.amt_paid) : options.longs === Number ? new $util.LongBits(message.amt_paid.low >>> 0, message.amt_paid.high >>> 0).toNumber(true) : message.amt_paid;
+                if (options.oneofs)
+                    object._amt_paid = "amt_paid";
+            }
+            if (message.cancel_set != null && message.hasOwnProperty("cancel_set"))
+                object.cancel_set = message.cancel_set;
+            return object;
+        };
+
+        /**
+         * Converts this HtlcModifyResponse to JSON.
+         * @function toJSON
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        HtlcModifyResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for HtlcModifyResponse
+         * @function getTypeUrl
+         * @memberof invoicesrpc.HtlcModifyResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        HtlcModifyResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/invoicesrpc.HtlcModifyResponse";
+        };
+
+        return HtlcModifyResponse;
     })();
 
     return invoicesrpc;
@@ -84500,6 +86152,72 @@ export const routerrpc = $root.routerrpc = (() => {
          * @variation 2
          */
 
+        /**
+         * Callback as used by {@link routerrpc.Router#xAddLocalChanAliases}.
+         * @memberof routerrpc.Router
+         * @typedef XAddLocalChanAliasesCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {routerrpc.AddAliasesResponse} [response] AddAliasesResponse
+         */
+
+        /**
+         * Calls XAddLocalChanAliases.
+         * @function xAddLocalChanAliases
+         * @memberof routerrpc.Router
+         * @instance
+         * @param {routerrpc.IAddAliasesRequest} request AddAliasesRequest message or plain object
+         * @param {routerrpc.Router.XAddLocalChanAliasesCallback} callback Node-style callback called with the error, if any, and AddAliasesResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(Router.prototype.xAddLocalChanAliases = function xAddLocalChanAliases(request, callback) {
+            return this.rpcCall(xAddLocalChanAliases, $root.routerrpc.AddAliasesRequest, $root.routerrpc.AddAliasesResponse, request, callback);
+        }, "name", { value: "XAddLocalChanAliases" });
+
+        /**
+         * Calls XAddLocalChanAliases.
+         * @function xAddLocalChanAliases
+         * @memberof routerrpc.Router
+         * @instance
+         * @param {routerrpc.IAddAliasesRequest} request AddAliasesRequest message or plain object
+         * @returns {Promise<routerrpc.AddAliasesResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link routerrpc.Router#xDeleteLocalChanAliases}.
+         * @memberof routerrpc.Router
+         * @typedef XDeleteLocalChanAliasesCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {routerrpc.DeleteAliasesResponse} [response] DeleteAliasesResponse
+         */
+
+        /**
+         * Calls XDeleteLocalChanAliases.
+         * @function xDeleteLocalChanAliases
+         * @memberof routerrpc.Router
+         * @instance
+         * @param {routerrpc.IDeleteAliasesRequest} request DeleteAliasesRequest message or plain object
+         * @param {routerrpc.Router.XDeleteLocalChanAliasesCallback} callback Node-style callback called with the error, if any, and DeleteAliasesResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(Router.prototype.xDeleteLocalChanAliases = function xDeleteLocalChanAliases(request, callback) {
+            return this.rpcCall(xDeleteLocalChanAliases, $root.routerrpc.DeleteAliasesRequest, $root.routerrpc.DeleteAliasesResponse, request, callback);
+        }, "name", { value: "XDeleteLocalChanAliases" });
+
+        /**
+         * Calls XDeleteLocalChanAliases.
+         * @function xDeleteLocalChanAliases
+         * @memberof routerrpc.Router
+         * @instance
+         * @param {routerrpc.IDeleteAliasesRequest} request DeleteAliasesRequest message or plain object
+         * @returns {Promise<routerrpc.DeleteAliasesResponse>} Promise
+         * @variation 2
+         */
+
         return Router;
     })();
 
@@ -84532,6 +86250,8 @@ export const routerrpc = $root.routerrpc = (() => {
          * @property {Long|null} [max_shard_size_msat] SendPaymentRequest max_shard_size_msat
          * @property {boolean|null} [amp] SendPaymentRequest amp
          * @property {number|null} [time_pref] SendPaymentRequest time_pref
+         * @property {boolean|null} [cancelable] SendPaymentRequest cancelable
+         * @property {Object.<string,Uint8Array>|null} [first_hop_custom_records] SendPaymentRequest first_hop_custom_records
          */
 
         /**
@@ -84547,6 +86267,7 @@ export const routerrpc = $root.routerrpc = (() => {
             this.dest_custom_records = {};
             this.dest_features = [];
             this.outgoing_chan_ids = [];
+            this.first_hop_custom_records = {};
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -84738,6 +86459,22 @@ export const routerrpc = $root.routerrpc = (() => {
         SendPaymentRequest.prototype.time_pref = 0;
 
         /**
+         * SendPaymentRequest cancelable.
+         * @member {boolean} cancelable
+         * @memberof routerrpc.SendPaymentRequest
+         * @instance
+         */
+        SendPaymentRequest.prototype.cancelable = false;
+
+        /**
+         * SendPaymentRequest first_hop_custom_records.
+         * @member {Object.<string,Uint8Array>} first_hop_custom_records
+         * @memberof routerrpc.SendPaymentRequest
+         * @instance
+         */
+        SendPaymentRequest.prototype.first_hop_custom_records = $util.emptyObject;
+
+        /**
          * Creates a new SendPaymentRequest instance using the specified properties.
          * @function create
          * @memberof routerrpc.SendPaymentRequest
@@ -84817,6 +86554,11 @@ export const routerrpc = $root.routerrpc = (() => {
                 writer.uint32(/* id 22, wireType 0 =*/176).bool(message.amp);
             if (message.time_pref != null && Object.hasOwnProperty.call(message, "time_pref"))
                 writer.uint32(/* id 23, wireType 1 =*/185).double(message.time_pref);
+            if (message.cancelable != null && Object.hasOwnProperty.call(message, "cancelable"))
+                writer.uint32(/* id 24, wireType 0 =*/192).bool(message.cancelable);
+            if (message.first_hop_custom_records != null && Object.hasOwnProperty.call(message, "first_hop_custom_records"))
+                for (let keys = Object.keys(message.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 25, wireType 2 =*/202).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.first_hop_custom_records[keys[i]]).ldelim();
             return writer;
         };
 
@@ -84978,6 +86720,33 @@ export const routerrpc = $root.routerrpc = (() => {
                         message.time_pref = reader.double();
                         break;
                     }
+                case 24: {
+                        message.cancelable = reader.bool();
+                        break;
+                    }
+                case 25: {
+                        if (message.first_hop_custom_records === $util.emptyObject)
+                            message.first_hop_custom_records = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = 0;
+                        value = [];
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.uint64();
+                                break;
+                            case 2:
+                                value = reader.bytes();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.first_hop_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -85134,6 +86903,20 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.time_pref != null && message.hasOwnProperty("time_pref"))
                 if (typeof message.time_pref !== "number")
                     return "time_pref: number expected";
+            if (message.cancelable != null && message.hasOwnProperty("cancelable"))
+                if (typeof message.cancelable !== "boolean")
+                    return "cancelable: boolean expected";
+            if (message.first_hop_custom_records != null && message.hasOwnProperty("first_hop_custom_records")) {
+                if (!$util.isObject(message.first_hop_custom_records))
+                    return "first_hop_custom_records: object expected";
+                let key = Object.keys(message.first_hop_custom_records);
+                for (let i = 0; i < key.length; ++i) {
+                    if (!$util.key64Re.test(key[i]))
+                        return "first_hop_custom_records: integer|Long key{k:uint64} expected";
+                    if (!(message.first_hop_custom_records[key[i]] && typeof message.first_hop_custom_records[key[i]].length === "number" || $util.isString(message.first_hop_custom_records[key[i]])))
+                        return "first_hop_custom_records: buffer{k:uint64} expected";
+                }
+            }
             return null;
         };
 
@@ -85396,6 +87179,18 @@ export const routerrpc = $root.routerrpc = (() => {
                 message.amp = Boolean(object.amp);
             if (object.time_pref != null)
                 message.time_pref = Number(object.time_pref);
+            if (object.cancelable != null)
+                message.cancelable = Boolean(object.cancelable);
+            if (object.first_hop_custom_records) {
+                if (typeof object.first_hop_custom_records !== "object")
+                    throw TypeError(".routerrpc.SendPaymentRequest.first_hop_custom_records: object expected");
+                message.first_hop_custom_records = {};
+                for (let keys = Object.keys(object.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    if (typeof object.first_hop_custom_records[keys[i]] === "string")
+                        $util.base64.decode(object.first_hop_custom_records[keys[i]], message.first_hop_custom_records[keys[i]] = $util.newBuffer($util.base64.length(object.first_hop_custom_records[keys[i]])), 0);
+                    else if (object.first_hop_custom_records[keys[i]].length >= 0)
+                        message.first_hop_custom_records[keys[i]] = object.first_hop_custom_records[keys[i]];
+            }
             return message;
         };
 
@@ -85417,8 +87212,10 @@ export const routerrpc = $root.routerrpc = (() => {
                 object.dest_features = [];
                 object.outgoing_chan_ids = [];
             }
-            if (options.objects || options.defaults)
+            if (options.objects || options.defaults) {
                 object.dest_custom_records = {};
+                object.first_hop_custom_records = {};
+            }
             if (options.defaults) {
                 if (options.bytes === String)
                     object.dest = "";
@@ -85487,6 +87284,7 @@ export const routerrpc = $root.routerrpc = (() => {
                     object.max_shard_size_msat = options.longs === String ? "0" : 0;
                 object.amp = false;
                 object.time_pref = 0;
+                object.cancelable = false;
             }
             if (message.dest != null && message.hasOwnProperty("dest"))
                 object.dest = options.bytes === String ? $util.base64.encode(message.dest, 0, message.dest.length) : options.bytes === Array ? Array.prototype.slice.call(message.dest) : message.dest;
@@ -85568,6 +87366,13 @@ export const routerrpc = $root.routerrpc = (() => {
                 object.amp = message.amp;
             if (message.time_pref != null && message.hasOwnProperty("time_pref"))
                 object.time_pref = options.json && !isFinite(message.time_pref) ? String(message.time_pref) : message.time_pref;
+            if (message.cancelable != null && message.hasOwnProperty("cancelable"))
+                object.cancelable = message.cancelable;
+            if (message.first_hop_custom_records && (keys2 = Object.keys(message.first_hop_custom_records)).length) {
+                object.first_hop_custom_records = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.first_hop_custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.first_hop_custom_records[keys2[j]], 0, message.first_hop_custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.first_hop_custom_records[keys2[j]]) : message.first_hop_custom_records[keys2[j]];
+            }
             return object;
         };
 
@@ -86666,6 +88471,7 @@ export const routerrpc = $root.routerrpc = (() => {
          * @property {Uint8Array|null} [payment_hash] SendToRouteRequest payment_hash
          * @property {lnrpc.IRoute|null} [route] SendToRouteRequest route
          * @property {boolean|null} [skip_temp_err] SendToRouteRequest skip_temp_err
+         * @property {Object.<string,Uint8Array>|null} [first_hop_custom_records] SendToRouteRequest first_hop_custom_records
          */
 
         /**
@@ -86677,6 +88483,7 @@ export const routerrpc = $root.routerrpc = (() => {
          * @param {routerrpc.ISendToRouteRequest=} [properties] Properties to set
          */
         function SendToRouteRequest(properties) {
+            this.first_hop_custom_records = {};
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -86708,6 +88515,14 @@ export const routerrpc = $root.routerrpc = (() => {
         SendToRouteRequest.prototype.skip_temp_err = false;
 
         /**
+         * SendToRouteRequest first_hop_custom_records.
+         * @member {Object.<string,Uint8Array>} first_hop_custom_records
+         * @memberof routerrpc.SendToRouteRequest
+         * @instance
+         */
+        SendToRouteRequest.prototype.first_hop_custom_records = $util.emptyObject;
+
+        /**
          * Creates a new SendToRouteRequest instance using the specified properties.
          * @function create
          * @memberof routerrpc.SendToRouteRequest
@@ -86737,6 +88552,9 @@ export const routerrpc = $root.routerrpc = (() => {
                 $root.lnrpc.Route.encode(message.route, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
             if (message.skip_temp_err != null && Object.hasOwnProperty.call(message, "skip_temp_err"))
                 writer.uint32(/* id 3, wireType 0 =*/24).bool(message.skip_temp_err);
+            if (message.first_hop_custom_records != null && Object.hasOwnProperty.call(message, "first_hop_custom_records"))
+                for (let keys = Object.keys(message.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 4, wireType 2 =*/34).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.first_hop_custom_records[keys[i]]).ldelim();
             return writer;
         };
 
@@ -86767,7 +88585,7 @@ export const routerrpc = $root.routerrpc = (() => {
         SendToRouteRequest.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.SendToRouteRequest();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.SendToRouteRequest(), key, value;
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -86781,6 +88599,29 @@ export const routerrpc = $root.routerrpc = (() => {
                     }
                 case 3: {
                         message.skip_temp_err = reader.bool();
+                        break;
+                    }
+                case 4: {
+                        if (message.first_hop_custom_records === $util.emptyObject)
+                            message.first_hop_custom_records = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = 0;
+                        value = [];
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.uint64();
+                                break;
+                            case 2:
+                                value = reader.bytes();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.first_hop_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
                         break;
                     }
                 default:
@@ -86829,6 +88670,17 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.skip_temp_err != null && message.hasOwnProperty("skip_temp_err"))
                 if (typeof message.skip_temp_err !== "boolean")
                     return "skip_temp_err: boolean expected";
+            if (message.first_hop_custom_records != null && message.hasOwnProperty("first_hop_custom_records")) {
+                if (!$util.isObject(message.first_hop_custom_records))
+                    return "first_hop_custom_records: object expected";
+                let key = Object.keys(message.first_hop_custom_records);
+                for (let i = 0; i < key.length; ++i) {
+                    if (!$util.key64Re.test(key[i]))
+                        return "first_hop_custom_records: integer|Long key{k:uint64} expected";
+                    if (!(message.first_hop_custom_records[key[i]] && typeof message.first_hop_custom_records[key[i]].length === "number" || $util.isString(message.first_hop_custom_records[key[i]])))
+                        return "first_hop_custom_records: buffer{k:uint64} expected";
+                }
+            }
             return null;
         };
 
@@ -86856,6 +88708,16 @@ export const routerrpc = $root.routerrpc = (() => {
             }
             if (object.skip_temp_err != null)
                 message.skip_temp_err = Boolean(object.skip_temp_err);
+            if (object.first_hop_custom_records) {
+                if (typeof object.first_hop_custom_records !== "object")
+                    throw TypeError(".routerrpc.SendToRouteRequest.first_hop_custom_records: object expected");
+                message.first_hop_custom_records = {};
+                for (let keys = Object.keys(object.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    if (typeof object.first_hop_custom_records[keys[i]] === "string")
+                        $util.base64.decode(object.first_hop_custom_records[keys[i]], message.first_hop_custom_records[keys[i]] = $util.newBuffer($util.base64.length(object.first_hop_custom_records[keys[i]])), 0);
+                    else if (object.first_hop_custom_records[keys[i]].length >= 0)
+                        message.first_hop_custom_records[keys[i]] = object.first_hop_custom_records[keys[i]];
+            }
             return message;
         };
 
@@ -86872,6 +88734,8 @@ export const routerrpc = $root.routerrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
+            if (options.objects || options.defaults)
+                object.first_hop_custom_records = {};
             if (options.defaults) {
                 if (options.bytes === String)
                     object.payment_hash = "";
@@ -86889,6 +88753,12 @@ export const routerrpc = $root.routerrpc = (() => {
                 object.route = $root.lnrpc.Route.toObject(message.route, options);
             if (message.skip_temp_err != null && message.hasOwnProperty("skip_temp_err"))
                 object.skip_temp_err = message.skip_temp_err;
+            let keys2;
+            if (message.first_hop_custom_records && (keys2 = Object.keys(message.first_hop_custom_records)).length) {
+                object.first_hop_custom_records = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.first_hop_custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.first_hop_custom_records[keys2[j]], 0, message.first_hop_custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.first_hop_custom_records[keys2[j]]) : message.first_hop_custom_records[keys2[j]];
+            }
             return object;
         };
 
@@ -91329,6 +93199,7 @@ export const routerrpc = $root.routerrpc = (() => {
          * @property {Long|null} [outgoing_chan_id] BuildRouteRequest outgoing_chan_id
          * @property {Array.<Uint8Array>|null} [hop_pubkeys] BuildRouteRequest hop_pubkeys
          * @property {Uint8Array|null} [payment_addr] BuildRouteRequest payment_addr
+         * @property {Object.<string,Uint8Array>|null} [first_hop_custom_records] BuildRouteRequest first_hop_custom_records
          */
 
         /**
@@ -91341,6 +93212,7 @@ export const routerrpc = $root.routerrpc = (() => {
          */
         function BuildRouteRequest(properties) {
             this.hop_pubkeys = [];
+            this.first_hop_custom_records = {};
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -91388,6 +93260,14 @@ export const routerrpc = $root.routerrpc = (() => {
         BuildRouteRequest.prototype.payment_addr = $util.newBuffer([]);
 
         /**
+         * BuildRouteRequest first_hop_custom_records.
+         * @member {Object.<string,Uint8Array>} first_hop_custom_records
+         * @memberof routerrpc.BuildRouteRequest
+         * @instance
+         */
+        BuildRouteRequest.prototype.first_hop_custom_records = $util.emptyObject;
+
+        /**
          * Creates a new BuildRouteRequest instance using the specified properties.
          * @function create
          * @memberof routerrpc.BuildRouteRequest
@@ -91422,6 +93302,9 @@ export const routerrpc = $root.routerrpc = (() => {
                     writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.hop_pubkeys[i]);
             if (message.payment_addr != null && Object.hasOwnProperty.call(message, "payment_addr"))
                 writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.payment_addr);
+            if (message.first_hop_custom_records != null && Object.hasOwnProperty.call(message, "first_hop_custom_records"))
+                for (let keys = Object.keys(message.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 6, wireType 2 =*/50).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.first_hop_custom_records[keys[i]]).ldelim();
             return writer;
         };
 
@@ -91452,7 +93335,7 @@ export const routerrpc = $root.routerrpc = (() => {
         BuildRouteRequest.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.BuildRouteRequest();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.BuildRouteRequest(), key, value;
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -91476,6 +93359,29 @@ export const routerrpc = $root.routerrpc = (() => {
                     }
                 case 5: {
                         message.payment_addr = reader.bytes();
+                        break;
+                    }
+                case 6: {
+                        if (message.first_hop_custom_records === $util.emptyObject)
+                            message.first_hop_custom_records = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = 0;
+                        value = [];
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.uint64();
+                                break;
+                            case 2:
+                                value = reader.bytes();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.first_hop_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
                         break;
                     }
                 default:
@@ -91532,6 +93438,17 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.payment_addr != null && message.hasOwnProperty("payment_addr"))
                 if (!(message.payment_addr && typeof message.payment_addr.length === "number" || $util.isString(message.payment_addr)))
                     return "payment_addr: buffer expected";
+            if (message.first_hop_custom_records != null && message.hasOwnProperty("first_hop_custom_records")) {
+                if (!$util.isObject(message.first_hop_custom_records))
+                    return "first_hop_custom_records: object expected";
+                let key = Object.keys(message.first_hop_custom_records);
+                for (let i = 0; i < key.length; ++i) {
+                    if (!$util.key64Re.test(key[i]))
+                        return "first_hop_custom_records: integer|Long key{k:uint64} expected";
+                    if (!(message.first_hop_custom_records[key[i]] && typeof message.first_hop_custom_records[key[i]].length === "number" || $util.isString(message.first_hop_custom_records[key[i]])))
+                        return "first_hop_custom_records: buffer{k:uint64} expected";
+                }
+            }
             return null;
         };
 
@@ -91582,6 +93499,16 @@ export const routerrpc = $root.routerrpc = (() => {
                     $util.base64.decode(object.payment_addr, message.payment_addr = $util.newBuffer($util.base64.length(object.payment_addr)), 0);
                 else if (object.payment_addr.length >= 0)
                     message.payment_addr = object.payment_addr;
+            if (object.first_hop_custom_records) {
+                if (typeof object.first_hop_custom_records !== "object")
+                    throw TypeError(".routerrpc.BuildRouteRequest.first_hop_custom_records: object expected");
+                message.first_hop_custom_records = {};
+                for (let keys = Object.keys(object.first_hop_custom_records), i = 0; i < keys.length; ++i)
+                    if (typeof object.first_hop_custom_records[keys[i]] === "string")
+                        $util.base64.decode(object.first_hop_custom_records[keys[i]], message.first_hop_custom_records[keys[i]] = $util.newBuffer($util.base64.length(object.first_hop_custom_records[keys[i]])), 0);
+                    else if (object.first_hop_custom_records[keys[i]].length >= 0)
+                        message.first_hop_custom_records[keys[i]] = object.first_hop_custom_records[keys[i]];
+            }
             return message;
         };
 
@@ -91600,6 +93527,8 @@ export const routerrpc = $root.routerrpc = (() => {
             let object = {};
             if (options.arrays || options.defaults)
                 object.hop_pubkeys = [];
+            if (options.objects || options.defaults)
+                object.first_hop_custom_records = {};
             if (options.defaults) {
                 if ($util.Long) {
                     let long = new $util.Long(0, 0, false);
@@ -91639,6 +93568,12 @@ export const routerrpc = $root.routerrpc = (() => {
             }
             if (message.payment_addr != null && message.hasOwnProperty("payment_addr"))
                 object.payment_addr = options.bytes === String ? $util.base64.encode(message.payment_addr, 0, message.payment_addr.length) : options.bytes === Array ? Array.prototype.slice.call(message.payment_addr) : message.payment_addr;
+            let keys2;
+            if (message.first_hop_custom_records && (keys2 = Object.keys(message.first_hop_custom_records)).length) {
+                object.first_hop_custom_records = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.first_hop_custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.first_hop_custom_records[keys2[j]], 0, message.first_hop_custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.first_hop_custom_records[keys2[j]]) : message.first_hop_custom_records[keys2[j]];
+            }
             return object;
         };
 
@@ -95243,6 +97178,7 @@ export const routerrpc = $root.routerrpc = (() => {
          * @property {Object.<string,Uint8Array>|null} [custom_records] ForwardHtlcInterceptRequest custom_records
          * @property {Uint8Array|null} [onion_blob] ForwardHtlcInterceptRequest onion_blob
          * @property {number|null} [auto_fail_height] ForwardHtlcInterceptRequest auto_fail_height
+         * @property {Object.<string,Uint8Array>|null} [in_wire_custom_records] ForwardHtlcInterceptRequest in_wire_custom_records
          */
 
         /**
@@ -95255,6 +97191,7 @@ export const routerrpc = $root.routerrpc = (() => {
          */
         function ForwardHtlcInterceptRequest(properties) {
             this.custom_records = {};
+            this.in_wire_custom_records = {};
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -95342,6 +97279,14 @@ export const routerrpc = $root.routerrpc = (() => {
         ForwardHtlcInterceptRequest.prototype.auto_fail_height = 0;
 
         /**
+         * ForwardHtlcInterceptRequest in_wire_custom_records.
+         * @member {Object.<string,Uint8Array>} in_wire_custom_records
+         * @memberof routerrpc.ForwardHtlcInterceptRequest
+         * @instance
+         */
+        ForwardHtlcInterceptRequest.prototype.in_wire_custom_records = $util.emptyObject;
+
+        /**
          * Creates a new ForwardHtlcInterceptRequest instance using the specified properties.
          * @function create
          * @memberof routerrpc.ForwardHtlcInterceptRequest
@@ -95386,6 +97331,9 @@ export const routerrpc = $root.routerrpc = (() => {
                 writer.uint32(/* id 9, wireType 2 =*/74).bytes(message.onion_blob);
             if (message.auto_fail_height != null && Object.hasOwnProperty.call(message, "auto_fail_height"))
                 writer.uint32(/* id 10, wireType 0 =*/80).int32(message.auto_fail_height);
+            if (message.in_wire_custom_records != null && Object.hasOwnProperty.call(message, "in_wire_custom_records"))
+                for (let keys = Object.keys(message.in_wire_custom_records), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 11, wireType 2 =*/90).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.in_wire_custom_records[keys[i]]).ldelim();
             return writer;
         };
 
@@ -95479,6 +97427,29 @@ export const routerrpc = $root.routerrpc = (() => {
                         message.auto_fail_height = reader.int32();
                         break;
                     }
+                case 11: {
+                        if (message.in_wire_custom_records === $util.emptyObject)
+                            message.in_wire_custom_records = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = 0;
+                        value = [];
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.uint64();
+                                break;
+                            case 2:
+                                value = reader.bytes();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.in_wire_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -95554,6 +97525,17 @@ export const routerrpc = $root.routerrpc = (() => {
             if (message.auto_fail_height != null && message.hasOwnProperty("auto_fail_height"))
                 if (!$util.isInteger(message.auto_fail_height))
                     return "auto_fail_height: integer expected";
+            if (message.in_wire_custom_records != null && message.hasOwnProperty("in_wire_custom_records")) {
+                if (!$util.isObject(message.in_wire_custom_records))
+                    return "in_wire_custom_records: object expected";
+                let key = Object.keys(message.in_wire_custom_records);
+                for (let i = 0; i < key.length; ++i) {
+                    if (!$util.key64Re.test(key[i]))
+                        return "in_wire_custom_records: integer|Long key{k:uint64} expected";
+                    if (!(message.in_wire_custom_records[key[i]] && typeof message.in_wire_custom_records[key[i]].length === "number" || $util.isString(message.in_wire_custom_records[key[i]])))
+                        return "in_wire_custom_records: buffer{k:uint64} expected";
+                }
+            }
             return null;
         };
 
@@ -95627,6 +97609,16 @@ export const routerrpc = $root.routerrpc = (() => {
                     message.onion_blob = object.onion_blob;
             if (object.auto_fail_height != null)
                 message.auto_fail_height = object.auto_fail_height | 0;
+            if (object.in_wire_custom_records) {
+                if (typeof object.in_wire_custom_records !== "object")
+                    throw TypeError(".routerrpc.ForwardHtlcInterceptRequest.in_wire_custom_records: object expected");
+                message.in_wire_custom_records = {};
+                for (let keys = Object.keys(object.in_wire_custom_records), i = 0; i < keys.length; ++i)
+                    if (typeof object.in_wire_custom_records[keys[i]] === "string")
+                        $util.base64.decode(object.in_wire_custom_records[keys[i]], message.in_wire_custom_records[keys[i]] = $util.newBuffer($util.base64.length(object.in_wire_custom_records[keys[i]])), 0);
+                    else if (object.in_wire_custom_records[keys[i]].length >= 0)
+                        message.in_wire_custom_records[keys[i]] = object.in_wire_custom_records[keys[i]];
+            }
             return message;
         };
 
@@ -95643,8 +97635,10 @@ export const routerrpc = $root.routerrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
-            if (options.objects || options.defaults)
+            if (options.objects || options.defaults) {
                 object.custom_records = {};
+                object.in_wire_custom_records = {};
+            }
             if (options.defaults) {
                 object.incoming_circuit_key = null;
                 if (options.bytes === String)
@@ -95713,6 +97707,11 @@ export const routerrpc = $root.routerrpc = (() => {
                 object.onion_blob = options.bytes === String ? $util.base64.encode(message.onion_blob, 0, message.onion_blob.length) : options.bytes === Array ? Array.prototype.slice.call(message.onion_blob) : message.onion_blob;
             if (message.auto_fail_height != null && message.hasOwnProperty("auto_fail_height"))
                 object.auto_fail_height = message.auto_fail_height;
+            if (message.in_wire_custom_records && (keys2 = Object.keys(message.in_wire_custom_records)).length) {
+                object.in_wire_custom_records = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.in_wire_custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.in_wire_custom_records[keys2[j]], 0, message.in_wire_custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.in_wire_custom_records[keys2[j]]) : message.in_wire_custom_records[keys2[j]];
+            }
             return object;
         };
 
@@ -95757,6 +97756,9 @@ export const routerrpc = $root.routerrpc = (() => {
          * @property {Uint8Array|null} [preimage] ForwardHtlcInterceptResponse preimage
          * @property {Uint8Array|null} [failure_message] ForwardHtlcInterceptResponse failure_message
          * @property {lnrpc.Failure.FailureCode|null} [failure_code] ForwardHtlcInterceptResponse failure_code
+         * @property {Long|null} [in_amount_msat] ForwardHtlcInterceptResponse in_amount_msat
+         * @property {Long|null} [out_amount_msat] ForwardHtlcInterceptResponse out_amount_msat
+         * @property {Object.<string,Uint8Array>|null} [out_wire_custom_records] ForwardHtlcInterceptResponse out_wire_custom_records
          */
 
         /**
@@ -95765,6 +97767,8 @@ export const routerrpc = $root.routerrpc = (() => {
          * @classdesc ForwardHtlcInterceptResponse enables the caller to resolve a previously hold
          * forward. The caller can choose either to:
          * - `Resume`: Execute the default behavior (usually forward).
+         * - `ResumeModified`: Execute the default behavior (usually forward) with HTLC
+         * field modifications.
          * - `Reject`: Fail the htlc backwards.
          * - `Settle`: Settle this htlc with a given preimage.
          * @implements IForwardHtlcInterceptResponse
@@ -95772,6 +97776,7 @@ export const routerrpc = $root.routerrpc = (() => {
          * @param {routerrpc.IForwardHtlcInterceptResponse=} [properties] Properties to set
          */
         function ForwardHtlcInterceptResponse(properties) {
+            this.out_wire_custom_records = {};
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -95820,6 +97825,30 @@ export const routerrpc = $root.routerrpc = (() => {
         ForwardHtlcInterceptResponse.prototype.failure_code = 0;
 
         /**
+         * ForwardHtlcInterceptResponse in_amount_msat.
+         * @member {Long} in_amount_msat
+         * @memberof routerrpc.ForwardHtlcInterceptResponse
+         * @instance
+         */
+        ForwardHtlcInterceptResponse.prototype.in_amount_msat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * ForwardHtlcInterceptResponse out_amount_msat.
+         * @member {Long} out_amount_msat
+         * @memberof routerrpc.ForwardHtlcInterceptResponse
+         * @instance
+         */
+        ForwardHtlcInterceptResponse.prototype.out_amount_msat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * ForwardHtlcInterceptResponse out_wire_custom_records.
+         * @member {Object.<string,Uint8Array>} out_wire_custom_records
+         * @memberof routerrpc.ForwardHtlcInterceptResponse
+         * @instance
+         */
+        ForwardHtlcInterceptResponse.prototype.out_wire_custom_records = $util.emptyObject;
+
+        /**
          * Creates a new ForwardHtlcInterceptResponse instance using the specified properties.
          * @function create
          * @memberof routerrpc.ForwardHtlcInterceptResponse
@@ -95853,6 +97882,13 @@ export const routerrpc = $root.routerrpc = (() => {
                 writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.failure_message);
             if (message.failure_code != null && Object.hasOwnProperty.call(message, "failure_code"))
                 writer.uint32(/* id 5, wireType 0 =*/40).int32(message.failure_code);
+            if (message.in_amount_msat != null && Object.hasOwnProperty.call(message, "in_amount_msat"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.in_amount_msat);
+            if (message.out_amount_msat != null && Object.hasOwnProperty.call(message, "out_amount_msat"))
+                writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.out_amount_msat);
+            if (message.out_wire_custom_records != null && Object.hasOwnProperty.call(message, "out_wire_custom_records"))
+                for (let keys = Object.keys(message.out_wire_custom_records), i = 0; i < keys.length; ++i)
+                    writer.uint32(/* id 8, wireType 2 =*/66).fork().uint32(/* id 1, wireType 0 =*/8).uint64(keys[i]).uint32(/* id 2, wireType 2 =*/18).bytes(message.out_wire_custom_records[keys[i]]).ldelim();
             return writer;
         };
 
@@ -95883,7 +97919,7 @@ export const routerrpc = $root.routerrpc = (() => {
         ForwardHtlcInterceptResponse.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.ForwardHtlcInterceptResponse();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.ForwardHtlcInterceptResponse(), key, value;
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -95905,6 +97941,37 @@ export const routerrpc = $root.routerrpc = (() => {
                     }
                 case 5: {
                         message.failure_code = reader.int32();
+                        break;
+                    }
+                case 6: {
+                        message.in_amount_msat = reader.uint64();
+                        break;
+                    }
+                case 7: {
+                        message.out_amount_msat = reader.uint64();
+                        break;
+                    }
+                case 8: {
+                        if (message.out_wire_custom_records === $util.emptyObject)
+                            message.out_wire_custom_records = {};
+                        let end2 = reader.uint32() + reader.pos;
+                        key = 0;
+                        value = [];
+                        while (reader.pos < end2) {
+                            let tag2 = reader.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                key = reader.uint64();
+                                break;
+                            case 2:
+                                value = reader.bytes();
+                                break;
+                            default:
+                                reader.skipType(tag2 & 7);
+                                break;
+                            }
+                        }
+                        message.out_wire_custom_records[typeof key === "object" ? $util.longToHash(key) : key] = value;
                         break;
                     }
                 default:
@@ -95954,6 +98021,7 @@ export const routerrpc = $root.routerrpc = (() => {
                 case 0:
                 case 1:
                 case 2:
+                case 3:
                     break;
                 }
             if (message.preimage != null && message.hasOwnProperty("preimage"))
@@ -95997,6 +98065,23 @@ export const routerrpc = $root.routerrpc = (() => {
                 case 999:
                     break;
                 }
+            if (message.in_amount_msat != null && message.hasOwnProperty("in_amount_msat"))
+                if (!$util.isInteger(message.in_amount_msat) && !(message.in_amount_msat && $util.isInteger(message.in_amount_msat.low) && $util.isInteger(message.in_amount_msat.high)))
+                    return "in_amount_msat: integer|Long expected";
+            if (message.out_amount_msat != null && message.hasOwnProperty("out_amount_msat"))
+                if (!$util.isInteger(message.out_amount_msat) && !(message.out_amount_msat && $util.isInteger(message.out_amount_msat.low) && $util.isInteger(message.out_amount_msat.high)))
+                    return "out_amount_msat: integer|Long expected";
+            if (message.out_wire_custom_records != null && message.hasOwnProperty("out_wire_custom_records")) {
+                if (!$util.isObject(message.out_wire_custom_records))
+                    return "out_wire_custom_records: object expected";
+                let key = Object.keys(message.out_wire_custom_records);
+                for (let i = 0; i < key.length; ++i) {
+                    if (!$util.key64Re.test(key[i]))
+                        return "out_wire_custom_records: integer|Long key{k:uint64} expected";
+                    if (!(message.out_wire_custom_records[key[i]] && typeof message.out_wire_custom_records[key[i]].length === "number" || $util.isString(message.out_wire_custom_records[key[i]])))
+                        return "out_wire_custom_records: buffer{k:uint64} expected";
+                }
+            }
             return null;
         };
 
@@ -96035,6 +98120,10 @@ export const routerrpc = $root.routerrpc = (() => {
             case "RESUME":
             case 2:
                 message.action = 2;
+                break;
+            case "RESUME_MODIFIED":
+            case 3:
+                message.action = 3;
                 break;
             }
             if (object.preimage != null)
@@ -96171,6 +98260,34 @@ export const routerrpc = $root.routerrpc = (() => {
                 message.failure_code = 999;
                 break;
             }
+            if (object.in_amount_msat != null)
+                if ($util.Long)
+                    (message.in_amount_msat = $util.Long.fromValue(object.in_amount_msat)).unsigned = true;
+                else if (typeof object.in_amount_msat === "string")
+                    message.in_amount_msat = parseInt(object.in_amount_msat, 10);
+                else if (typeof object.in_amount_msat === "number")
+                    message.in_amount_msat = object.in_amount_msat;
+                else if (typeof object.in_amount_msat === "object")
+                    message.in_amount_msat = new $util.LongBits(object.in_amount_msat.low >>> 0, object.in_amount_msat.high >>> 0).toNumber(true);
+            if (object.out_amount_msat != null)
+                if ($util.Long)
+                    (message.out_amount_msat = $util.Long.fromValue(object.out_amount_msat)).unsigned = true;
+                else if (typeof object.out_amount_msat === "string")
+                    message.out_amount_msat = parseInt(object.out_amount_msat, 10);
+                else if (typeof object.out_amount_msat === "number")
+                    message.out_amount_msat = object.out_amount_msat;
+                else if (typeof object.out_amount_msat === "object")
+                    message.out_amount_msat = new $util.LongBits(object.out_amount_msat.low >>> 0, object.out_amount_msat.high >>> 0).toNumber(true);
+            if (object.out_wire_custom_records) {
+                if (typeof object.out_wire_custom_records !== "object")
+                    throw TypeError(".routerrpc.ForwardHtlcInterceptResponse.out_wire_custom_records: object expected");
+                message.out_wire_custom_records = {};
+                for (let keys = Object.keys(object.out_wire_custom_records), i = 0; i < keys.length; ++i)
+                    if (typeof object.out_wire_custom_records[keys[i]] === "string")
+                        $util.base64.decode(object.out_wire_custom_records[keys[i]], message.out_wire_custom_records[keys[i]] = $util.newBuffer($util.base64.length(object.out_wire_custom_records[keys[i]])), 0);
+                    else if (object.out_wire_custom_records[keys[i]].length >= 0)
+                        message.out_wire_custom_records[keys[i]] = object.out_wire_custom_records[keys[i]];
+            }
             return message;
         };
 
@@ -96187,6 +98304,8 @@ export const routerrpc = $root.routerrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
+            if (options.objects || options.defaults)
+                object.out_wire_custom_records = {};
             if (options.defaults) {
                 object.incoming_circuit_key = null;
                 object.action = options.enums === String ? "SETTLE" : 0;
@@ -96205,6 +98324,16 @@ export const routerrpc = $root.routerrpc = (() => {
                         object.failure_message = $util.newBuffer(object.failure_message);
                 }
                 object.failure_code = options.enums === String ? "RESERVED" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.in_amount_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.in_amount_msat = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.out_amount_msat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.out_amount_msat = options.longs === String ? "0" : 0;
             }
             if (message.incoming_circuit_key != null && message.hasOwnProperty("incoming_circuit_key"))
                 object.incoming_circuit_key = $root.routerrpc.CircuitKey.toObject(message.incoming_circuit_key, options);
@@ -96216,6 +98345,22 @@ export const routerrpc = $root.routerrpc = (() => {
                 object.failure_message = options.bytes === String ? $util.base64.encode(message.failure_message, 0, message.failure_message.length) : options.bytes === Array ? Array.prototype.slice.call(message.failure_message) : message.failure_message;
             if (message.failure_code != null && message.hasOwnProperty("failure_code"))
                 object.failure_code = options.enums === String ? $root.lnrpc.Failure.FailureCode[message.failure_code] === undefined ? message.failure_code : $root.lnrpc.Failure.FailureCode[message.failure_code] : message.failure_code;
+            if (message.in_amount_msat != null && message.hasOwnProperty("in_amount_msat"))
+                if (typeof message.in_amount_msat === "number")
+                    object.in_amount_msat = options.longs === String ? String(message.in_amount_msat) : message.in_amount_msat;
+                else
+                    object.in_amount_msat = options.longs === String ? $util.Long.prototype.toString.call(message.in_amount_msat) : options.longs === Number ? new $util.LongBits(message.in_amount_msat.low >>> 0, message.in_amount_msat.high >>> 0).toNumber(true) : message.in_amount_msat;
+            if (message.out_amount_msat != null && message.hasOwnProperty("out_amount_msat"))
+                if (typeof message.out_amount_msat === "number")
+                    object.out_amount_msat = options.longs === String ? String(message.out_amount_msat) : message.out_amount_msat;
+                else
+                    object.out_amount_msat = options.longs === String ? $util.Long.prototype.toString.call(message.out_amount_msat) : options.longs === Number ? new $util.LongBits(message.out_amount_msat.low >>> 0, message.out_amount_msat.high >>> 0).toNumber(true) : message.out_amount_msat;
+            let keys2;
+            if (message.out_wire_custom_records && (keys2 = Object.keys(message.out_wire_custom_records)).length) {
+                object.out_wire_custom_records = {};
+                for (let j = 0; j < keys2.length; ++j)
+                    object.out_wire_custom_records[keys2[j]] = options.bytes === String ? $util.base64.encode(message.out_wire_custom_records[keys2[j]], 0, message.out_wire_custom_records[keys2[j]].length) : options.bytes === Array ? Array.prototype.slice.call(message.out_wire_custom_records[keys2[j]]) : message.out_wire_custom_records[keys2[j]];
+            }
             return object;
         };
 
@@ -96255,12 +98400,14 @@ export const routerrpc = $root.routerrpc = (() => {
      * @property {number} SETTLE=0 SETTLE value
      * @property {number} FAIL=1 FAIL value
      * @property {number} RESUME=2 RESUME value
+     * @property {number} RESUME_MODIFIED=3 RESUME_MODIFIED value
      */
     routerrpc.ResolveHoldForwardAction = (function() {
         const valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "SETTLE"] = 0;
         values[valuesById[1] = "FAIL"] = 1;
         values[valuesById[2] = "RESUME"] = 2;
+        values[valuesById[3] = "RESUME_MODIFIED"] = 3;
         return values;
     })();
 
@@ -96709,6 +98856,902 @@ export const routerrpc = $root.routerrpc = (() => {
         };
 
         return UpdateChanStatusResponse;
+    })();
+
+    routerrpc.AddAliasesRequest = (function() {
+
+        /**
+         * Properties of an AddAliasesRequest.
+         * @memberof routerrpc
+         * @interface IAddAliasesRequest
+         * @property {Array.<lnrpc.IAliasMap>|null} [alias_maps] AddAliasesRequest alias_maps
+         */
+
+        /**
+         * Constructs a new AddAliasesRequest.
+         * @memberof routerrpc
+         * @classdesc Represents an AddAliasesRequest.
+         * @implements IAddAliasesRequest
+         * @constructor
+         * @param {routerrpc.IAddAliasesRequest=} [properties] Properties to set
+         */
+        function AddAliasesRequest(properties) {
+            this.alias_maps = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * AddAliasesRequest alias_maps.
+         * @member {Array.<lnrpc.IAliasMap>} alias_maps
+         * @memberof routerrpc.AddAliasesRequest
+         * @instance
+         */
+        AddAliasesRequest.prototype.alias_maps = $util.emptyArray;
+
+        /**
+         * Creates a new AddAliasesRequest instance using the specified properties.
+         * @function create
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {routerrpc.IAddAliasesRequest=} [properties] Properties to set
+         * @returns {routerrpc.AddAliasesRequest} AddAliasesRequest instance
+         */
+        AddAliasesRequest.create = function create(properties) {
+            return new AddAliasesRequest(properties);
+        };
+
+        /**
+         * Encodes the specified AddAliasesRequest message. Does not implicitly {@link routerrpc.AddAliasesRequest.verify|verify} messages.
+         * @function encode
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {routerrpc.IAddAliasesRequest} message AddAliasesRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddAliasesRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.alias_maps != null && message.alias_maps.length)
+                for (let i = 0; i < message.alias_maps.length; ++i)
+                    $root.lnrpc.AliasMap.encode(message.alias_maps[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified AddAliasesRequest message, length delimited. Does not implicitly {@link routerrpc.AddAliasesRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {routerrpc.IAddAliasesRequest} message AddAliasesRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddAliasesRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an AddAliasesRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {routerrpc.AddAliasesRequest} AddAliasesRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddAliasesRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.AddAliasesRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        if (!(message.alias_maps && message.alias_maps.length))
+                            message.alias_maps = [];
+                        message.alias_maps.push($root.lnrpc.AliasMap.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an AddAliasesRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {routerrpc.AddAliasesRequest} AddAliasesRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddAliasesRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an AddAliasesRequest message.
+         * @function verify
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        AddAliasesRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.alias_maps != null && message.hasOwnProperty("alias_maps")) {
+                if (!Array.isArray(message.alias_maps))
+                    return "alias_maps: array expected";
+                for (let i = 0; i < message.alias_maps.length; ++i) {
+                    let error = $root.lnrpc.AliasMap.verify(message.alias_maps[i]);
+                    if (error)
+                        return "alias_maps." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates an AddAliasesRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {routerrpc.AddAliasesRequest} AddAliasesRequest
+         */
+        AddAliasesRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.routerrpc.AddAliasesRequest)
+                return object;
+            let message = new $root.routerrpc.AddAliasesRequest();
+            if (object.alias_maps) {
+                if (!Array.isArray(object.alias_maps))
+                    throw TypeError(".routerrpc.AddAliasesRequest.alias_maps: array expected");
+                message.alias_maps = [];
+                for (let i = 0; i < object.alias_maps.length; ++i) {
+                    if (typeof object.alias_maps[i] !== "object")
+                        throw TypeError(".routerrpc.AddAliasesRequest.alias_maps: object expected");
+                    message.alias_maps[i] = $root.lnrpc.AliasMap.fromObject(object.alias_maps[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an AddAliasesRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {routerrpc.AddAliasesRequest} message AddAliasesRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        AddAliasesRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.alias_maps = [];
+            if (message.alias_maps && message.alias_maps.length) {
+                object.alias_maps = [];
+                for (let j = 0; j < message.alias_maps.length; ++j)
+                    object.alias_maps[j] = $root.lnrpc.AliasMap.toObject(message.alias_maps[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this AddAliasesRequest to JSON.
+         * @function toJSON
+         * @memberof routerrpc.AddAliasesRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        AddAliasesRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for AddAliasesRequest
+         * @function getTypeUrl
+         * @memberof routerrpc.AddAliasesRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        AddAliasesRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/routerrpc.AddAliasesRequest";
+        };
+
+        return AddAliasesRequest;
+    })();
+
+    routerrpc.AddAliasesResponse = (function() {
+
+        /**
+         * Properties of an AddAliasesResponse.
+         * @memberof routerrpc
+         * @interface IAddAliasesResponse
+         * @property {Array.<lnrpc.IAliasMap>|null} [alias_maps] AddAliasesResponse alias_maps
+         */
+
+        /**
+         * Constructs a new AddAliasesResponse.
+         * @memberof routerrpc
+         * @classdesc Represents an AddAliasesResponse.
+         * @implements IAddAliasesResponse
+         * @constructor
+         * @param {routerrpc.IAddAliasesResponse=} [properties] Properties to set
+         */
+        function AddAliasesResponse(properties) {
+            this.alias_maps = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * AddAliasesResponse alias_maps.
+         * @member {Array.<lnrpc.IAliasMap>} alias_maps
+         * @memberof routerrpc.AddAliasesResponse
+         * @instance
+         */
+        AddAliasesResponse.prototype.alias_maps = $util.emptyArray;
+
+        /**
+         * Creates a new AddAliasesResponse instance using the specified properties.
+         * @function create
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {routerrpc.IAddAliasesResponse=} [properties] Properties to set
+         * @returns {routerrpc.AddAliasesResponse} AddAliasesResponse instance
+         */
+        AddAliasesResponse.create = function create(properties) {
+            return new AddAliasesResponse(properties);
+        };
+
+        /**
+         * Encodes the specified AddAliasesResponse message. Does not implicitly {@link routerrpc.AddAliasesResponse.verify|verify} messages.
+         * @function encode
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {routerrpc.IAddAliasesResponse} message AddAliasesResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddAliasesResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.alias_maps != null && message.alias_maps.length)
+                for (let i = 0; i < message.alias_maps.length; ++i)
+                    $root.lnrpc.AliasMap.encode(message.alias_maps[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified AddAliasesResponse message, length delimited. Does not implicitly {@link routerrpc.AddAliasesResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {routerrpc.IAddAliasesResponse} message AddAliasesResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddAliasesResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an AddAliasesResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {routerrpc.AddAliasesResponse} AddAliasesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddAliasesResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.AddAliasesResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        if (!(message.alias_maps && message.alias_maps.length))
+                            message.alias_maps = [];
+                        message.alias_maps.push($root.lnrpc.AliasMap.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an AddAliasesResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {routerrpc.AddAliasesResponse} AddAliasesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddAliasesResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an AddAliasesResponse message.
+         * @function verify
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        AddAliasesResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.alias_maps != null && message.hasOwnProperty("alias_maps")) {
+                if (!Array.isArray(message.alias_maps))
+                    return "alias_maps: array expected";
+                for (let i = 0; i < message.alias_maps.length; ++i) {
+                    let error = $root.lnrpc.AliasMap.verify(message.alias_maps[i]);
+                    if (error)
+                        return "alias_maps." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates an AddAliasesResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {routerrpc.AddAliasesResponse} AddAliasesResponse
+         */
+        AddAliasesResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.routerrpc.AddAliasesResponse)
+                return object;
+            let message = new $root.routerrpc.AddAliasesResponse();
+            if (object.alias_maps) {
+                if (!Array.isArray(object.alias_maps))
+                    throw TypeError(".routerrpc.AddAliasesResponse.alias_maps: array expected");
+                message.alias_maps = [];
+                for (let i = 0; i < object.alias_maps.length; ++i) {
+                    if (typeof object.alias_maps[i] !== "object")
+                        throw TypeError(".routerrpc.AddAliasesResponse.alias_maps: object expected");
+                    message.alias_maps[i] = $root.lnrpc.AliasMap.fromObject(object.alias_maps[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an AddAliasesResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {routerrpc.AddAliasesResponse} message AddAliasesResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        AddAliasesResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.alias_maps = [];
+            if (message.alias_maps && message.alias_maps.length) {
+                object.alias_maps = [];
+                for (let j = 0; j < message.alias_maps.length; ++j)
+                    object.alias_maps[j] = $root.lnrpc.AliasMap.toObject(message.alias_maps[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this AddAliasesResponse to JSON.
+         * @function toJSON
+         * @memberof routerrpc.AddAliasesResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        AddAliasesResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for AddAliasesResponse
+         * @function getTypeUrl
+         * @memberof routerrpc.AddAliasesResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        AddAliasesResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/routerrpc.AddAliasesResponse";
+        };
+
+        return AddAliasesResponse;
+    })();
+
+    routerrpc.DeleteAliasesRequest = (function() {
+
+        /**
+         * Properties of a DeleteAliasesRequest.
+         * @memberof routerrpc
+         * @interface IDeleteAliasesRequest
+         * @property {Array.<lnrpc.IAliasMap>|null} [alias_maps] DeleteAliasesRequest alias_maps
+         */
+
+        /**
+         * Constructs a new DeleteAliasesRequest.
+         * @memberof routerrpc
+         * @classdesc Represents a DeleteAliasesRequest.
+         * @implements IDeleteAliasesRequest
+         * @constructor
+         * @param {routerrpc.IDeleteAliasesRequest=} [properties] Properties to set
+         */
+        function DeleteAliasesRequest(properties) {
+            this.alias_maps = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * DeleteAliasesRequest alias_maps.
+         * @member {Array.<lnrpc.IAliasMap>} alias_maps
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @instance
+         */
+        DeleteAliasesRequest.prototype.alias_maps = $util.emptyArray;
+
+        /**
+         * Creates a new DeleteAliasesRequest instance using the specified properties.
+         * @function create
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {routerrpc.IDeleteAliasesRequest=} [properties] Properties to set
+         * @returns {routerrpc.DeleteAliasesRequest} DeleteAliasesRequest instance
+         */
+        DeleteAliasesRequest.create = function create(properties) {
+            return new DeleteAliasesRequest(properties);
+        };
+
+        /**
+         * Encodes the specified DeleteAliasesRequest message. Does not implicitly {@link routerrpc.DeleteAliasesRequest.verify|verify} messages.
+         * @function encode
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {routerrpc.IDeleteAliasesRequest} message DeleteAliasesRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeleteAliasesRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.alias_maps != null && message.alias_maps.length)
+                for (let i = 0; i < message.alias_maps.length; ++i)
+                    $root.lnrpc.AliasMap.encode(message.alias_maps[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified DeleteAliasesRequest message, length delimited. Does not implicitly {@link routerrpc.DeleteAliasesRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {routerrpc.IDeleteAliasesRequest} message DeleteAliasesRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeleteAliasesRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a DeleteAliasesRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {routerrpc.DeleteAliasesRequest} DeleteAliasesRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeleteAliasesRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.DeleteAliasesRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        if (!(message.alias_maps && message.alias_maps.length))
+                            message.alias_maps = [];
+                        message.alias_maps.push($root.lnrpc.AliasMap.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a DeleteAliasesRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {routerrpc.DeleteAliasesRequest} DeleteAliasesRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeleteAliasesRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a DeleteAliasesRequest message.
+         * @function verify
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        DeleteAliasesRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.alias_maps != null && message.hasOwnProperty("alias_maps")) {
+                if (!Array.isArray(message.alias_maps))
+                    return "alias_maps: array expected";
+                for (let i = 0; i < message.alias_maps.length; ++i) {
+                    let error = $root.lnrpc.AliasMap.verify(message.alias_maps[i]);
+                    if (error)
+                        return "alias_maps." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a DeleteAliasesRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {routerrpc.DeleteAliasesRequest} DeleteAliasesRequest
+         */
+        DeleteAliasesRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.routerrpc.DeleteAliasesRequest)
+                return object;
+            let message = new $root.routerrpc.DeleteAliasesRequest();
+            if (object.alias_maps) {
+                if (!Array.isArray(object.alias_maps))
+                    throw TypeError(".routerrpc.DeleteAliasesRequest.alias_maps: array expected");
+                message.alias_maps = [];
+                for (let i = 0; i < object.alias_maps.length; ++i) {
+                    if (typeof object.alias_maps[i] !== "object")
+                        throw TypeError(".routerrpc.DeleteAliasesRequest.alias_maps: object expected");
+                    message.alias_maps[i] = $root.lnrpc.AliasMap.fromObject(object.alias_maps[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a DeleteAliasesRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {routerrpc.DeleteAliasesRequest} message DeleteAliasesRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        DeleteAliasesRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.alias_maps = [];
+            if (message.alias_maps && message.alias_maps.length) {
+                object.alias_maps = [];
+                for (let j = 0; j < message.alias_maps.length; ++j)
+                    object.alias_maps[j] = $root.lnrpc.AliasMap.toObject(message.alias_maps[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this DeleteAliasesRequest to JSON.
+         * @function toJSON
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        DeleteAliasesRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for DeleteAliasesRequest
+         * @function getTypeUrl
+         * @memberof routerrpc.DeleteAliasesRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        DeleteAliasesRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/routerrpc.DeleteAliasesRequest";
+        };
+
+        return DeleteAliasesRequest;
+    })();
+
+    routerrpc.DeleteAliasesResponse = (function() {
+
+        /**
+         * Properties of a DeleteAliasesResponse.
+         * @memberof routerrpc
+         * @interface IDeleteAliasesResponse
+         * @property {Array.<lnrpc.IAliasMap>|null} [alias_maps] DeleteAliasesResponse alias_maps
+         */
+
+        /**
+         * Constructs a new DeleteAliasesResponse.
+         * @memberof routerrpc
+         * @classdesc Represents a DeleteAliasesResponse.
+         * @implements IDeleteAliasesResponse
+         * @constructor
+         * @param {routerrpc.IDeleteAliasesResponse=} [properties] Properties to set
+         */
+        function DeleteAliasesResponse(properties) {
+            this.alias_maps = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * DeleteAliasesResponse alias_maps.
+         * @member {Array.<lnrpc.IAliasMap>} alias_maps
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @instance
+         */
+        DeleteAliasesResponse.prototype.alias_maps = $util.emptyArray;
+
+        /**
+         * Creates a new DeleteAliasesResponse instance using the specified properties.
+         * @function create
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {routerrpc.IDeleteAliasesResponse=} [properties] Properties to set
+         * @returns {routerrpc.DeleteAliasesResponse} DeleteAliasesResponse instance
+         */
+        DeleteAliasesResponse.create = function create(properties) {
+            return new DeleteAliasesResponse(properties);
+        };
+
+        /**
+         * Encodes the specified DeleteAliasesResponse message. Does not implicitly {@link routerrpc.DeleteAliasesResponse.verify|verify} messages.
+         * @function encode
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {routerrpc.IDeleteAliasesResponse} message DeleteAliasesResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeleteAliasesResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.alias_maps != null && message.alias_maps.length)
+                for (let i = 0; i < message.alias_maps.length; ++i)
+                    $root.lnrpc.AliasMap.encode(message.alias_maps[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified DeleteAliasesResponse message, length delimited. Does not implicitly {@link routerrpc.DeleteAliasesResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {routerrpc.IDeleteAliasesResponse} message DeleteAliasesResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeleteAliasesResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a DeleteAliasesResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {routerrpc.DeleteAliasesResponse} DeleteAliasesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeleteAliasesResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.routerrpc.DeleteAliasesResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        if (!(message.alias_maps && message.alias_maps.length))
+                            message.alias_maps = [];
+                        message.alias_maps.push($root.lnrpc.AliasMap.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a DeleteAliasesResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {routerrpc.DeleteAliasesResponse} DeleteAliasesResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeleteAliasesResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a DeleteAliasesResponse message.
+         * @function verify
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        DeleteAliasesResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.alias_maps != null && message.hasOwnProperty("alias_maps")) {
+                if (!Array.isArray(message.alias_maps))
+                    return "alias_maps: array expected";
+                for (let i = 0; i < message.alias_maps.length; ++i) {
+                    let error = $root.lnrpc.AliasMap.verify(message.alias_maps[i]);
+                    if (error)
+                        return "alias_maps." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a DeleteAliasesResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {routerrpc.DeleteAliasesResponse} DeleteAliasesResponse
+         */
+        DeleteAliasesResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.routerrpc.DeleteAliasesResponse)
+                return object;
+            let message = new $root.routerrpc.DeleteAliasesResponse();
+            if (object.alias_maps) {
+                if (!Array.isArray(object.alias_maps))
+                    throw TypeError(".routerrpc.DeleteAliasesResponse.alias_maps: array expected");
+                message.alias_maps = [];
+                for (let i = 0; i < object.alias_maps.length; ++i) {
+                    if (typeof object.alias_maps[i] !== "object")
+                        throw TypeError(".routerrpc.DeleteAliasesResponse.alias_maps: object expected");
+                    message.alias_maps[i] = $root.lnrpc.AliasMap.fromObject(object.alias_maps[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a DeleteAliasesResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {routerrpc.DeleteAliasesResponse} message DeleteAliasesResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        DeleteAliasesResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.alias_maps = [];
+            if (message.alias_maps && message.alias_maps.length) {
+                object.alias_maps = [];
+                for (let j = 0; j < message.alias_maps.length; ++j)
+                    object.alias_maps[j] = $root.lnrpc.AliasMap.toObject(message.alias_maps[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this DeleteAliasesResponse to JSON.
+         * @function toJSON
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        DeleteAliasesResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for DeleteAliasesResponse
+         * @function getTypeUrl
+         * @memberof routerrpc.DeleteAliasesResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        DeleteAliasesResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/routerrpc.DeleteAliasesResponse";
+        };
+
+        return DeleteAliasesResponse;
     })();
 
     return routerrpc;
@@ -115602,6 +118645,7 @@ export const walletrpc = $root.walletrpc = (() => {
          * @memberof walletrpc
          * @interface IEstimateFeeResponse
          * @property {Long|null} [sat_per_kw] EstimateFeeResponse sat_per_kw
+         * @property {Long|null} [min_relay_fee_sat_per_kw] EstimateFeeResponse min_relay_fee_sat_per_kw
          */
 
         /**
@@ -115626,6 +118670,14 @@ export const walletrpc = $root.walletrpc = (() => {
          * @instance
          */
         EstimateFeeResponse.prototype.sat_per_kw = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+        /**
+         * EstimateFeeResponse min_relay_fee_sat_per_kw.
+         * @member {Long} min_relay_fee_sat_per_kw
+         * @memberof walletrpc.EstimateFeeResponse
+         * @instance
+         */
+        EstimateFeeResponse.prototype.min_relay_fee_sat_per_kw = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
         /**
          * Creates a new EstimateFeeResponse instance using the specified properties.
@@ -115653,6 +118705,8 @@ export const walletrpc = $root.walletrpc = (() => {
                 writer = $Writer.create();
             if (message.sat_per_kw != null && Object.hasOwnProperty.call(message, "sat_per_kw"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int64(message.sat_per_kw);
+            if (message.min_relay_fee_sat_per_kw != null && Object.hasOwnProperty.call(message, "min_relay_fee_sat_per_kw"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int64(message.min_relay_fee_sat_per_kw);
             return writer;
         };
 
@@ -115689,6 +118743,10 @@ export const walletrpc = $root.walletrpc = (() => {
                 switch (tag >>> 3) {
                 case 1: {
                         message.sat_per_kw = reader.int64();
+                        break;
+                    }
+                case 2: {
+                        message.min_relay_fee_sat_per_kw = reader.int64();
                         break;
                     }
                 default:
@@ -115729,6 +118787,9 @@ export const walletrpc = $root.walletrpc = (() => {
             if (message.sat_per_kw != null && message.hasOwnProperty("sat_per_kw"))
                 if (!$util.isInteger(message.sat_per_kw) && !(message.sat_per_kw && $util.isInteger(message.sat_per_kw.low) && $util.isInteger(message.sat_per_kw.high)))
                     return "sat_per_kw: integer|Long expected";
+            if (message.min_relay_fee_sat_per_kw != null && message.hasOwnProperty("min_relay_fee_sat_per_kw"))
+                if (!$util.isInteger(message.min_relay_fee_sat_per_kw) && !(message.min_relay_fee_sat_per_kw && $util.isInteger(message.min_relay_fee_sat_per_kw.low) && $util.isInteger(message.min_relay_fee_sat_per_kw.high)))
+                    return "min_relay_fee_sat_per_kw: integer|Long expected";
             return null;
         };
 
@@ -115753,6 +118814,15 @@ export const walletrpc = $root.walletrpc = (() => {
                     message.sat_per_kw = object.sat_per_kw;
                 else if (typeof object.sat_per_kw === "object")
                     message.sat_per_kw = new $util.LongBits(object.sat_per_kw.low >>> 0, object.sat_per_kw.high >>> 0).toNumber();
+            if (object.min_relay_fee_sat_per_kw != null)
+                if ($util.Long)
+                    (message.min_relay_fee_sat_per_kw = $util.Long.fromValue(object.min_relay_fee_sat_per_kw)).unsigned = false;
+                else if (typeof object.min_relay_fee_sat_per_kw === "string")
+                    message.min_relay_fee_sat_per_kw = parseInt(object.min_relay_fee_sat_per_kw, 10);
+                else if (typeof object.min_relay_fee_sat_per_kw === "number")
+                    message.min_relay_fee_sat_per_kw = object.min_relay_fee_sat_per_kw;
+                else if (typeof object.min_relay_fee_sat_per_kw === "object")
+                    message.min_relay_fee_sat_per_kw = new $util.LongBits(object.min_relay_fee_sat_per_kw.low >>> 0, object.min_relay_fee_sat_per_kw.high >>> 0).toNumber();
             return message;
         };
 
@@ -115769,17 +118839,28 @@ export const walletrpc = $root.walletrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
-            if (options.defaults)
+            if (options.defaults) {
                 if ($util.Long) {
                     let long = new $util.Long(0, 0, false);
                     object.sat_per_kw = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.sat_per_kw = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, false);
+                    object.min_relay_fee_sat_per_kw = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.min_relay_fee_sat_per_kw = options.longs === String ? "0" : 0;
+            }
             if (message.sat_per_kw != null && message.hasOwnProperty("sat_per_kw"))
                 if (typeof message.sat_per_kw === "number")
                     object.sat_per_kw = options.longs === String ? String(message.sat_per_kw) : message.sat_per_kw;
                 else
                     object.sat_per_kw = options.longs === String ? $util.Long.prototype.toString.call(message.sat_per_kw) : options.longs === Number ? new $util.LongBits(message.sat_per_kw.low >>> 0, message.sat_per_kw.high >>> 0).toNumber() : message.sat_per_kw;
+            if (message.min_relay_fee_sat_per_kw != null && message.hasOwnProperty("min_relay_fee_sat_per_kw"))
+                if (typeof message.min_relay_fee_sat_per_kw === "number")
+                    object.min_relay_fee_sat_per_kw = options.longs === String ? String(message.min_relay_fee_sat_per_kw) : message.min_relay_fee_sat_per_kw;
+                else
+                    object.min_relay_fee_sat_per_kw = options.longs === String ? $util.Long.prototype.toString.call(message.min_relay_fee_sat_per_kw) : options.longs === Number ? new $util.LongBits(message.min_relay_fee_sat_per_kw.low >>> 0, message.min_relay_fee_sat_per_kw.high >>> 0).toNumber() : message.min_relay_fee_sat_per_kw;
             return object;
         };
 

@@ -108504,6 +108504,39 @@ export const walletrpc = $root.walletrpc = (() => {
          */
 
         /**
+         * Callback as used by {@link walletrpc.WalletKit#bumpForceCloseFee}.
+         * @memberof walletrpc.WalletKit
+         * @typedef BumpForceCloseFeeCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {walletrpc.BumpForceCloseFeeResponse} [response] BumpForceCloseFeeResponse
+         */
+
+        /**
+         * Calls BumpForceCloseFee.
+         * @function bumpForceCloseFee
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IBumpForceCloseFeeRequest} request BumpForceCloseFeeRequest message or plain object
+         * @param {walletrpc.WalletKit.BumpForceCloseFeeCallback} callback Node-style callback called with the error, if any, and BumpForceCloseFeeResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WalletKit.prototype.bumpForceCloseFee = function bumpForceCloseFee(request, callback) {
+            return this.rpcCall(bumpForceCloseFee, $root.walletrpc.BumpForceCloseFeeRequest, $root.walletrpc.BumpForceCloseFeeResponse, request, callback);
+        }, "name", { value: "BumpForceCloseFee" });
+
+        /**
+         * Calls BumpForceCloseFee.
+         * @function bumpForceCloseFee
+         * @memberof walletrpc.WalletKit
+         * @instance
+         * @param {walletrpc.IBumpForceCloseFeeRequest} request BumpForceCloseFeeRequest message or plain object
+         * @returns {Promise<walletrpc.BumpForceCloseFeeResponse>} Promise
+         * @variation 2
+         */
+
+        /**
          * Callback as used by {@link walletrpc.WalletKit#listSweeps}.
          * @memberof walletrpc.WalletKit
          * @typedef ListSweepsCallback
@@ -120689,6 +120722,538 @@ export const walletrpc = $root.walletrpc = (() => {
         };
 
         return BumpFeeResponse;
+    })();
+
+    walletrpc.BumpForceCloseFeeRequest = (function() {
+
+        /**
+         * Properties of a BumpForceCloseFeeRequest.
+         * @memberof walletrpc
+         * @interface IBumpForceCloseFeeRequest
+         * @property {lnrpc.IChannelPoint|null} [chan_point] BumpForceCloseFeeRequest chan_point
+         * @property {number|null} [deadline_delta] BumpForceCloseFeeRequest deadline_delta
+         * @property {Long|null} [starting_feerate] BumpForceCloseFeeRequest starting_feerate
+         * @property {boolean|null} [immediate] BumpForceCloseFeeRequest immediate
+         * @property {Long|null} [budget] BumpForceCloseFeeRequest budget
+         */
+
+        /**
+         * Constructs a new BumpForceCloseFeeRequest.
+         * @memberof walletrpc
+         * @classdesc Represents a BumpForceCloseFeeRequest.
+         * @implements IBumpForceCloseFeeRequest
+         * @constructor
+         * @param {walletrpc.IBumpForceCloseFeeRequest=} [properties] Properties to set
+         */
+        function BumpForceCloseFeeRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BumpForceCloseFeeRequest chan_point.
+         * @member {lnrpc.IChannelPoint|null|undefined} chan_point
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @instance
+         */
+        BumpForceCloseFeeRequest.prototype.chan_point = null;
+
+        /**
+         * BumpForceCloseFeeRequest deadline_delta.
+         * @member {number} deadline_delta
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @instance
+         */
+        BumpForceCloseFeeRequest.prototype.deadline_delta = 0;
+
+        /**
+         * BumpForceCloseFeeRequest starting_feerate.
+         * @member {Long} starting_feerate
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @instance
+         */
+        BumpForceCloseFeeRequest.prototype.starting_feerate = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * BumpForceCloseFeeRequest immediate.
+         * @member {boolean} immediate
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @instance
+         */
+        BumpForceCloseFeeRequest.prototype.immediate = false;
+
+        /**
+         * BumpForceCloseFeeRequest budget.
+         * @member {Long} budget
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @instance
+         */
+        BumpForceCloseFeeRequest.prototype.budget = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * Creates a new BumpForceCloseFeeRequest instance using the specified properties.
+         * @function create
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {walletrpc.IBumpForceCloseFeeRequest=} [properties] Properties to set
+         * @returns {walletrpc.BumpForceCloseFeeRequest} BumpForceCloseFeeRequest instance
+         */
+        BumpForceCloseFeeRequest.create = function create(properties) {
+            return new BumpForceCloseFeeRequest(properties);
+        };
+
+        /**
+         * Encodes the specified BumpForceCloseFeeRequest message. Does not implicitly {@link walletrpc.BumpForceCloseFeeRequest.verify|verify} messages.
+         * @function encode
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {walletrpc.IBumpForceCloseFeeRequest} message BumpForceCloseFeeRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BumpForceCloseFeeRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.chan_point != null && Object.hasOwnProperty.call(message, "chan_point"))
+                $root.lnrpc.ChannelPoint.encode(message.chan_point, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.deadline_delta != null && Object.hasOwnProperty.call(message, "deadline_delta"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.deadline_delta);
+            if (message.starting_feerate != null && Object.hasOwnProperty.call(message, "starting_feerate"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.starting_feerate);
+            if (message.immediate != null && Object.hasOwnProperty.call(message, "immediate"))
+                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.immediate);
+            if (message.budget != null && Object.hasOwnProperty.call(message, "budget"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.budget);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BumpForceCloseFeeRequest message, length delimited. Does not implicitly {@link walletrpc.BumpForceCloseFeeRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {walletrpc.IBumpForceCloseFeeRequest} message BumpForceCloseFeeRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BumpForceCloseFeeRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BumpForceCloseFeeRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {walletrpc.BumpForceCloseFeeRequest} BumpForceCloseFeeRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BumpForceCloseFeeRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.walletrpc.BumpForceCloseFeeRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.chan_point = $root.lnrpc.ChannelPoint.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 2: {
+                        message.deadline_delta = reader.uint32();
+                        break;
+                    }
+                case 3: {
+                        message.starting_feerate = reader.uint64();
+                        break;
+                    }
+                case 4: {
+                        message.immediate = reader.bool();
+                        break;
+                    }
+                case 5: {
+                        message.budget = reader.uint64();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BumpForceCloseFeeRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {walletrpc.BumpForceCloseFeeRequest} BumpForceCloseFeeRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BumpForceCloseFeeRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BumpForceCloseFeeRequest message.
+         * @function verify
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BumpForceCloseFeeRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.chan_point != null && message.hasOwnProperty("chan_point")) {
+                let error = $root.lnrpc.ChannelPoint.verify(message.chan_point);
+                if (error)
+                    return "chan_point." + error;
+            }
+            if (message.deadline_delta != null && message.hasOwnProperty("deadline_delta"))
+                if (!$util.isInteger(message.deadline_delta))
+                    return "deadline_delta: integer expected";
+            if (message.starting_feerate != null && message.hasOwnProperty("starting_feerate"))
+                if (!$util.isInteger(message.starting_feerate) && !(message.starting_feerate && $util.isInteger(message.starting_feerate.low) && $util.isInteger(message.starting_feerate.high)))
+                    return "starting_feerate: integer|Long expected";
+            if (message.immediate != null && message.hasOwnProperty("immediate"))
+                if (typeof message.immediate !== "boolean")
+                    return "immediate: boolean expected";
+            if (message.budget != null && message.hasOwnProperty("budget"))
+                if (!$util.isInteger(message.budget) && !(message.budget && $util.isInteger(message.budget.low) && $util.isInteger(message.budget.high)))
+                    return "budget: integer|Long expected";
+            return null;
+        };
+
+        /**
+         * Creates a BumpForceCloseFeeRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {walletrpc.BumpForceCloseFeeRequest} BumpForceCloseFeeRequest
+         */
+        BumpForceCloseFeeRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.walletrpc.BumpForceCloseFeeRequest)
+                return object;
+            let message = new $root.walletrpc.BumpForceCloseFeeRequest();
+            if (object.chan_point != null) {
+                if (typeof object.chan_point !== "object")
+                    throw TypeError(".walletrpc.BumpForceCloseFeeRequest.chan_point: object expected");
+                message.chan_point = $root.lnrpc.ChannelPoint.fromObject(object.chan_point);
+            }
+            if (object.deadline_delta != null)
+                message.deadline_delta = object.deadline_delta >>> 0;
+            if (object.starting_feerate != null)
+                if ($util.Long)
+                    (message.starting_feerate = $util.Long.fromValue(object.starting_feerate)).unsigned = true;
+                else if (typeof object.starting_feerate === "string")
+                    message.starting_feerate = parseInt(object.starting_feerate, 10);
+                else if (typeof object.starting_feerate === "number")
+                    message.starting_feerate = object.starting_feerate;
+                else if (typeof object.starting_feerate === "object")
+                    message.starting_feerate = new $util.LongBits(object.starting_feerate.low >>> 0, object.starting_feerate.high >>> 0).toNumber(true);
+            if (object.immediate != null)
+                message.immediate = Boolean(object.immediate);
+            if (object.budget != null)
+                if ($util.Long)
+                    (message.budget = $util.Long.fromValue(object.budget)).unsigned = true;
+                else if (typeof object.budget === "string")
+                    message.budget = parseInt(object.budget, 10);
+                else if (typeof object.budget === "number")
+                    message.budget = object.budget;
+                else if (typeof object.budget === "object")
+                    message.budget = new $util.LongBits(object.budget.low >>> 0, object.budget.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BumpForceCloseFeeRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {walletrpc.BumpForceCloseFeeRequest} message BumpForceCloseFeeRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BumpForceCloseFeeRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.chan_point = null;
+                object.deadline_delta = 0;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.starting_feerate = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.starting_feerate = options.longs === String ? "0" : 0;
+                object.immediate = false;
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.budget = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.budget = options.longs === String ? "0" : 0;
+            }
+            if (message.chan_point != null && message.hasOwnProperty("chan_point"))
+                object.chan_point = $root.lnrpc.ChannelPoint.toObject(message.chan_point, options);
+            if (message.deadline_delta != null && message.hasOwnProperty("deadline_delta"))
+                object.deadline_delta = message.deadline_delta;
+            if (message.starting_feerate != null && message.hasOwnProperty("starting_feerate"))
+                if (typeof message.starting_feerate === "number")
+                    object.starting_feerate = options.longs === String ? String(message.starting_feerate) : message.starting_feerate;
+                else
+                    object.starting_feerate = options.longs === String ? $util.Long.prototype.toString.call(message.starting_feerate) : options.longs === Number ? new $util.LongBits(message.starting_feerate.low >>> 0, message.starting_feerate.high >>> 0).toNumber(true) : message.starting_feerate;
+            if (message.immediate != null && message.hasOwnProperty("immediate"))
+                object.immediate = message.immediate;
+            if (message.budget != null && message.hasOwnProperty("budget"))
+                if (typeof message.budget === "number")
+                    object.budget = options.longs === String ? String(message.budget) : message.budget;
+                else
+                    object.budget = options.longs === String ? $util.Long.prototype.toString.call(message.budget) : options.longs === Number ? new $util.LongBits(message.budget.low >>> 0, message.budget.high >>> 0).toNumber(true) : message.budget;
+            return object;
+        };
+
+        /**
+         * Converts this BumpForceCloseFeeRequest to JSON.
+         * @function toJSON
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BumpForceCloseFeeRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BumpForceCloseFeeRequest
+         * @function getTypeUrl
+         * @memberof walletrpc.BumpForceCloseFeeRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BumpForceCloseFeeRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/walletrpc.BumpForceCloseFeeRequest";
+        };
+
+        return BumpForceCloseFeeRequest;
+    })();
+
+    walletrpc.BumpForceCloseFeeResponse = (function() {
+
+        /**
+         * Properties of a BumpForceCloseFeeResponse.
+         * @memberof walletrpc
+         * @interface IBumpForceCloseFeeResponse
+         * @property {string|null} [status] BumpForceCloseFeeResponse status
+         */
+
+        /**
+         * Constructs a new BumpForceCloseFeeResponse.
+         * @memberof walletrpc
+         * @classdesc Represents a BumpForceCloseFeeResponse.
+         * @implements IBumpForceCloseFeeResponse
+         * @constructor
+         * @param {walletrpc.IBumpForceCloseFeeResponse=} [properties] Properties to set
+         */
+        function BumpForceCloseFeeResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * BumpForceCloseFeeResponse status.
+         * @member {string} status
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @instance
+         */
+        BumpForceCloseFeeResponse.prototype.status = "";
+
+        /**
+         * Creates a new BumpForceCloseFeeResponse instance using the specified properties.
+         * @function create
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {walletrpc.IBumpForceCloseFeeResponse=} [properties] Properties to set
+         * @returns {walletrpc.BumpForceCloseFeeResponse} BumpForceCloseFeeResponse instance
+         */
+        BumpForceCloseFeeResponse.create = function create(properties) {
+            return new BumpForceCloseFeeResponse(properties);
+        };
+
+        /**
+         * Encodes the specified BumpForceCloseFeeResponse message. Does not implicitly {@link walletrpc.BumpForceCloseFeeResponse.verify|verify} messages.
+         * @function encode
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {walletrpc.IBumpForceCloseFeeResponse} message BumpForceCloseFeeResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BumpForceCloseFeeResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified BumpForceCloseFeeResponse message, length delimited. Does not implicitly {@link walletrpc.BumpForceCloseFeeResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {walletrpc.IBumpForceCloseFeeResponse} message BumpForceCloseFeeResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        BumpForceCloseFeeResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a BumpForceCloseFeeResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {walletrpc.BumpForceCloseFeeResponse} BumpForceCloseFeeResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BumpForceCloseFeeResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.walletrpc.BumpForceCloseFeeResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.status = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a BumpForceCloseFeeResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {walletrpc.BumpForceCloseFeeResponse} BumpForceCloseFeeResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        BumpForceCloseFeeResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a BumpForceCloseFeeResponse message.
+         * @function verify
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        BumpForceCloseFeeResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.status != null && message.hasOwnProperty("status"))
+                if (!$util.isString(message.status))
+                    return "status: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a BumpForceCloseFeeResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {walletrpc.BumpForceCloseFeeResponse} BumpForceCloseFeeResponse
+         */
+        BumpForceCloseFeeResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.walletrpc.BumpForceCloseFeeResponse)
+                return object;
+            let message = new $root.walletrpc.BumpForceCloseFeeResponse();
+            if (object.status != null)
+                message.status = String(object.status);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a BumpForceCloseFeeResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {walletrpc.BumpForceCloseFeeResponse} message BumpForceCloseFeeResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        BumpForceCloseFeeResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.status = "";
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this BumpForceCloseFeeResponse to JSON.
+         * @function toJSON
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        BumpForceCloseFeeResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for BumpForceCloseFeeResponse
+         * @function getTypeUrl
+         * @memberof walletrpc.BumpForceCloseFeeResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        BumpForceCloseFeeResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/walletrpc.BumpForceCloseFeeResponse";
+        };
+
+        return BumpForceCloseFeeResponse;
     })();
 
     walletrpc.ListSweepsRequest = (function() {

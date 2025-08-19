@@ -125502,4 +125502,4676 @@ export const walletrpc = $root.walletrpc = (() => {
     return walletrpc;
 })();
 
+export const wtclientrpc = $root.wtclientrpc = (() => {
+
+    /**
+     * Namespace wtclientrpc.
+     * @exports wtclientrpc
+     * @namespace
+     */
+    const wtclientrpc = {};
+
+    wtclientrpc.WatchtowerClient = (function() {
+
+        /**
+         * Constructs a new WatchtowerClient service.
+         * @memberof wtclientrpc
+         * @classdesc Represents a WatchtowerClient
+         * @extends $protobuf.rpc.Service
+         * @constructor
+         * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+         * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+         * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+         */
+        function WatchtowerClient(rpcImpl, requestDelimited, responseDelimited) {
+            $protobuf.rpc.Service.call(this, rpcImpl, requestDelimited, responseDelimited);
+        }
+
+        (WatchtowerClient.prototype = Object.create($protobuf.rpc.Service.prototype)).constructor = WatchtowerClient;
+
+        /**
+         * Creates new WatchtowerClient service using the specified rpc implementation.
+         * @function create
+         * @memberof wtclientrpc.WatchtowerClient
+         * @static
+         * @param {$protobuf.RPCImpl} rpcImpl RPC implementation
+         * @param {boolean} [requestDelimited=false] Whether requests are length-delimited
+         * @param {boolean} [responseDelimited=false] Whether responses are length-delimited
+         * @returns {WatchtowerClient} RPC service. Useful where requests and/or responses are streamed.
+         */
+        WatchtowerClient.create = function create(rpcImpl, requestDelimited, responseDelimited) {
+            return new this(rpcImpl, requestDelimited, responseDelimited);
+        };
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#addTower}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef AddTowerCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.AddTowerResponse} [response] AddTowerResponse
+         */
+
+        /**
+         * Calls AddTower.
+         * @function addTower
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IAddTowerRequest} request AddTowerRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.AddTowerCallback} callback Node-style callback called with the error, if any, and AddTowerResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.addTower = function addTower(request, callback) {
+            return this.rpcCall(addTower, $root.wtclientrpc.AddTowerRequest, $root.wtclientrpc.AddTowerResponse, request, callback);
+        }, "name", { value: "AddTower" });
+
+        /**
+         * Calls AddTower.
+         * @function addTower
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IAddTowerRequest} request AddTowerRequest message or plain object
+         * @returns {Promise<wtclientrpc.AddTowerResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#removeTower}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef RemoveTowerCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.RemoveTowerResponse} [response] RemoveTowerResponse
+         */
+
+        /**
+         * Calls RemoveTower.
+         * @function removeTower
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IRemoveTowerRequest} request RemoveTowerRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.RemoveTowerCallback} callback Node-style callback called with the error, if any, and RemoveTowerResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.removeTower = function removeTower(request, callback) {
+            return this.rpcCall(removeTower, $root.wtclientrpc.RemoveTowerRequest, $root.wtclientrpc.RemoveTowerResponse, request, callback);
+        }, "name", { value: "RemoveTower" });
+
+        /**
+         * Calls RemoveTower.
+         * @function removeTower
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IRemoveTowerRequest} request RemoveTowerRequest message or plain object
+         * @returns {Promise<wtclientrpc.RemoveTowerResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#deactivateTower}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef DeactivateTowerCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.DeactivateTowerResponse} [response] DeactivateTowerResponse
+         */
+
+        /**
+         * Calls DeactivateTower.
+         * @function deactivateTower
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IDeactivateTowerRequest} request DeactivateTowerRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.DeactivateTowerCallback} callback Node-style callback called with the error, if any, and DeactivateTowerResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.deactivateTower = function deactivateTower(request, callback) {
+            return this.rpcCall(deactivateTower, $root.wtclientrpc.DeactivateTowerRequest, $root.wtclientrpc.DeactivateTowerResponse, request, callback);
+        }, "name", { value: "DeactivateTower" });
+
+        /**
+         * Calls DeactivateTower.
+         * @function deactivateTower
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IDeactivateTowerRequest} request DeactivateTowerRequest message or plain object
+         * @returns {Promise<wtclientrpc.DeactivateTowerResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#terminateSession}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef TerminateSessionCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.TerminateSessionResponse} [response] TerminateSessionResponse
+         */
+
+        /**
+         * Calls TerminateSession.
+         * @function terminateSession
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.ITerminateSessionRequest} request TerminateSessionRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.TerminateSessionCallback} callback Node-style callback called with the error, if any, and TerminateSessionResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.terminateSession = function terminateSession(request, callback) {
+            return this.rpcCall(terminateSession, $root.wtclientrpc.TerminateSessionRequest, $root.wtclientrpc.TerminateSessionResponse, request, callback);
+        }, "name", { value: "TerminateSession" });
+
+        /**
+         * Calls TerminateSession.
+         * @function terminateSession
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.ITerminateSessionRequest} request TerminateSessionRequest message or plain object
+         * @returns {Promise<wtclientrpc.TerminateSessionResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#listTowers}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef ListTowersCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.ListTowersResponse} [response] ListTowersResponse
+         */
+
+        /**
+         * Calls ListTowers.
+         * @function listTowers
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IListTowersRequest} request ListTowersRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.ListTowersCallback} callback Node-style callback called with the error, if any, and ListTowersResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.listTowers = function listTowers(request, callback) {
+            return this.rpcCall(listTowers, $root.wtclientrpc.ListTowersRequest, $root.wtclientrpc.ListTowersResponse, request, callback);
+        }, "name", { value: "ListTowers" });
+
+        /**
+         * Calls ListTowers.
+         * @function listTowers
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IListTowersRequest} request ListTowersRequest message or plain object
+         * @returns {Promise<wtclientrpc.ListTowersResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#getTowerInfo}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef GetTowerInfoCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.Tower} [response] Tower
+         */
+
+        /**
+         * Calls GetTowerInfo.
+         * @function getTowerInfo
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IGetTowerInfoRequest} request GetTowerInfoRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.GetTowerInfoCallback} callback Node-style callback called with the error, if any, and Tower
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.getTowerInfo = function getTowerInfo(request, callback) {
+            return this.rpcCall(getTowerInfo, $root.wtclientrpc.GetTowerInfoRequest, $root.wtclientrpc.Tower, request, callback);
+        }, "name", { value: "GetTowerInfo" });
+
+        /**
+         * Calls GetTowerInfo.
+         * @function getTowerInfo
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IGetTowerInfoRequest} request GetTowerInfoRequest message or plain object
+         * @returns {Promise<wtclientrpc.Tower>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#stats}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef StatsCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.StatsResponse} [response] StatsResponse
+         */
+
+        /**
+         * Calls Stats.
+         * @function stats
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IStatsRequest} request StatsRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.StatsCallback} callback Node-style callback called with the error, if any, and StatsResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.stats = function stats(request, callback) {
+            return this.rpcCall(stats, $root.wtclientrpc.StatsRequest, $root.wtclientrpc.StatsResponse, request, callback);
+        }, "name", { value: "Stats" });
+
+        /**
+         * Calls Stats.
+         * @function stats
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IStatsRequest} request StatsRequest message or plain object
+         * @returns {Promise<wtclientrpc.StatsResponse>} Promise
+         * @variation 2
+         */
+
+        /**
+         * Callback as used by {@link wtclientrpc.WatchtowerClient#policy}.
+         * @memberof wtclientrpc.WatchtowerClient
+         * @typedef PolicyCallback
+         * @type {function}
+         * @param {Error|null} error Error, if any
+         * @param {wtclientrpc.PolicyResponse} [response] PolicyResponse
+         */
+
+        /**
+         * Calls Policy.
+         * @function policy
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IPolicyRequest} request PolicyRequest message or plain object
+         * @param {wtclientrpc.WatchtowerClient.PolicyCallback} callback Node-style callback called with the error, if any, and PolicyResponse
+         * @returns {undefined}
+         * @variation 1
+         */
+        Object.defineProperty(WatchtowerClient.prototype.policy = function policy(request, callback) {
+            return this.rpcCall(policy, $root.wtclientrpc.PolicyRequest, $root.wtclientrpc.PolicyResponse, request, callback);
+        }, "name", { value: "Policy" });
+
+        /**
+         * Calls Policy.
+         * @function policy
+         * @memberof wtclientrpc.WatchtowerClient
+         * @instance
+         * @param {wtclientrpc.IPolicyRequest} request PolicyRequest message or plain object
+         * @returns {Promise<wtclientrpc.PolicyResponse>} Promise
+         * @variation 2
+         */
+
+        return WatchtowerClient;
+    })();
+
+    wtclientrpc.AddTowerRequest = (function() {
+
+        /**
+         * Properties of an AddTowerRequest.
+         * @memberof wtclientrpc
+         * @interface IAddTowerRequest
+         * @property {Uint8Array|null} [pubkey] AddTowerRequest pubkey
+         * @property {string|null} [address] AddTowerRequest address
+         */
+
+        /**
+         * Constructs a new AddTowerRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents an AddTowerRequest.
+         * @implements IAddTowerRequest
+         * @constructor
+         * @param {wtclientrpc.IAddTowerRequest=} [properties] Properties to set
+         */
+        function AddTowerRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * AddTowerRequest pubkey.
+         * @member {Uint8Array} pubkey
+         * @memberof wtclientrpc.AddTowerRequest
+         * @instance
+         */
+        AddTowerRequest.prototype.pubkey = $util.newBuffer([]);
+
+        /**
+         * AddTowerRequest address.
+         * @member {string} address
+         * @memberof wtclientrpc.AddTowerRequest
+         * @instance
+         */
+        AddTowerRequest.prototype.address = "";
+
+        /**
+         * Creates a new AddTowerRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {wtclientrpc.IAddTowerRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.AddTowerRequest} AddTowerRequest instance
+         */
+        AddTowerRequest.create = function create(properties) {
+            return new AddTowerRequest(properties);
+        };
+
+        /**
+         * Encodes the specified AddTowerRequest message. Does not implicitly {@link wtclientrpc.AddTowerRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {wtclientrpc.IAddTowerRequest} message AddTowerRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddTowerRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.pubkey != null && Object.hasOwnProperty.call(message, "pubkey"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.pubkey);
+            if (message.address != null && Object.hasOwnProperty.call(message, "address"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.address);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified AddTowerRequest message, length delimited. Does not implicitly {@link wtclientrpc.AddTowerRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {wtclientrpc.IAddTowerRequest} message AddTowerRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddTowerRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an AddTowerRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.AddTowerRequest} AddTowerRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddTowerRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.AddTowerRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.pubkey = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.address = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an AddTowerRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.AddTowerRequest} AddTowerRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddTowerRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an AddTowerRequest message.
+         * @function verify
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        AddTowerRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                if (!(message.pubkey && typeof message.pubkey.length === "number" || $util.isString(message.pubkey)))
+                    return "pubkey: buffer expected";
+            if (message.address != null && message.hasOwnProperty("address"))
+                if (!$util.isString(message.address))
+                    return "address: string expected";
+            return null;
+        };
+
+        /**
+         * Creates an AddTowerRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.AddTowerRequest} AddTowerRequest
+         */
+        AddTowerRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.AddTowerRequest)
+                return object;
+            let message = new $root.wtclientrpc.AddTowerRequest();
+            if (object.pubkey != null)
+                if (typeof object.pubkey === "string")
+                    $util.base64.decode(object.pubkey, message.pubkey = $util.newBuffer($util.base64.length(object.pubkey)), 0);
+                else if (object.pubkey.length >= 0)
+                    message.pubkey = object.pubkey;
+            if (object.address != null)
+                message.address = String(object.address);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an AddTowerRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {wtclientrpc.AddTowerRequest} message AddTowerRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        AddTowerRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.pubkey = "";
+                else {
+                    object.pubkey = [];
+                    if (options.bytes !== Array)
+                        object.pubkey = $util.newBuffer(object.pubkey);
+                }
+                object.address = "";
+            }
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                object.pubkey = options.bytes === String ? $util.base64.encode(message.pubkey, 0, message.pubkey.length) : options.bytes === Array ? Array.prototype.slice.call(message.pubkey) : message.pubkey;
+            if (message.address != null && message.hasOwnProperty("address"))
+                object.address = message.address;
+            return object;
+        };
+
+        /**
+         * Converts this AddTowerRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.AddTowerRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        AddTowerRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for AddTowerRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.AddTowerRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        AddTowerRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.AddTowerRequest";
+        };
+
+        return AddTowerRequest;
+    })();
+
+    wtclientrpc.AddTowerResponse = (function() {
+
+        /**
+         * Properties of an AddTowerResponse.
+         * @memberof wtclientrpc
+         * @interface IAddTowerResponse
+         */
+
+        /**
+         * Constructs a new AddTowerResponse.
+         * @memberof wtclientrpc
+         * @classdesc Represents an AddTowerResponse.
+         * @implements IAddTowerResponse
+         * @constructor
+         * @param {wtclientrpc.IAddTowerResponse=} [properties] Properties to set
+         */
+        function AddTowerResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new AddTowerResponse instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {wtclientrpc.IAddTowerResponse=} [properties] Properties to set
+         * @returns {wtclientrpc.AddTowerResponse} AddTowerResponse instance
+         */
+        AddTowerResponse.create = function create(properties) {
+            return new AddTowerResponse(properties);
+        };
+
+        /**
+         * Encodes the specified AddTowerResponse message. Does not implicitly {@link wtclientrpc.AddTowerResponse.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {wtclientrpc.IAddTowerResponse} message AddTowerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddTowerResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified AddTowerResponse message, length delimited. Does not implicitly {@link wtclientrpc.AddTowerResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {wtclientrpc.IAddTowerResponse} message AddTowerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        AddTowerResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an AddTowerResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.AddTowerResponse} AddTowerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddTowerResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.AddTowerResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an AddTowerResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.AddTowerResponse} AddTowerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        AddTowerResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an AddTowerResponse message.
+         * @function verify
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        AddTowerResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates an AddTowerResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.AddTowerResponse} AddTowerResponse
+         */
+        AddTowerResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.AddTowerResponse)
+                return object;
+            return new $root.wtclientrpc.AddTowerResponse();
+        };
+
+        /**
+         * Creates a plain object from an AddTowerResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {wtclientrpc.AddTowerResponse} message AddTowerResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        AddTowerResponse.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this AddTowerResponse to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.AddTowerResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        AddTowerResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for AddTowerResponse
+         * @function getTypeUrl
+         * @memberof wtclientrpc.AddTowerResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        AddTowerResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.AddTowerResponse";
+        };
+
+        return AddTowerResponse;
+    })();
+
+    wtclientrpc.RemoveTowerRequest = (function() {
+
+        /**
+         * Properties of a RemoveTowerRequest.
+         * @memberof wtclientrpc
+         * @interface IRemoveTowerRequest
+         * @property {Uint8Array|null} [pubkey] RemoveTowerRequest pubkey
+         * @property {string|null} [address] RemoveTowerRequest address
+         */
+
+        /**
+         * Constructs a new RemoveTowerRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents a RemoveTowerRequest.
+         * @implements IRemoveTowerRequest
+         * @constructor
+         * @param {wtclientrpc.IRemoveTowerRequest=} [properties] Properties to set
+         */
+        function RemoveTowerRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * RemoveTowerRequest pubkey.
+         * @member {Uint8Array} pubkey
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @instance
+         */
+        RemoveTowerRequest.prototype.pubkey = $util.newBuffer([]);
+
+        /**
+         * RemoveTowerRequest address.
+         * @member {string} address
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @instance
+         */
+        RemoveTowerRequest.prototype.address = "";
+
+        /**
+         * Creates a new RemoveTowerRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {wtclientrpc.IRemoveTowerRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.RemoveTowerRequest} RemoveTowerRequest instance
+         */
+        RemoveTowerRequest.create = function create(properties) {
+            return new RemoveTowerRequest(properties);
+        };
+
+        /**
+         * Encodes the specified RemoveTowerRequest message. Does not implicitly {@link wtclientrpc.RemoveTowerRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {wtclientrpc.IRemoveTowerRequest} message RemoveTowerRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RemoveTowerRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.pubkey != null && Object.hasOwnProperty.call(message, "pubkey"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.pubkey);
+            if (message.address != null && Object.hasOwnProperty.call(message, "address"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.address);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified RemoveTowerRequest message, length delimited. Does not implicitly {@link wtclientrpc.RemoveTowerRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {wtclientrpc.IRemoveTowerRequest} message RemoveTowerRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RemoveTowerRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a RemoveTowerRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.RemoveTowerRequest} RemoveTowerRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RemoveTowerRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.RemoveTowerRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.pubkey = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.address = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a RemoveTowerRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.RemoveTowerRequest} RemoveTowerRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RemoveTowerRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a RemoveTowerRequest message.
+         * @function verify
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        RemoveTowerRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                if (!(message.pubkey && typeof message.pubkey.length === "number" || $util.isString(message.pubkey)))
+                    return "pubkey: buffer expected";
+            if (message.address != null && message.hasOwnProperty("address"))
+                if (!$util.isString(message.address))
+                    return "address: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a RemoveTowerRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.RemoveTowerRequest} RemoveTowerRequest
+         */
+        RemoveTowerRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.RemoveTowerRequest)
+                return object;
+            let message = new $root.wtclientrpc.RemoveTowerRequest();
+            if (object.pubkey != null)
+                if (typeof object.pubkey === "string")
+                    $util.base64.decode(object.pubkey, message.pubkey = $util.newBuffer($util.base64.length(object.pubkey)), 0);
+                else if (object.pubkey.length >= 0)
+                    message.pubkey = object.pubkey;
+            if (object.address != null)
+                message.address = String(object.address);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a RemoveTowerRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {wtclientrpc.RemoveTowerRequest} message RemoveTowerRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        RemoveTowerRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.pubkey = "";
+                else {
+                    object.pubkey = [];
+                    if (options.bytes !== Array)
+                        object.pubkey = $util.newBuffer(object.pubkey);
+                }
+                object.address = "";
+            }
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                object.pubkey = options.bytes === String ? $util.base64.encode(message.pubkey, 0, message.pubkey.length) : options.bytes === Array ? Array.prototype.slice.call(message.pubkey) : message.pubkey;
+            if (message.address != null && message.hasOwnProperty("address"))
+                object.address = message.address;
+            return object;
+        };
+
+        /**
+         * Converts this RemoveTowerRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        RemoveTowerRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for RemoveTowerRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.RemoveTowerRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        RemoveTowerRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.RemoveTowerRequest";
+        };
+
+        return RemoveTowerRequest;
+    })();
+
+    wtclientrpc.RemoveTowerResponse = (function() {
+
+        /**
+         * Properties of a RemoveTowerResponse.
+         * @memberof wtclientrpc
+         * @interface IRemoveTowerResponse
+         */
+
+        /**
+         * Constructs a new RemoveTowerResponse.
+         * @memberof wtclientrpc
+         * @classdesc Represents a RemoveTowerResponse.
+         * @implements IRemoveTowerResponse
+         * @constructor
+         * @param {wtclientrpc.IRemoveTowerResponse=} [properties] Properties to set
+         */
+        function RemoveTowerResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new RemoveTowerResponse instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {wtclientrpc.IRemoveTowerResponse=} [properties] Properties to set
+         * @returns {wtclientrpc.RemoveTowerResponse} RemoveTowerResponse instance
+         */
+        RemoveTowerResponse.create = function create(properties) {
+            return new RemoveTowerResponse(properties);
+        };
+
+        /**
+         * Encodes the specified RemoveTowerResponse message. Does not implicitly {@link wtclientrpc.RemoveTowerResponse.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {wtclientrpc.IRemoveTowerResponse} message RemoveTowerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RemoveTowerResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified RemoveTowerResponse message, length delimited. Does not implicitly {@link wtclientrpc.RemoveTowerResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {wtclientrpc.IRemoveTowerResponse} message RemoveTowerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        RemoveTowerResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a RemoveTowerResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.RemoveTowerResponse} RemoveTowerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RemoveTowerResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.RemoveTowerResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a RemoveTowerResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.RemoveTowerResponse} RemoveTowerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        RemoveTowerResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a RemoveTowerResponse message.
+         * @function verify
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        RemoveTowerResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates a RemoveTowerResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.RemoveTowerResponse} RemoveTowerResponse
+         */
+        RemoveTowerResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.RemoveTowerResponse)
+                return object;
+            return new $root.wtclientrpc.RemoveTowerResponse();
+        };
+
+        /**
+         * Creates a plain object from a RemoveTowerResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {wtclientrpc.RemoveTowerResponse} message RemoveTowerResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        RemoveTowerResponse.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this RemoveTowerResponse to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        RemoveTowerResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for RemoveTowerResponse
+         * @function getTypeUrl
+         * @memberof wtclientrpc.RemoveTowerResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        RemoveTowerResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.RemoveTowerResponse";
+        };
+
+        return RemoveTowerResponse;
+    })();
+
+    wtclientrpc.DeactivateTowerRequest = (function() {
+
+        /**
+         * Properties of a DeactivateTowerRequest.
+         * @memberof wtclientrpc
+         * @interface IDeactivateTowerRequest
+         * @property {Uint8Array|null} [pubkey] DeactivateTowerRequest pubkey
+         */
+
+        /**
+         * Constructs a new DeactivateTowerRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents a DeactivateTowerRequest.
+         * @implements IDeactivateTowerRequest
+         * @constructor
+         * @param {wtclientrpc.IDeactivateTowerRequest=} [properties] Properties to set
+         */
+        function DeactivateTowerRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * DeactivateTowerRequest pubkey.
+         * @member {Uint8Array} pubkey
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @instance
+         */
+        DeactivateTowerRequest.prototype.pubkey = $util.newBuffer([]);
+
+        /**
+         * Creates a new DeactivateTowerRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {wtclientrpc.IDeactivateTowerRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.DeactivateTowerRequest} DeactivateTowerRequest instance
+         */
+        DeactivateTowerRequest.create = function create(properties) {
+            return new DeactivateTowerRequest(properties);
+        };
+
+        /**
+         * Encodes the specified DeactivateTowerRequest message. Does not implicitly {@link wtclientrpc.DeactivateTowerRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {wtclientrpc.IDeactivateTowerRequest} message DeactivateTowerRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeactivateTowerRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.pubkey != null && Object.hasOwnProperty.call(message, "pubkey"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.pubkey);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified DeactivateTowerRequest message, length delimited. Does not implicitly {@link wtclientrpc.DeactivateTowerRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {wtclientrpc.IDeactivateTowerRequest} message DeactivateTowerRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeactivateTowerRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a DeactivateTowerRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.DeactivateTowerRequest} DeactivateTowerRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeactivateTowerRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.DeactivateTowerRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.pubkey = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a DeactivateTowerRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.DeactivateTowerRequest} DeactivateTowerRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeactivateTowerRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a DeactivateTowerRequest message.
+         * @function verify
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        DeactivateTowerRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                if (!(message.pubkey && typeof message.pubkey.length === "number" || $util.isString(message.pubkey)))
+                    return "pubkey: buffer expected";
+            return null;
+        };
+
+        /**
+         * Creates a DeactivateTowerRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.DeactivateTowerRequest} DeactivateTowerRequest
+         */
+        DeactivateTowerRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.DeactivateTowerRequest)
+                return object;
+            let message = new $root.wtclientrpc.DeactivateTowerRequest();
+            if (object.pubkey != null)
+                if (typeof object.pubkey === "string")
+                    $util.base64.decode(object.pubkey, message.pubkey = $util.newBuffer($util.base64.length(object.pubkey)), 0);
+                else if (object.pubkey.length >= 0)
+                    message.pubkey = object.pubkey;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a DeactivateTowerRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {wtclientrpc.DeactivateTowerRequest} message DeactivateTowerRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        DeactivateTowerRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                if (options.bytes === String)
+                    object.pubkey = "";
+                else {
+                    object.pubkey = [];
+                    if (options.bytes !== Array)
+                        object.pubkey = $util.newBuffer(object.pubkey);
+                }
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                object.pubkey = options.bytes === String ? $util.base64.encode(message.pubkey, 0, message.pubkey.length) : options.bytes === Array ? Array.prototype.slice.call(message.pubkey) : message.pubkey;
+            return object;
+        };
+
+        /**
+         * Converts this DeactivateTowerRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        DeactivateTowerRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for DeactivateTowerRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.DeactivateTowerRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        DeactivateTowerRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.DeactivateTowerRequest";
+        };
+
+        return DeactivateTowerRequest;
+    })();
+
+    wtclientrpc.DeactivateTowerResponse = (function() {
+
+        /**
+         * Properties of a DeactivateTowerResponse.
+         * @memberof wtclientrpc
+         * @interface IDeactivateTowerResponse
+         * @property {string|null} [status] DeactivateTowerResponse status
+         */
+
+        /**
+         * Constructs a new DeactivateTowerResponse.
+         * @memberof wtclientrpc
+         * @classdesc Represents a DeactivateTowerResponse.
+         * @implements IDeactivateTowerResponse
+         * @constructor
+         * @param {wtclientrpc.IDeactivateTowerResponse=} [properties] Properties to set
+         */
+        function DeactivateTowerResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * DeactivateTowerResponse status.
+         * @member {string} status
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @instance
+         */
+        DeactivateTowerResponse.prototype.status = "";
+
+        /**
+         * Creates a new DeactivateTowerResponse instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {wtclientrpc.IDeactivateTowerResponse=} [properties] Properties to set
+         * @returns {wtclientrpc.DeactivateTowerResponse} DeactivateTowerResponse instance
+         */
+        DeactivateTowerResponse.create = function create(properties) {
+            return new DeactivateTowerResponse(properties);
+        };
+
+        /**
+         * Encodes the specified DeactivateTowerResponse message. Does not implicitly {@link wtclientrpc.DeactivateTowerResponse.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {wtclientrpc.IDeactivateTowerResponse} message DeactivateTowerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeactivateTowerResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified DeactivateTowerResponse message, length delimited. Does not implicitly {@link wtclientrpc.DeactivateTowerResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {wtclientrpc.IDeactivateTowerResponse} message DeactivateTowerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        DeactivateTowerResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a DeactivateTowerResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.DeactivateTowerResponse} DeactivateTowerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeactivateTowerResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.DeactivateTowerResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.status = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a DeactivateTowerResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.DeactivateTowerResponse} DeactivateTowerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        DeactivateTowerResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a DeactivateTowerResponse message.
+         * @function verify
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        DeactivateTowerResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.status != null && message.hasOwnProperty("status"))
+                if (!$util.isString(message.status))
+                    return "status: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a DeactivateTowerResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.DeactivateTowerResponse} DeactivateTowerResponse
+         */
+        DeactivateTowerResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.DeactivateTowerResponse)
+                return object;
+            let message = new $root.wtclientrpc.DeactivateTowerResponse();
+            if (object.status != null)
+                message.status = String(object.status);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a DeactivateTowerResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {wtclientrpc.DeactivateTowerResponse} message DeactivateTowerResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        DeactivateTowerResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.status = "";
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this DeactivateTowerResponse to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        DeactivateTowerResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for DeactivateTowerResponse
+         * @function getTypeUrl
+         * @memberof wtclientrpc.DeactivateTowerResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        DeactivateTowerResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.DeactivateTowerResponse";
+        };
+
+        return DeactivateTowerResponse;
+    })();
+
+    wtclientrpc.TerminateSessionRequest = (function() {
+
+        /**
+         * Properties of a TerminateSessionRequest.
+         * @memberof wtclientrpc
+         * @interface ITerminateSessionRequest
+         * @property {Uint8Array|null} [session_id] TerminateSessionRequest session_id
+         */
+
+        /**
+         * Constructs a new TerminateSessionRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents a TerminateSessionRequest.
+         * @implements ITerminateSessionRequest
+         * @constructor
+         * @param {wtclientrpc.ITerminateSessionRequest=} [properties] Properties to set
+         */
+        function TerminateSessionRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * TerminateSessionRequest session_id.
+         * @member {Uint8Array} session_id
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @instance
+         */
+        TerminateSessionRequest.prototype.session_id = $util.newBuffer([]);
+
+        /**
+         * Creates a new TerminateSessionRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {wtclientrpc.ITerminateSessionRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.TerminateSessionRequest} TerminateSessionRequest instance
+         */
+        TerminateSessionRequest.create = function create(properties) {
+            return new TerminateSessionRequest(properties);
+        };
+
+        /**
+         * Encodes the specified TerminateSessionRequest message. Does not implicitly {@link wtclientrpc.TerminateSessionRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {wtclientrpc.ITerminateSessionRequest} message TerminateSessionRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TerminateSessionRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.session_id != null && Object.hasOwnProperty.call(message, "session_id"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.session_id);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified TerminateSessionRequest message, length delimited. Does not implicitly {@link wtclientrpc.TerminateSessionRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {wtclientrpc.ITerminateSessionRequest} message TerminateSessionRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TerminateSessionRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a TerminateSessionRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.TerminateSessionRequest} TerminateSessionRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TerminateSessionRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.TerminateSessionRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.session_id = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a TerminateSessionRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.TerminateSessionRequest} TerminateSessionRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TerminateSessionRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a TerminateSessionRequest message.
+         * @function verify
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        TerminateSessionRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.session_id != null && message.hasOwnProperty("session_id"))
+                if (!(message.session_id && typeof message.session_id.length === "number" || $util.isString(message.session_id)))
+                    return "session_id: buffer expected";
+            return null;
+        };
+
+        /**
+         * Creates a TerminateSessionRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.TerminateSessionRequest} TerminateSessionRequest
+         */
+        TerminateSessionRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.TerminateSessionRequest)
+                return object;
+            let message = new $root.wtclientrpc.TerminateSessionRequest();
+            if (object.session_id != null)
+                if (typeof object.session_id === "string")
+                    $util.base64.decode(object.session_id, message.session_id = $util.newBuffer($util.base64.length(object.session_id)), 0);
+                else if (object.session_id.length >= 0)
+                    message.session_id = object.session_id;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a TerminateSessionRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {wtclientrpc.TerminateSessionRequest} message TerminateSessionRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        TerminateSessionRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                if (options.bytes === String)
+                    object.session_id = "";
+                else {
+                    object.session_id = [];
+                    if (options.bytes !== Array)
+                        object.session_id = $util.newBuffer(object.session_id);
+                }
+            if (message.session_id != null && message.hasOwnProperty("session_id"))
+                object.session_id = options.bytes === String ? $util.base64.encode(message.session_id, 0, message.session_id.length) : options.bytes === Array ? Array.prototype.slice.call(message.session_id) : message.session_id;
+            return object;
+        };
+
+        /**
+         * Converts this TerminateSessionRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        TerminateSessionRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for TerminateSessionRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.TerminateSessionRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        TerminateSessionRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.TerminateSessionRequest";
+        };
+
+        return TerminateSessionRequest;
+    })();
+
+    wtclientrpc.TerminateSessionResponse = (function() {
+
+        /**
+         * Properties of a TerminateSessionResponse.
+         * @memberof wtclientrpc
+         * @interface ITerminateSessionResponse
+         * @property {string|null} [status] TerminateSessionResponse status
+         */
+
+        /**
+         * Constructs a new TerminateSessionResponse.
+         * @memberof wtclientrpc
+         * @classdesc Represents a TerminateSessionResponse.
+         * @implements ITerminateSessionResponse
+         * @constructor
+         * @param {wtclientrpc.ITerminateSessionResponse=} [properties] Properties to set
+         */
+        function TerminateSessionResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * TerminateSessionResponse status.
+         * @member {string} status
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @instance
+         */
+        TerminateSessionResponse.prototype.status = "";
+
+        /**
+         * Creates a new TerminateSessionResponse instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {wtclientrpc.ITerminateSessionResponse=} [properties] Properties to set
+         * @returns {wtclientrpc.TerminateSessionResponse} TerminateSessionResponse instance
+         */
+        TerminateSessionResponse.create = function create(properties) {
+            return new TerminateSessionResponse(properties);
+        };
+
+        /**
+         * Encodes the specified TerminateSessionResponse message. Does not implicitly {@link wtclientrpc.TerminateSessionResponse.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {wtclientrpc.ITerminateSessionResponse} message TerminateSessionResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TerminateSessionResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.status);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified TerminateSessionResponse message, length delimited. Does not implicitly {@link wtclientrpc.TerminateSessionResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {wtclientrpc.ITerminateSessionResponse} message TerminateSessionResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TerminateSessionResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a TerminateSessionResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.TerminateSessionResponse} TerminateSessionResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TerminateSessionResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.TerminateSessionResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.status = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a TerminateSessionResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.TerminateSessionResponse} TerminateSessionResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TerminateSessionResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a TerminateSessionResponse message.
+         * @function verify
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        TerminateSessionResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.status != null && message.hasOwnProperty("status"))
+                if (!$util.isString(message.status))
+                    return "status: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a TerminateSessionResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.TerminateSessionResponse} TerminateSessionResponse
+         */
+        TerminateSessionResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.TerminateSessionResponse)
+                return object;
+            let message = new $root.wtclientrpc.TerminateSessionResponse();
+            if (object.status != null)
+                message.status = String(object.status);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a TerminateSessionResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {wtclientrpc.TerminateSessionResponse} message TerminateSessionResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        TerminateSessionResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.status = "";
+            if (message.status != null && message.hasOwnProperty("status"))
+                object.status = message.status;
+            return object;
+        };
+
+        /**
+         * Converts this TerminateSessionResponse to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        TerminateSessionResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for TerminateSessionResponse
+         * @function getTypeUrl
+         * @memberof wtclientrpc.TerminateSessionResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        TerminateSessionResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.TerminateSessionResponse";
+        };
+
+        return TerminateSessionResponse;
+    })();
+
+    wtclientrpc.GetTowerInfoRequest = (function() {
+
+        /**
+         * Properties of a GetTowerInfoRequest.
+         * @memberof wtclientrpc
+         * @interface IGetTowerInfoRequest
+         * @property {Uint8Array|null} [pubkey] GetTowerInfoRequest pubkey
+         * @property {boolean|null} [include_sessions] GetTowerInfoRequest include_sessions
+         * @property {boolean|null} [exclude_exhausted_sessions] GetTowerInfoRequest exclude_exhausted_sessions
+         */
+
+        /**
+         * Constructs a new GetTowerInfoRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents a GetTowerInfoRequest.
+         * @implements IGetTowerInfoRequest
+         * @constructor
+         * @param {wtclientrpc.IGetTowerInfoRequest=} [properties] Properties to set
+         */
+        function GetTowerInfoRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * GetTowerInfoRequest pubkey.
+         * @member {Uint8Array} pubkey
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @instance
+         */
+        GetTowerInfoRequest.prototype.pubkey = $util.newBuffer([]);
+
+        /**
+         * GetTowerInfoRequest include_sessions.
+         * @member {boolean} include_sessions
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @instance
+         */
+        GetTowerInfoRequest.prototype.include_sessions = false;
+
+        /**
+         * GetTowerInfoRequest exclude_exhausted_sessions.
+         * @member {boolean} exclude_exhausted_sessions
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @instance
+         */
+        GetTowerInfoRequest.prototype.exclude_exhausted_sessions = false;
+
+        /**
+         * Creates a new GetTowerInfoRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {wtclientrpc.IGetTowerInfoRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.GetTowerInfoRequest} GetTowerInfoRequest instance
+         */
+        GetTowerInfoRequest.create = function create(properties) {
+            return new GetTowerInfoRequest(properties);
+        };
+
+        /**
+         * Encodes the specified GetTowerInfoRequest message. Does not implicitly {@link wtclientrpc.GetTowerInfoRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {wtclientrpc.IGetTowerInfoRequest} message GetTowerInfoRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetTowerInfoRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.pubkey != null && Object.hasOwnProperty.call(message, "pubkey"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.pubkey);
+            if (message.include_sessions != null && Object.hasOwnProperty.call(message, "include_sessions"))
+                writer.uint32(/* id 2, wireType 0 =*/16).bool(message.include_sessions);
+            if (message.exclude_exhausted_sessions != null && Object.hasOwnProperty.call(message, "exclude_exhausted_sessions"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.exclude_exhausted_sessions);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified GetTowerInfoRequest message, length delimited. Does not implicitly {@link wtclientrpc.GetTowerInfoRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {wtclientrpc.IGetTowerInfoRequest} message GetTowerInfoRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        GetTowerInfoRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a GetTowerInfoRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.GetTowerInfoRequest} GetTowerInfoRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetTowerInfoRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.GetTowerInfoRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.pubkey = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.include_sessions = reader.bool();
+                        break;
+                    }
+                case 3: {
+                        message.exclude_exhausted_sessions = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a GetTowerInfoRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.GetTowerInfoRequest} GetTowerInfoRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        GetTowerInfoRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a GetTowerInfoRequest message.
+         * @function verify
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        GetTowerInfoRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                if (!(message.pubkey && typeof message.pubkey.length === "number" || $util.isString(message.pubkey)))
+                    return "pubkey: buffer expected";
+            if (message.include_sessions != null && message.hasOwnProperty("include_sessions"))
+                if (typeof message.include_sessions !== "boolean")
+                    return "include_sessions: boolean expected";
+            if (message.exclude_exhausted_sessions != null && message.hasOwnProperty("exclude_exhausted_sessions"))
+                if (typeof message.exclude_exhausted_sessions !== "boolean")
+                    return "exclude_exhausted_sessions: boolean expected";
+            return null;
+        };
+
+        /**
+         * Creates a GetTowerInfoRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.GetTowerInfoRequest} GetTowerInfoRequest
+         */
+        GetTowerInfoRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.GetTowerInfoRequest)
+                return object;
+            let message = new $root.wtclientrpc.GetTowerInfoRequest();
+            if (object.pubkey != null)
+                if (typeof object.pubkey === "string")
+                    $util.base64.decode(object.pubkey, message.pubkey = $util.newBuffer($util.base64.length(object.pubkey)), 0);
+                else if (object.pubkey.length >= 0)
+                    message.pubkey = object.pubkey;
+            if (object.include_sessions != null)
+                message.include_sessions = Boolean(object.include_sessions);
+            if (object.exclude_exhausted_sessions != null)
+                message.exclude_exhausted_sessions = Boolean(object.exclude_exhausted_sessions);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a GetTowerInfoRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {wtclientrpc.GetTowerInfoRequest} message GetTowerInfoRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        GetTowerInfoRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.pubkey = "";
+                else {
+                    object.pubkey = [];
+                    if (options.bytes !== Array)
+                        object.pubkey = $util.newBuffer(object.pubkey);
+                }
+                object.include_sessions = false;
+                object.exclude_exhausted_sessions = false;
+            }
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                object.pubkey = options.bytes === String ? $util.base64.encode(message.pubkey, 0, message.pubkey.length) : options.bytes === Array ? Array.prototype.slice.call(message.pubkey) : message.pubkey;
+            if (message.include_sessions != null && message.hasOwnProperty("include_sessions"))
+                object.include_sessions = message.include_sessions;
+            if (message.exclude_exhausted_sessions != null && message.hasOwnProperty("exclude_exhausted_sessions"))
+                object.exclude_exhausted_sessions = message.exclude_exhausted_sessions;
+            return object;
+        };
+
+        /**
+         * Converts this GetTowerInfoRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        GetTowerInfoRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for GetTowerInfoRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.GetTowerInfoRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        GetTowerInfoRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.GetTowerInfoRequest";
+        };
+
+        return GetTowerInfoRequest;
+    })();
+
+    wtclientrpc.TowerSession = (function() {
+
+        /**
+         * Properties of a TowerSession.
+         * @memberof wtclientrpc
+         * @interface ITowerSession
+         * @property {number|null} [num_backups] TowerSession num_backups
+         * @property {number|null} [num_pending_backups] TowerSession num_pending_backups
+         * @property {number|null} [max_backups] TowerSession max_backups
+         * @property {number|null} [sweep_sat_per_byte] TowerSession sweep_sat_per_byte
+         * @property {number|null} [sweep_sat_per_vbyte] TowerSession sweep_sat_per_vbyte
+         * @property {Uint8Array|null} [id] TowerSession id
+         */
+
+        /**
+         * Constructs a new TowerSession.
+         * @memberof wtclientrpc
+         * @classdesc Represents a TowerSession.
+         * @implements ITowerSession
+         * @constructor
+         * @param {wtclientrpc.ITowerSession=} [properties] Properties to set
+         */
+        function TowerSession(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * TowerSession num_backups.
+         * @member {number} num_backups
+         * @memberof wtclientrpc.TowerSession
+         * @instance
+         */
+        TowerSession.prototype.num_backups = 0;
+
+        /**
+         * TowerSession num_pending_backups.
+         * @member {number} num_pending_backups
+         * @memberof wtclientrpc.TowerSession
+         * @instance
+         */
+        TowerSession.prototype.num_pending_backups = 0;
+
+        /**
+         * TowerSession max_backups.
+         * @member {number} max_backups
+         * @memberof wtclientrpc.TowerSession
+         * @instance
+         */
+        TowerSession.prototype.max_backups = 0;
+
+        /**
+         * TowerSession sweep_sat_per_byte.
+         * @member {number} sweep_sat_per_byte
+         * @memberof wtclientrpc.TowerSession
+         * @instance
+         */
+        TowerSession.prototype.sweep_sat_per_byte = 0;
+
+        /**
+         * TowerSession sweep_sat_per_vbyte.
+         * @member {number} sweep_sat_per_vbyte
+         * @memberof wtclientrpc.TowerSession
+         * @instance
+         */
+        TowerSession.prototype.sweep_sat_per_vbyte = 0;
+
+        /**
+         * TowerSession id.
+         * @member {Uint8Array} id
+         * @memberof wtclientrpc.TowerSession
+         * @instance
+         */
+        TowerSession.prototype.id = $util.newBuffer([]);
+
+        /**
+         * Creates a new TowerSession instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {wtclientrpc.ITowerSession=} [properties] Properties to set
+         * @returns {wtclientrpc.TowerSession} TowerSession instance
+         */
+        TowerSession.create = function create(properties) {
+            return new TowerSession(properties);
+        };
+
+        /**
+         * Encodes the specified TowerSession message. Does not implicitly {@link wtclientrpc.TowerSession.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {wtclientrpc.ITowerSession} message TowerSession message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TowerSession.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.num_backups != null && Object.hasOwnProperty.call(message, "num_backups"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.num_backups);
+            if (message.num_pending_backups != null && Object.hasOwnProperty.call(message, "num_pending_backups"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.num_pending_backups);
+            if (message.max_backups != null && Object.hasOwnProperty.call(message, "max_backups"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.max_backups);
+            if (message.sweep_sat_per_byte != null && Object.hasOwnProperty.call(message, "sweep_sat_per_byte"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.sweep_sat_per_byte);
+            if (message.sweep_sat_per_vbyte != null && Object.hasOwnProperty.call(message, "sweep_sat_per_vbyte"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.sweep_sat_per_vbyte);
+            if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                writer.uint32(/* id 6, wireType 2 =*/50).bytes(message.id);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified TowerSession message, length delimited. Does not implicitly {@link wtclientrpc.TowerSession.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {wtclientrpc.ITowerSession} message TowerSession message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TowerSession.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a TowerSession message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.TowerSession} TowerSession
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TowerSession.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.TowerSession();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.num_backups = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.num_pending_backups = reader.uint32();
+                        break;
+                    }
+                case 3: {
+                        message.max_backups = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.sweep_sat_per_byte = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.sweep_sat_per_vbyte = reader.uint32();
+                        break;
+                    }
+                case 6: {
+                        message.id = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a TowerSession message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.TowerSession} TowerSession
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TowerSession.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a TowerSession message.
+         * @function verify
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        TowerSession.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.num_backups != null && message.hasOwnProperty("num_backups"))
+                if (!$util.isInteger(message.num_backups))
+                    return "num_backups: integer expected";
+            if (message.num_pending_backups != null && message.hasOwnProperty("num_pending_backups"))
+                if (!$util.isInteger(message.num_pending_backups))
+                    return "num_pending_backups: integer expected";
+            if (message.max_backups != null && message.hasOwnProperty("max_backups"))
+                if (!$util.isInteger(message.max_backups))
+                    return "max_backups: integer expected";
+            if (message.sweep_sat_per_byte != null && message.hasOwnProperty("sweep_sat_per_byte"))
+                if (!$util.isInteger(message.sweep_sat_per_byte))
+                    return "sweep_sat_per_byte: integer expected";
+            if (message.sweep_sat_per_vbyte != null && message.hasOwnProperty("sweep_sat_per_vbyte"))
+                if (!$util.isInteger(message.sweep_sat_per_vbyte))
+                    return "sweep_sat_per_vbyte: integer expected";
+            if (message.id != null && message.hasOwnProperty("id"))
+                if (!(message.id && typeof message.id.length === "number" || $util.isString(message.id)))
+                    return "id: buffer expected";
+            return null;
+        };
+
+        /**
+         * Creates a TowerSession message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.TowerSession} TowerSession
+         */
+        TowerSession.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.TowerSession)
+                return object;
+            let message = new $root.wtclientrpc.TowerSession();
+            if (object.num_backups != null)
+                message.num_backups = object.num_backups >>> 0;
+            if (object.num_pending_backups != null)
+                message.num_pending_backups = object.num_pending_backups >>> 0;
+            if (object.max_backups != null)
+                message.max_backups = object.max_backups >>> 0;
+            if (object.sweep_sat_per_byte != null)
+                message.sweep_sat_per_byte = object.sweep_sat_per_byte >>> 0;
+            if (object.sweep_sat_per_vbyte != null)
+                message.sweep_sat_per_vbyte = object.sweep_sat_per_vbyte >>> 0;
+            if (object.id != null)
+                if (typeof object.id === "string")
+                    $util.base64.decode(object.id, message.id = $util.newBuffer($util.base64.length(object.id)), 0);
+                else if (object.id.length >= 0)
+                    message.id = object.id;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a TowerSession message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {wtclientrpc.TowerSession} message TowerSession
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        TowerSession.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.num_backups = 0;
+                object.num_pending_backups = 0;
+                object.max_backups = 0;
+                object.sweep_sat_per_byte = 0;
+                object.sweep_sat_per_vbyte = 0;
+                if (options.bytes === String)
+                    object.id = "";
+                else {
+                    object.id = [];
+                    if (options.bytes !== Array)
+                        object.id = $util.newBuffer(object.id);
+                }
+            }
+            if (message.num_backups != null && message.hasOwnProperty("num_backups"))
+                object.num_backups = message.num_backups;
+            if (message.num_pending_backups != null && message.hasOwnProperty("num_pending_backups"))
+                object.num_pending_backups = message.num_pending_backups;
+            if (message.max_backups != null && message.hasOwnProperty("max_backups"))
+                object.max_backups = message.max_backups;
+            if (message.sweep_sat_per_byte != null && message.hasOwnProperty("sweep_sat_per_byte"))
+                object.sweep_sat_per_byte = message.sweep_sat_per_byte;
+            if (message.sweep_sat_per_vbyte != null && message.hasOwnProperty("sweep_sat_per_vbyte"))
+                object.sweep_sat_per_vbyte = message.sweep_sat_per_vbyte;
+            if (message.id != null && message.hasOwnProperty("id"))
+                object.id = options.bytes === String ? $util.base64.encode(message.id, 0, message.id.length) : options.bytes === Array ? Array.prototype.slice.call(message.id) : message.id;
+            return object;
+        };
+
+        /**
+         * Converts this TowerSession to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.TowerSession
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        TowerSession.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for TowerSession
+         * @function getTypeUrl
+         * @memberof wtclientrpc.TowerSession
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        TowerSession.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.TowerSession";
+        };
+
+        return TowerSession;
+    })();
+
+    wtclientrpc.Tower = (function() {
+
+        /**
+         * Properties of a Tower.
+         * @memberof wtclientrpc
+         * @interface ITower
+         * @property {Uint8Array|null} [pubkey] Tower pubkey
+         * @property {Array.<string>|null} [addresses] Tower addresses
+         * @property {boolean|null} [active_session_candidate] Tower active_session_candidate
+         * @property {number|null} [num_sessions] Tower num_sessions
+         * @property {Array.<wtclientrpc.ITowerSession>|null} [sessions] Tower sessions
+         * @property {Array.<wtclientrpc.ITowerSessionInfo>|null} [session_info] Tower session_info
+         */
+
+        /**
+         * Constructs a new Tower.
+         * @memberof wtclientrpc
+         * @classdesc Represents a Tower.
+         * @implements ITower
+         * @constructor
+         * @param {wtclientrpc.ITower=} [properties] Properties to set
+         */
+        function Tower(properties) {
+            this.addresses = [];
+            this.sessions = [];
+            this.session_info = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Tower pubkey.
+         * @member {Uint8Array} pubkey
+         * @memberof wtclientrpc.Tower
+         * @instance
+         */
+        Tower.prototype.pubkey = $util.newBuffer([]);
+
+        /**
+         * Tower addresses.
+         * @member {Array.<string>} addresses
+         * @memberof wtclientrpc.Tower
+         * @instance
+         */
+        Tower.prototype.addresses = $util.emptyArray;
+
+        /**
+         * Tower active_session_candidate.
+         * @member {boolean} active_session_candidate
+         * @memberof wtclientrpc.Tower
+         * @instance
+         */
+        Tower.prototype.active_session_candidate = false;
+
+        /**
+         * Tower num_sessions.
+         * @member {number} num_sessions
+         * @memberof wtclientrpc.Tower
+         * @instance
+         */
+        Tower.prototype.num_sessions = 0;
+
+        /**
+         * Tower sessions.
+         * @member {Array.<wtclientrpc.ITowerSession>} sessions
+         * @memberof wtclientrpc.Tower
+         * @instance
+         */
+        Tower.prototype.sessions = $util.emptyArray;
+
+        /**
+         * Tower session_info.
+         * @member {Array.<wtclientrpc.ITowerSessionInfo>} session_info
+         * @memberof wtclientrpc.Tower
+         * @instance
+         */
+        Tower.prototype.session_info = $util.emptyArray;
+
+        /**
+         * Creates a new Tower instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {wtclientrpc.ITower=} [properties] Properties to set
+         * @returns {wtclientrpc.Tower} Tower instance
+         */
+        Tower.create = function create(properties) {
+            return new Tower(properties);
+        };
+
+        /**
+         * Encodes the specified Tower message. Does not implicitly {@link wtclientrpc.Tower.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {wtclientrpc.ITower} message Tower message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Tower.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.pubkey != null && Object.hasOwnProperty.call(message, "pubkey"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.pubkey);
+            if (message.addresses != null && message.addresses.length)
+                for (let i = 0; i < message.addresses.length; ++i)
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.addresses[i]);
+            if (message.active_session_candidate != null && Object.hasOwnProperty.call(message, "active_session_candidate"))
+                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.active_session_candidate);
+            if (message.num_sessions != null && Object.hasOwnProperty.call(message, "num_sessions"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.num_sessions);
+            if (message.sessions != null && message.sessions.length)
+                for (let i = 0; i < message.sessions.length; ++i)
+                    $root.wtclientrpc.TowerSession.encode(message.sessions[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+            if (message.session_info != null && message.session_info.length)
+                for (let i = 0; i < message.session_info.length; ++i)
+                    $root.wtclientrpc.TowerSessionInfo.encode(message.session_info[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Tower message, length delimited. Does not implicitly {@link wtclientrpc.Tower.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {wtclientrpc.ITower} message Tower message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Tower.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a Tower message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.Tower} Tower
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Tower.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.Tower();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.pubkey = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.addresses && message.addresses.length))
+                            message.addresses = [];
+                        message.addresses.push(reader.string());
+                        break;
+                    }
+                case 3: {
+                        message.active_session_candidate = reader.bool();
+                        break;
+                    }
+                case 4: {
+                        message.num_sessions = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        if (!(message.sessions && message.sessions.length))
+                            message.sessions = [];
+                        message.sessions.push($root.wtclientrpc.TowerSession.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 6: {
+                        if (!(message.session_info && message.session_info.length))
+                            message.session_info = [];
+                        message.session_info.push($root.wtclientrpc.TowerSessionInfo.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a Tower message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.Tower} Tower
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Tower.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a Tower message.
+         * @function verify
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Tower.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                if (!(message.pubkey && typeof message.pubkey.length === "number" || $util.isString(message.pubkey)))
+                    return "pubkey: buffer expected";
+            if (message.addresses != null && message.hasOwnProperty("addresses")) {
+                if (!Array.isArray(message.addresses))
+                    return "addresses: array expected";
+                for (let i = 0; i < message.addresses.length; ++i)
+                    if (!$util.isString(message.addresses[i]))
+                        return "addresses: string[] expected";
+            }
+            if (message.active_session_candidate != null && message.hasOwnProperty("active_session_candidate"))
+                if (typeof message.active_session_candidate !== "boolean")
+                    return "active_session_candidate: boolean expected";
+            if (message.num_sessions != null && message.hasOwnProperty("num_sessions"))
+                if (!$util.isInteger(message.num_sessions))
+                    return "num_sessions: integer expected";
+            if (message.sessions != null && message.hasOwnProperty("sessions")) {
+                if (!Array.isArray(message.sessions))
+                    return "sessions: array expected";
+                for (let i = 0; i < message.sessions.length; ++i) {
+                    let error = $root.wtclientrpc.TowerSession.verify(message.sessions[i]);
+                    if (error)
+                        return "sessions." + error;
+                }
+            }
+            if (message.session_info != null && message.hasOwnProperty("session_info")) {
+                if (!Array.isArray(message.session_info))
+                    return "session_info: array expected";
+                for (let i = 0; i < message.session_info.length; ++i) {
+                    let error = $root.wtclientrpc.TowerSessionInfo.verify(message.session_info[i]);
+                    if (error)
+                        return "session_info." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a Tower message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.Tower} Tower
+         */
+        Tower.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.Tower)
+                return object;
+            let message = new $root.wtclientrpc.Tower();
+            if (object.pubkey != null)
+                if (typeof object.pubkey === "string")
+                    $util.base64.decode(object.pubkey, message.pubkey = $util.newBuffer($util.base64.length(object.pubkey)), 0);
+                else if (object.pubkey.length >= 0)
+                    message.pubkey = object.pubkey;
+            if (object.addresses) {
+                if (!Array.isArray(object.addresses))
+                    throw TypeError(".wtclientrpc.Tower.addresses: array expected");
+                message.addresses = [];
+                for (let i = 0; i < object.addresses.length; ++i)
+                    message.addresses[i] = String(object.addresses[i]);
+            }
+            if (object.active_session_candidate != null)
+                message.active_session_candidate = Boolean(object.active_session_candidate);
+            if (object.num_sessions != null)
+                message.num_sessions = object.num_sessions >>> 0;
+            if (object.sessions) {
+                if (!Array.isArray(object.sessions))
+                    throw TypeError(".wtclientrpc.Tower.sessions: array expected");
+                message.sessions = [];
+                for (let i = 0; i < object.sessions.length; ++i) {
+                    if (typeof object.sessions[i] !== "object")
+                        throw TypeError(".wtclientrpc.Tower.sessions: object expected");
+                    message.sessions[i] = $root.wtclientrpc.TowerSession.fromObject(object.sessions[i]);
+                }
+            }
+            if (object.session_info) {
+                if (!Array.isArray(object.session_info))
+                    throw TypeError(".wtclientrpc.Tower.session_info: array expected");
+                message.session_info = [];
+                for (let i = 0; i < object.session_info.length; ++i) {
+                    if (typeof object.session_info[i] !== "object")
+                        throw TypeError(".wtclientrpc.Tower.session_info: object expected");
+                    message.session_info[i] = $root.wtclientrpc.TowerSessionInfo.fromObject(object.session_info[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a Tower message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {wtclientrpc.Tower} message Tower
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Tower.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults) {
+                object.addresses = [];
+                object.sessions = [];
+                object.session_info = [];
+            }
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.pubkey = "";
+                else {
+                    object.pubkey = [];
+                    if (options.bytes !== Array)
+                        object.pubkey = $util.newBuffer(object.pubkey);
+                }
+                object.active_session_candidate = false;
+                object.num_sessions = 0;
+            }
+            if (message.pubkey != null && message.hasOwnProperty("pubkey"))
+                object.pubkey = options.bytes === String ? $util.base64.encode(message.pubkey, 0, message.pubkey.length) : options.bytes === Array ? Array.prototype.slice.call(message.pubkey) : message.pubkey;
+            if (message.addresses && message.addresses.length) {
+                object.addresses = [];
+                for (let j = 0; j < message.addresses.length; ++j)
+                    object.addresses[j] = message.addresses[j];
+            }
+            if (message.active_session_candidate != null && message.hasOwnProperty("active_session_candidate"))
+                object.active_session_candidate = message.active_session_candidate;
+            if (message.num_sessions != null && message.hasOwnProperty("num_sessions"))
+                object.num_sessions = message.num_sessions;
+            if (message.sessions && message.sessions.length) {
+                object.sessions = [];
+                for (let j = 0; j < message.sessions.length; ++j)
+                    object.sessions[j] = $root.wtclientrpc.TowerSession.toObject(message.sessions[j], options);
+            }
+            if (message.session_info && message.session_info.length) {
+                object.session_info = [];
+                for (let j = 0; j < message.session_info.length; ++j)
+                    object.session_info[j] = $root.wtclientrpc.TowerSessionInfo.toObject(message.session_info[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this Tower to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.Tower
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Tower.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for Tower
+         * @function getTypeUrl
+         * @memberof wtclientrpc.Tower
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        Tower.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.Tower";
+        };
+
+        return Tower;
+    })();
+
+    wtclientrpc.TowerSessionInfo = (function() {
+
+        /**
+         * Properties of a TowerSessionInfo.
+         * @memberof wtclientrpc
+         * @interface ITowerSessionInfo
+         * @property {boolean|null} [active_session_candidate] TowerSessionInfo active_session_candidate
+         * @property {number|null} [num_sessions] TowerSessionInfo num_sessions
+         * @property {Array.<wtclientrpc.ITowerSession>|null} [sessions] TowerSessionInfo sessions
+         * @property {wtclientrpc.PolicyType|null} [policy_type] TowerSessionInfo policy_type
+         */
+
+        /**
+         * Constructs a new TowerSessionInfo.
+         * @memberof wtclientrpc
+         * @classdesc Represents a TowerSessionInfo.
+         * @implements ITowerSessionInfo
+         * @constructor
+         * @param {wtclientrpc.ITowerSessionInfo=} [properties] Properties to set
+         */
+        function TowerSessionInfo(properties) {
+            this.sessions = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * TowerSessionInfo active_session_candidate.
+         * @member {boolean} active_session_candidate
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @instance
+         */
+        TowerSessionInfo.prototype.active_session_candidate = false;
+
+        /**
+         * TowerSessionInfo num_sessions.
+         * @member {number} num_sessions
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @instance
+         */
+        TowerSessionInfo.prototype.num_sessions = 0;
+
+        /**
+         * TowerSessionInfo sessions.
+         * @member {Array.<wtclientrpc.ITowerSession>} sessions
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @instance
+         */
+        TowerSessionInfo.prototype.sessions = $util.emptyArray;
+
+        /**
+         * TowerSessionInfo policy_type.
+         * @member {wtclientrpc.PolicyType} policy_type
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @instance
+         */
+        TowerSessionInfo.prototype.policy_type = 0;
+
+        /**
+         * Creates a new TowerSessionInfo instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {wtclientrpc.ITowerSessionInfo=} [properties] Properties to set
+         * @returns {wtclientrpc.TowerSessionInfo} TowerSessionInfo instance
+         */
+        TowerSessionInfo.create = function create(properties) {
+            return new TowerSessionInfo(properties);
+        };
+
+        /**
+         * Encodes the specified TowerSessionInfo message. Does not implicitly {@link wtclientrpc.TowerSessionInfo.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {wtclientrpc.ITowerSessionInfo} message TowerSessionInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TowerSessionInfo.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.active_session_candidate != null && Object.hasOwnProperty.call(message, "active_session_candidate"))
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.active_session_candidate);
+            if (message.num_sessions != null && Object.hasOwnProperty.call(message, "num_sessions"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.num_sessions);
+            if (message.sessions != null && message.sessions.length)
+                for (let i = 0; i < message.sessions.length; ++i)
+                    $root.wtclientrpc.TowerSession.encode(message.sessions[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.policy_type != null && Object.hasOwnProperty.call(message, "policy_type"))
+                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.policy_type);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified TowerSessionInfo message, length delimited. Does not implicitly {@link wtclientrpc.TowerSessionInfo.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {wtclientrpc.ITowerSessionInfo} message TowerSessionInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        TowerSessionInfo.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a TowerSessionInfo message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.TowerSessionInfo} TowerSessionInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TowerSessionInfo.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.TowerSessionInfo();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.active_session_candidate = reader.bool();
+                        break;
+                    }
+                case 2: {
+                        message.num_sessions = reader.uint32();
+                        break;
+                    }
+                case 3: {
+                        if (!(message.sessions && message.sessions.length))
+                            message.sessions = [];
+                        message.sessions.push($root.wtclientrpc.TowerSession.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 4: {
+                        message.policy_type = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a TowerSessionInfo message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.TowerSessionInfo} TowerSessionInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        TowerSessionInfo.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a TowerSessionInfo message.
+         * @function verify
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        TowerSessionInfo.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.active_session_candidate != null && message.hasOwnProperty("active_session_candidate"))
+                if (typeof message.active_session_candidate !== "boolean")
+                    return "active_session_candidate: boolean expected";
+            if (message.num_sessions != null && message.hasOwnProperty("num_sessions"))
+                if (!$util.isInteger(message.num_sessions))
+                    return "num_sessions: integer expected";
+            if (message.sessions != null && message.hasOwnProperty("sessions")) {
+                if (!Array.isArray(message.sessions))
+                    return "sessions: array expected";
+                for (let i = 0; i < message.sessions.length; ++i) {
+                    let error = $root.wtclientrpc.TowerSession.verify(message.sessions[i]);
+                    if (error)
+                        return "sessions." + error;
+                }
+            }
+            if (message.policy_type != null && message.hasOwnProperty("policy_type"))
+                switch (message.policy_type) {
+                default:
+                    return "policy_type: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
+            return null;
+        };
+
+        /**
+         * Creates a TowerSessionInfo message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.TowerSessionInfo} TowerSessionInfo
+         */
+        TowerSessionInfo.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.TowerSessionInfo)
+                return object;
+            let message = new $root.wtclientrpc.TowerSessionInfo();
+            if (object.active_session_candidate != null)
+                message.active_session_candidate = Boolean(object.active_session_candidate);
+            if (object.num_sessions != null)
+                message.num_sessions = object.num_sessions >>> 0;
+            if (object.sessions) {
+                if (!Array.isArray(object.sessions))
+                    throw TypeError(".wtclientrpc.TowerSessionInfo.sessions: array expected");
+                message.sessions = [];
+                for (let i = 0; i < object.sessions.length; ++i) {
+                    if (typeof object.sessions[i] !== "object")
+                        throw TypeError(".wtclientrpc.TowerSessionInfo.sessions: object expected");
+                    message.sessions[i] = $root.wtclientrpc.TowerSession.fromObject(object.sessions[i]);
+                }
+            }
+            switch (object.policy_type) {
+            default:
+                if (typeof object.policy_type === "number") {
+                    message.policy_type = object.policy_type;
+                    break;
+                }
+                break;
+            case "LEGACY":
+            case 0:
+                message.policy_type = 0;
+                break;
+            case "ANCHOR":
+            case 1:
+                message.policy_type = 1;
+                break;
+            case "TAPROOT":
+            case 2:
+                message.policy_type = 2;
+                break;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a TowerSessionInfo message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {wtclientrpc.TowerSessionInfo} message TowerSessionInfo
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        TowerSessionInfo.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.sessions = [];
+            if (options.defaults) {
+                object.active_session_candidate = false;
+                object.num_sessions = 0;
+                object.policy_type = options.enums === String ? "LEGACY" : 0;
+            }
+            if (message.active_session_candidate != null && message.hasOwnProperty("active_session_candidate"))
+                object.active_session_candidate = message.active_session_candidate;
+            if (message.num_sessions != null && message.hasOwnProperty("num_sessions"))
+                object.num_sessions = message.num_sessions;
+            if (message.sessions && message.sessions.length) {
+                object.sessions = [];
+                for (let j = 0; j < message.sessions.length; ++j)
+                    object.sessions[j] = $root.wtclientrpc.TowerSession.toObject(message.sessions[j], options);
+            }
+            if (message.policy_type != null && message.hasOwnProperty("policy_type"))
+                object.policy_type = options.enums === String ? $root.wtclientrpc.PolicyType[message.policy_type] === undefined ? message.policy_type : $root.wtclientrpc.PolicyType[message.policy_type] : message.policy_type;
+            return object;
+        };
+
+        /**
+         * Converts this TowerSessionInfo to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        TowerSessionInfo.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for TowerSessionInfo
+         * @function getTypeUrl
+         * @memberof wtclientrpc.TowerSessionInfo
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        TowerSessionInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.TowerSessionInfo";
+        };
+
+        return TowerSessionInfo;
+    })();
+
+    wtclientrpc.ListTowersRequest = (function() {
+
+        /**
+         * Properties of a ListTowersRequest.
+         * @memberof wtclientrpc
+         * @interface IListTowersRequest
+         * @property {boolean|null} [include_sessions] ListTowersRequest include_sessions
+         * @property {boolean|null} [exclude_exhausted_sessions] ListTowersRequest exclude_exhausted_sessions
+         */
+
+        /**
+         * Constructs a new ListTowersRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents a ListTowersRequest.
+         * @implements IListTowersRequest
+         * @constructor
+         * @param {wtclientrpc.IListTowersRequest=} [properties] Properties to set
+         */
+        function ListTowersRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ListTowersRequest include_sessions.
+         * @member {boolean} include_sessions
+         * @memberof wtclientrpc.ListTowersRequest
+         * @instance
+         */
+        ListTowersRequest.prototype.include_sessions = false;
+
+        /**
+         * ListTowersRequest exclude_exhausted_sessions.
+         * @member {boolean} exclude_exhausted_sessions
+         * @memberof wtclientrpc.ListTowersRequest
+         * @instance
+         */
+        ListTowersRequest.prototype.exclude_exhausted_sessions = false;
+
+        /**
+         * Creates a new ListTowersRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {wtclientrpc.IListTowersRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.ListTowersRequest} ListTowersRequest instance
+         */
+        ListTowersRequest.create = function create(properties) {
+            return new ListTowersRequest(properties);
+        };
+
+        /**
+         * Encodes the specified ListTowersRequest message. Does not implicitly {@link wtclientrpc.ListTowersRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {wtclientrpc.IListTowersRequest} message ListTowersRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ListTowersRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.include_sessions != null && Object.hasOwnProperty.call(message, "include_sessions"))
+                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.include_sessions);
+            if (message.exclude_exhausted_sessions != null && Object.hasOwnProperty.call(message, "exclude_exhausted_sessions"))
+                writer.uint32(/* id 2, wireType 0 =*/16).bool(message.exclude_exhausted_sessions);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ListTowersRequest message, length delimited. Does not implicitly {@link wtclientrpc.ListTowersRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {wtclientrpc.IListTowersRequest} message ListTowersRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ListTowersRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a ListTowersRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.ListTowersRequest} ListTowersRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ListTowersRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.ListTowersRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.include_sessions = reader.bool();
+                        break;
+                    }
+                case 2: {
+                        message.exclude_exhausted_sessions = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a ListTowersRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.ListTowersRequest} ListTowersRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ListTowersRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ListTowersRequest message.
+         * @function verify
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ListTowersRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.include_sessions != null && message.hasOwnProperty("include_sessions"))
+                if (typeof message.include_sessions !== "boolean")
+                    return "include_sessions: boolean expected";
+            if (message.exclude_exhausted_sessions != null && message.hasOwnProperty("exclude_exhausted_sessions"))
+                if (typeof message.exclude_exhausted_sessions !== "boolean")
+                    return "exclude_exhausted_sessions: boolean expected";
+            return null;
+        };
+
+        /**
+         * Creates a ListTowersRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.ListTowersRequest} ListTowersRequest
+         */
+        ListTowersRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.ListTowersRequest)
+                return object;
+            let message = new $root.wtclientrpc.ListTowersRequest();
+            if (object.include_sessions != null)
+                message.include_sessions = Boolean(object.include_sessions);
+            if (object.exclude_exhausted_sessions != null)
+                message.exclude_exhausted_sessions = Boolean(object.exclude_exhausted_sessions);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ListTowersRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {wtclientrpc.ListTowersRequest} message ListTowersRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ListTowersRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.include_sessions = false;
+                object.exclude_exhausted_sessions = false;
+            }
+            if (message.include_sessions != null && message.hasOwnProperty("include_sessions"))
+                object.include_sessions = message.include_sessions;
+            if (message.exclude_exhausted_sessions != null && message.hasOwnProperty("exclude_exhausted_sessions"))
+                object.exclude_exhausted_sessions = message.exclude_exhausted_sessions;
+            return object;
+        };
+
+        /**
+         * Converts this ListTowersRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.ListTowersRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ListTowersRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for ListTowersRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.ListTowersRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        ListTowersRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.ListTowersRequest";
+        };
+
+        return ListTowersRequest;
+    })();
+
+    wtclientrpc.ListTowersResponse = (function() {
+
+        /**
+         * Properties of a ListTowersResponse.
+         * @memberof wtclientrpc
+         * @interface IListTowersResponse
+         * @property {Array.<wtclientrpc.ITower>|null} [towers] ListTowersResponse towers
+         */
+
+        /**
+         * Constructs a new ListTowersResponse.
+         * @memberof wtclientrpc
+         * @classdesc Represents a ListTowersResponse.
+         * @implements IListTowersResponse
+         * @constructor
+         * @param {wtclientrpc.IListTowersResponse=} [properties] Properties to set
+         */
+        function ListTowersResponse(properties) {
+            this.towers = [];
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * ListTowersResponse towers.
+         * @member {Array.<wtclientrpc.ITower>} towers
+         * @memberof wtclientrpc.ListTowersResponse
+         * @instance
+         */
+        ListTowersResponse.prototype.towers = $util.emptyArray;
+
+        /**
+         * Creates a new ListTowersResponse instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {wtclientrpc.IListTowersResponse=} [properties] Properties to set
+         * @returns {wtclientrpc.ListTowersResponse} ListTowersResponse instance
+         */
+        ListTowersResponse.create = function create(properties) {
+            return new ListTowersResponse(properties);
+        };
+
+        /**
+         * Encodes the specified ListTowersResponse message. Does not implicitly {@link wtclientrpc.ListTowersResponse.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {wtclientrpc.IListTowersResponse} message ListTowersResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ListTowersResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.towers != null && message.towers.length)
+                for (let i = 0; i < message.towers.length; ++i)
+                    $root.wtclientrpc.Tower.encode(message.towers[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified ListTowersResponse message, length delimited. Does not implicitly {@link wtclientrpc.ListTowersResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {wtclientrpc.IListTowersResponse} message ListTowersResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ListTowersResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a ListTowersResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.ListTowersResponse} ListTowersResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ListTowersResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.ListTowersResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        if (!(message.towers && message.towers.length))
+                            message.towers = [];
+                        message.towers.push($root.wtclientrpc.Tower.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a ListTowersResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.ListTowersResponse} ListTowersResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ListTowersResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a ListTowersResponse message.
+         * @function verify
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ListTowersResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.towers != null && message.hasOwnProperty("towers")) {
+                if (!Array.isArray(message.towers))
+                    return "towers: array expected";
+                for (let i = 0; i < message.towers.length; ++i) {
+                    let error = $root.wtclientrpc.Tower.verify(message.towers[i]);
+                    if (error)
+                        return "towers." + error;
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Creates a ListTowersResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.ListTowersResponse} ListTowersResponse
+         */
+        ListTowersResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.ListTowersResponse)
+                return object;
+            let message = new $root.wtclientrpc.ListTowersResponse();
+            if (object.towers) {
+                if (!Array.isArray(object.towers))
+                    throw TypeError(".wtclientrpc.ListTowersResponse.towers: array expected");
+                message.towers = [];
+                for (let i = 0; i < object.towers.length; ++i) {
+                    if (typeof object.towers[i] !== "object")
+                        throw TypeError(".wtclientrpc.ListTowersResponse.towers: object expected");
+                    message.towers[i] = $root.wtclientrpc.Tower.fromObject(object.towers[i]);
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a ListTowersResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {wtclientrpc.ListTowersResponse} message ListTowersResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ListTowersResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.arrays || options.defaults)
+                object.towers = [];
+            if (message.towers && message.towers.length) {
+                object.towers = [];
+                for (let j = 0; j < message.towers.length; ++j)
+                    object.towers[j] = $root.wtclientrpc.Tower.toObject(message.towers[j], options);
+            }
+            return object;
+        };
+
+        /**
+         * Converts this ListTowersResponse to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.ListTowersResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ListTowersResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for ListTowersResponse
+         * @function getTypeUrl
+         * @memberof wtclientrpc.ListTowersResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        ListTowersResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.ListTowersResponse";
+        };
+
+        return ListTowersResponse;
+    })();
+
+    wtclientrpc.StatsRequest = (function() {
+
+        /**
+         * Properties of a StatsRequest.
+         * @memberof wtclientrpc
+         * @interface IStatsRequest
+         */
+
+        /**
+         * Constructs a new StatsRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents a StatsRequest.
+         * @implements IStatsRequest
+         * @constructor
+         * @param {wtclientrpc.IStatsRequest=} [properties] Properties to set
+         */
+        function StatsRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Creates a new StatsRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {wtclientrpc.IStatsRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.StatsRequest} StatsRequest instance
+         */
+        StatsRequest.create = function create(properties) {
+            return new StatsRequest(properties);
+        };
+
+        /**
+         * Encodes the specified StatsRequest message. Does not implicitly {@link wtclientrpc.StatsRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {wtclientrpc.IStatsRequest} message StatsRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StatsRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            return writer;
+        };
+
+        /**
+         * Encodes the specified StatsRequest message, length delimited. Does not implicitly {@link wtclientrpc.StatsRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {wtclientrpc.IStatsRequest} message StatsRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StatsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a StatsRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.StatsRequest} StatsRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StatsRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.StatsRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a StatsRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.StatsRequest} StatsRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StatsRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a StatsRequest message.
+         * @function verify
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        StatsRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            return null;
+        };
+
+        /**
+         * Creates a StatsRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.StatsRequest} StatsRequest
+         */
+        StatsRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.StatsRequest)
+                return object;
+            return new $root.wtclientrpc.StatsRequest();
+        };
+
+        /**
+         * Creates a plain object from a StatsRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {wtclientrpc.StatsRequest} message StatsRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        StatsRequest.toObject = function toObject() {
+            return {};
+        };
+
+        /**
+         * Converts this StatsRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.StatsRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        StatsRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for StatsRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.StatsRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        StatsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.StatsRequest";
+        };
+
+        return StatsRequest;
+    })();
+
+    wtclientrpc.StatsResponse = (function() {
+
+        /**
+         * Properties of a StatsResponse.
+         * @memberof wtclientrpc
+         * @interface IStatsResponse
+         * @property {number|null} [num_backups] StatsResponse num_backups
+         * @property {number|null} [num_pending_backups] StatsResponse num_pending_backups
+         * @property {number|null} [num_failed_backups] StatsResponse num_failed_backups
+         * @property {number|null} [num_sessions_acquired] StatsResponse num_sessions_acquired
+         * @property {number|null} [num_sessions_exhausted] StatsResponse num_sessions_exhausted
+         */
+
+        /**
+         * Constructs a new StatsResponse.
+         * @memberof wtclientrpc
+         * @classdesc Represents a StatsResponse.
+         * @implements IStatsResponse
+         * @constructor
+         * @param {wtclientrpc.IStatsResponse=} [properties] Properties to set
+         */
+        function StatsResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * StatsResponse num_backups.
+         * @member {number} num_backups
+         * @memberof wtclientrpc.StatsResponse
+         * @instance
+         */
+        StatsResponse.prototype.num_backups = 0;
+
+        /**
+         * StatsResponse num_pending_backups.
+         * @member {number} num_pending_backups
+         * @memberof wtclientrpc.StatsResponse
+         * @instance
+         */
+        StatsResponse.prototype.num_pending_backups = 0;
+
+        /**
+         * StatsResponse num_failed_backups.
+         * @member {number} num_failed_backups
+         * @memberof wtclientrpc.StatsResponse
+         * @instance
+         */
+        StatsResponse.prototype.num_failed_backups = 0;
+
+        /**
+         * StatsResponse num_sessions_acquired.
+         * @member {number} num_sessions_acquired
+         * @memberof wtclientrpc.StatsResponse
+         * @instance
+         */
+        StatsResponse.prototype.num_sessions_acquired = 0;
+
+        /**
+         * StatsResponse num_sessions_exhausted.
+         * @member {number} num_sessions_exhausted
+         * @memberof wtclientrpc.StatsResponse
+         * @instance
+         */
+        StatsResponse.prototype.num_sessions_exhausted = 0;
+
+        /**
+         * Creates a new StatsResponse instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {wtclientrpc.IStatsResponse=} [properties] Properties to set
+         * @returns {wtclientrpc.StatsResponse} StatsResponse instance
+         */
+        StatsResponse.create = function create(properties) {
+            return new StatsResponse(properties);
+        };
+
+        /**
+         * Encodes the specified StatsResponse message. Does not implicitly {@link wtclientrpc.StatsResponse.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {wtclientrpc.IStatsResponse} message StatsResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StatsResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.num_backups != null && Object.hasOwnProperty.call(message, "num_backups"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.num_backups);
+            if (message.num_pending_backups != null && Object.hasOwnProperty.call(message, "num_pending_backups"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.num_pending_backups);
+            if (message.num_failed_backups != null && Object.hasOwnProperty.call(message, "num_failed_backups"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.num_failed_backups);
+            if (message.num_sessions_acquired != null && Object.hasOwnProperty.call(message, "num_sessions_acquired"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.num_sessions_acquired);
+            if (message.num_sessions_exhausted != null && Object.hasOwnProperty.call(message, "num_sessions_exhausted"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.num_sessions_exhausted);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified StatsResponse message, length delimited. Does not implicitly {@link wtclientrpc.StatsResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {wtclientrpc.IStatsResponse} message StatsResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StatsResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a StatsResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.StatsResponse} StatsResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StatsResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.StatsResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.num_backups = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.num_pending_backups = reader.uint32();
+                        break;
+                    }
+                case 3: {
+                        message.num_failed_backups = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.num_sessions_acquired = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.num_sessions_exhausted = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a StatsResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.StatsResponse} StatsResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StatsResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a StatsResponse message.
+         * @function verify
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        StatsResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.num_backups != null && message.hasOwnProperty("num_backups"))
+                if (!$util.isInteger(message.num_backups))
+                    return "num_backups: integer expected";
+            if (message.num_pending_backups != null && message.hasOwnProperty("num_pending_backups"))
+                if (!$util.isInteger(message.num_pending_backups))
+                    return "num_pending_backups: integer expected";
+            if (message.num_failed_backups != null && message.hasOwnProperty("num_failed_backups"))
+                if (!$util.isInteger(message.num_failed_backups))
+                    return "num_failed_backups: integer expected";
+            if (message.num_sessions_acquired != null && message.hasOwnProperty("num_sessions_acquired"))
+                if (!$util.isInteger(message.num_sessions_acquired))
+                    return "num_sessions_acquired: integer expected";
+            if (message.num_sessions_exhausted != null && message.hasOwnProperty("num_sessions_exhausted"))
+                if (!$util.isInteger(message.num_sessions_exhausted))
+                    return "num_sessions_exhausted: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a StatsResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.StatsResponse} StatsResponse
+         */
+        StatsResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.StatsResponse)
+                return object;
+            let message = new $root.wtclientrpc.StatsResponse();
+            if (object.num_backups != null)
+                message.num_backups = object.num_backups >>> 0;
+            if (object.num_pending_backups != null)
+                message.num_pending_backups = object.num_pending_backups >>> 0;
+            if (object.num_failed_backups != null)
+                message.num_failed_backups = object.num_failed_backups >>> 0;
+            if (object.num_sessions_acquired != null)
+                message.num_sessions_acquired = object.num_sessions_acquired >>> 0;
+            if (object.num_sessions_exhausted != null)
+                message.num_sessions_exhausted = object.num_sessions_exhausted >>> 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a StatsResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {wtclientrpc.StatsResponse} message StatsResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        StatsResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.num_backups = 0;
+                object.num_pending_backups = 0;
+                object.num_failed_backups = 0;
+                object.num_sessions_acquired = 0;
+                object.num_sessions_exhausted = 0;
+            }
+            if (message.num_backups != null && message.hasOwnProperty("num_backups"))
+                object.num_backups = message.num_backups;
+            if (message.num_pending_backups != null && message.hasOwnProperty("num_pending_backups"))
+                object.num_pending_backups = message.num_pending_backups;
+            if (message.num_failed_backups != null && message.hasOwnProperty("num_failed_backups"))
+                object.num_failed_backups = message.num_failed_backups;
+            if (message.num_sessions_acquired != null && message.hasOwnProperty("num_sessions_acquired"))
+                object.num_sessions_acquired = message.num_sessions_acquired;
+            if (message.num_sessions_exhausted != null && message.hasOwnProperty("num_sessions_exhausted"))
+                object.num_sessions_exhausted = message.num_sessions_exhausted;
+            return object;
+        };
+
+        /**
+         * Converts this StatsResponse to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.StatsResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        StatsResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for StatsResponse
+         * @function getTypeUrl
+         * @memberof wtclientrpc.StatsResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        StatsResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.StatsResponse";
+        };
+
+        return StatsResponse;
+    })();
+
+    /**
+     * PolicyType enum.
+     * @name wtclientrpc.PolicyType
+     * @enum {number}
+     * @property {number} LEGACY=0 LEGACY value
+     * @property {number} ANCHOR=1 ANCHOR value
+     * @property {number} TAPROOT=2 TAPROOT value
+     */
+    wtclientrpc.PolicyType = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "LEGACY"] = 0;
+        values[valuesById[1] = "ANCHOR"] = 1;
+        values[valuesById[2] = "TAPROOT"] = 2;
+        return values;
+    })();
+
+    wtclientrpc.PolicyRequest = (function() {
+
+        /**
+         * Properties of a PolicyRequest.
+         * @memberof wtclientrpc
+         * @interface IPolicyRequest
+         * @property {wtclientrpc.PolicyType|null} [policy_type] PolicyRequest policy_type
+         */
+
+        /**
+         * Constructs a new PolicyRequest.
+         * @memberof wtclientrpc
+         * @classdesc Represents a PolicyRequest.
+         * @implements IPolicyRequest
+         * @constructor
+         * @param {wtclientrpc.IPolicyRequest=} [properties] Properties to set
+         */
+        function PolicyRequest(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * PolicyRequest policy_type.
+         * @member {wtclientrpc.PolicyType} policy_type
+         * @memberof wtclientrpc.PolicyRequest
+         * @instance
+         */
+        PolicyRequest.prototype.policy_type = 0;
+
+        /**
+         * Creates a new PolicyRequest instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {wtclientrpc.IPolicyRequest=} [properties] Properties to set
+         * @returns {wtclientrpc.PolicyRequest} PolicyRequest instance
+         */
+        PolicyRequest.create = function create(properties) {
+            return new PolicyRequest(properties);
+        };
+
+        /**
+         * Encodes the specified PolicyRequest message. Does not implicitly {@link wtclientrpc.PolicyRequest.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {wtclientrpc.IPolicyRequest} message PolicyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PolicyRequest.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.policy_type != null && Object.hasOwnProperty.call(message, "policy_type"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.policy_type);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified PolicyRequest message, length delimited. Does not implicitly {@link wtclientrpc.PolicyRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {wtclientrpc.IPolicyRequest} message PolicyRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PolicyRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a PolicyRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.PolicyRequest} PolicyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PolicyRequest.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.PolicyRequest();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.policy_type = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a PolicyRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.PolicyRequest} PolicyRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PolicyRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a PolicyRequest message.
+         * @function verify
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        PolicyRequest.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.policy_type != null && message.hasOwnProperty("policy_type"))
+                switch (message.policy_type) {
+                default:
+                    return "policy_type: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                    break;
+                }
+            return null;
+        };
+
+        /**
+         * Creates a PolicyRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.PolicyRequest} PolicyRequest
+         */
+        PolicyRequest.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.PolicyRequest)
+                return object;
+            let message = new $root.wtclientrpc.PolicyRequest();
+            switch (object.policy_type) {
+            default:
+                if (typeof object.policy_type === "number") {
+                    message.policy_type = object.policy_type;
+                    break;
+                }
+                break;
+            case "LEGACY":
+            case 0:
+                message.policy_type = 0;
+                break;
+            case "ANCHOR":
+            case 1:
+                message.policy_type = 1;
+                break;
+            case "TAPROOT":
+            case 2:
+                message.policy_type = 2;
+                break;
+            }
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a PolicyRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {wtclientrpc.PolicyRequest} message PolicyRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        PolicyRequest.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults)
+                object.policy_type = options.enums === String ? "LEGACY" : 0;
+            if (message.policy_type != null && message.hasOwnProperty("policy_type"))
+                object.policy_type = options.enums === String ? $root.wtclientrpc.PolicyType[message.policy_type] === undefined ? message.policy_type : $root.wtclientrpc.PolicyType[message.policy_type] : message.policy_type;
+            return object;
+        };
+
+        /**
+         * Converts this PolicyRequest to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.PolicyRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        PolicyRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for PolicyRequest
+         * @function getTypeUrl
+         * @memberof wtclientrpc.PolicyRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        PolicyRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.PolicyRequest";
+        };
+
+        return PolicyRequest;
+    })();
+
+    wtclientrpc.PolicyResponse = (function() {
+
+        /**
+         * Properties of a PolicyResponse.
+         * @memberof wtclientrpc
+         * @interface IPolicyResponse
+         * @property {number|null} [max_updates] PolicyResponse max_updates
+         * @property {number|null} [sweep_sat_per_byte] PolicyResponse sweep_sat_per_byte
+         * @property {number|null} [sweep_sat_per_vbyte] PolicyResponse sweep_sat_per_vbyte
+         */
+
+        /**
+         * Constructs a new PolicyResponse.
+         * @memberof wtclientrpc
+         * @classdesc Represents a PolicyResponse.
+         * @implements IPolicyResponse
+         * @constructor
+         * @param {wtclientrpc.IPolicyResponse=} [properties] Properties to set
+         */
+        function PolicyResponse(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * PolicyResponse max_updates.
+         * @member {number} max_updates
+         * @memberof wtclientrpc.PolicyResponse
+         * @instance
+         */
+        PolicyResponse.prototype.max_updates = 0;
+
+        /**
+         * PolicyResponse sweep_sat_per_byte.
+         * @member {number} sweep_sat_per_byte
+         * @memberof wtclientrpc.PolicyResponse
+         * @instance
+         */
+        PolicyResponse.prototype.sweep_sat_per_byte = 0;
+
+        /**
+         * PolicyResponse sweep_sat_per_vbyte.
+         * @member {number} sweep_sat_per_vbyte
+         * @memberof wtclientrpc.PolicyResponse
+         * @instance
+         */
+        PolicyResponse.prototype.sweep_sat_per_vbyte = 0;
+
+        /**
+         * Creates a new PolicyResponse instance using the specified properties.
+         * @function create
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {wtclientrpc.IPolicyResponse=} [properties] Properties to set
+         * @returns {wtclientrpc.PolicyResponse} PolicyResponse instance
+         */
+        PolicyResponse.create = function create(properties) {
+            return new PolicyResponse(properties);
+        };
+
+        /**
+         * Encodes the specified PolicyResponse message. Does not implicitly {@link wtclientrpc.PolicyResponse.verify|verify} messages.
+         * @function encode
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {wtclientrpc.IPolicyResponse} message PolicyResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PolicyResponse.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.max_updates != null && Object.hasOwnProperty.call(message, "max_updates"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.max_updates);
+            if (message.sweep_sat_per_byte != null && Object.hasOwnProperty.call(message, "sweep_sat_per_byte"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.sweep_sat_per_byte);
+            if (message.sweep_sat_per_vbyte != null && Object.hasOwnProperty.call(message, "sweep_sat_per_vbyte"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.sweep_sat_per_vbyte);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified PolicyResponse message, length delimited. Does not implicitly {@link wtclientrpc.PolicyResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {wtclientrpc.IPolicyResponse} message PolicyResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        PolicyResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a PolicyResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {wtclientrpc.PolicyResponse} PolicyResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PolicyResponse.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.wtclientrpc.PolicyResponse();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.max_updates = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.sweep_sat_per_byte = reader.uint32();
+                        break;
+                    }
+                case 3: {
+                        message.sweep_sat_per_vbyte = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a PolicyResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {wtclientrpc.PolicyResponse} PolicyResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        PolicyResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a PolicyResponse message.
+         * @function verify
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        PolicyResponse.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.max_updates != null && message.hasOwnProperty("max_updates"))
+                if (!$util.isInteger(message.max_updates))
+                    return "max_updates: integer expected";
+            if (message.sweep_sat_per_byte != null && message.hasOwnProperty("sweep_sat_per_byte"))
+                if (!$util.isInteger(message.sweep_sat_per_byte))
+                    return "sweep_sat_per_byte: integer expected";
+            if (message.sweep_sat_per_vbyte != null && message.hasOwnProperty("sweep_sat_per_vbyte"))
+                if (!$util.isInteger(message.sweep_sat_per_vbyte))
+                    return "sweep_sat_per_vbyte: integer expected";
+            return null;
+        };
+
+        /**
+         * Creates a PolicyResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {wtclientrpc.PolicyResponse} PolicyResponse
+         */
+        PolicyResponse.fromObject = function fromObject(object) {
+            if (object instanceof $root.wtclientrpc.PolicyResponse)
+                return object;
+            let message = new $root.wtclientrpc.PolicyResponse();
+            if (object.max_updates != null)
+                message.max_updates = object.max_updates >>> 0;
+            if (object.sweep_sat_per_byte != null)
+                message.sweep_sat_per_byte = object.sweep_sat_per_byte >>> 0;
+            if (object.sweep_sat_per_vbyte != null)
+                message.sweep_sat_per_vbyte = object.sweep_sat_per_vbyte >>> 0;
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a PolicyResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {wtclientrpc.PolicyResponse} message PolicyResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        PolicyResponse.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.max_updates = 0;
+                object.sweep_sat_per_byte = 0;
+                object.sweep_sat_per_vbyte = 0;
+            }
+            if (message.max_updates != null && message.hasOwnProperty("max_updates"))
+                object.max_updates = message.max_updates;
+            if (message.sweep_sat_per_byte != null && message.hasOwnProperty("sweep_sat_per_byte"))
+                object.sweep_sat_per_byte = message.sweep_sat_per_byte;
+            if (message.sweep_sat_per_vbyte != null && message.hasOwnProperty("sweep_sat_per_vbyte"))
+                object.sweep_sat_per_vbyte = message.sweep_sat_per_vbyte;
+            return object;
+        };
+
+        /**
+         * Converts this PolicyResponse to JSON.
+         * @function toJSON
+         * @memberof wtclientrpc.PolicyResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        PolicyResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for PolicyResponse
+         * @function getTypeUrl
+         * @memberof wtclientrpc.PolicyResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        PolicyResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/wtclientrpc.PolicyResponse";
+        };
+
+        return PolicyResponse;
+    })();
+
+    return wtclientrpc;
+})();
+
 export { $root as default };

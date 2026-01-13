@@ -59890,6 +59890,8 @@ export const lnrpc = $root.lnrpc = (() => {
          * @property {number|null} [index_offset] ForwardingHistoryRequest index_offset
          * @property {number|null} [num_max_events] ForwardingHistoryRequest num_max_events
          * @property {boolean|null} [peer_alias_lookup] ForwardingHistoryRequest peer_alias_lookup
+         * @property {Array.<Long>|null} [incoming_chan_ids] ForwardingHistoryRequest incoming_chan_ids
+         * @property {Array.<Long>|null} [outgoing_chan_ids] ForwardingHistoryRequest outgoing_chan_ids
          */
 
         /**
@@ -59901,6 +59903,8 @@ export const lnrpc = $root.lnrpc = (() => {
          * @param {lnrpc.IForwardingHistoryRequest=} [properties] Properties to set
          */
         function ForwardingHistoryRequest(properties) {
+            this.incoming_chan_ids = [];
+            this.outgoing_chan_ids = [];
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -59948,6 +59952,22 @@ export const lnrpc = $root.lnrpc = (() => {
         ForwardingHistoryRequest.prototype.peer_alias_lookup = false;
 
         /**
+         * ForwardingHistoryRequest incoming_chan_ids.
+         * @member {Array.<Long>} incoming_chan_ids
+         * @memberof lnrpc.ForwardingHistoryRequest
+         * @instance
+         */
+        ForwardingHistoryRequest.prototype.incoming_chan_ids = $util.emptyArray;
+
+        /**
+         * ForwardingHistoryRequest outgoing_chan_ids.
+         * @member {Array.<Long>} outgoing_chan_ids
+         * @memberof lnrpc.ForwardingHistoryRequest
+         * @instance
+         */
+        ForwardingHistoryRequest.prototype.outgoing_chan_ids = $util.emptyArray;
+
+        /**
          * Creates a new ForwardingHistoryRequest instance using the specified properties.
          * @function create
          * @memberof lnrpc.ForwardingHistoryRequest
@@ -59981,6 +60001,18 @@ export const lnrpc = $root.lnrpc = (() => {
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.num_max_events);
             if (message.peer_alias_lookup != null && Object.hasOwnProperty.call(message, "peer_alias_lookup"))
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.peer_alias_lookup);
+            if (message.incoming_chan_ids != null && message.incoming_chan_ids.length) {
+                writer.uint32(/* id 6, wireType 2 =*/50).fork();
+                for (let i = 0; i < message.incoming_chan_ids.length; ++i)
+                    writer.uint64(message.incoming_chan_ids[i]);
+                writer.ldelim();
+            }
+            if (message.outgoing_chan_ids != null && message.outgoing_chan_ids.length) {
+                writer.uint32(/* id 7, wireType 2 =*/58).fork();
+                for (let i = 0; i < message.outgoing_chan_ids.length; ++i)
+                    writer.uint64(message.outgoing_chan_ids[i]);
+                writer.ldelim();
+            }
             return writer;
         };
 
@@ -60035,6 +60067,28 @@ export const lnrpc = $root.lnrpc = (() => {
                         message.peer_alias_lookup = reader.bool();
                         break;
                     }
+                case 6: {
+                        if (!(message.incoming_chan_ids && message.incoming_chan_ids.length))
+                            message.incoming_chan_ids = [];
+                        if ((tag & 7) === 2) {
+                            let end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.incoming_chan_ids.push(reader.uint64());
+                        } else
+                            message.incoming_chan_ids.push(reader.uint64());
+                        break;
+                    }
+                case 7: {
+                        if (!(message.outgoing_chan_ids && message.outgoing_chan_ids.length))
+                            message.outgoing_chan_ids = [];
+                        if ((tag & 7) === 2) {
+                            let end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.outgoing_chan_ids.push(reader.uint64());
+                        } else
+                            message.outgoing_chan_ids.push(reader.uint64());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -60085,6 +60139,20 @@ export const lnrpc = $root.lnrpc = (() => {
             if (message.peer_alias_lookup != null && message.hasOwnProperty("peer_alias_lookup"))
                 if (typeof message.peer_alias_lookup !== "boolean")
                     return "peer_alias_lookup: boolean expected";
+            if (message.incoming_chan_ids != null && message.hasOwnProperty("incoming_chan_ids")) {
+                if (!Array.isArray(message.incoming_chan_ids))
+                    return "incoming_chan_ids: array expected";
+                for (let i = 0; i < message.incoming_chan_ids.length; ++i)
+                    if (!$util.isInteger(message.incoming_chan_ids[i]) && !(message.incoming_chan_ids[i] && $util.isInteger(message.incoming_chan_ids[i].low) && $util.isInteger(message.incoming_chan_ids[i].high)))
+                        return "incoming_chan_ids: integer|Long[] expected";
+            }
+            if (message.outgoing_chan_ids != null && message.hasOwnProperty("outgoing_chan_ids")) {
+                if (!Array.isArray(message.outgoing_chan_ids))
+                    return "outgoing_chan_ids: array expected";
+                for (let i = 0; i < message.outgoing_chan_ids.length; ++i)
+                    if (!$util.isInteger(message.outgoing_chan_ids[i]) && !(message.outgoing_chan_ids[i] && $util.isInteger(message.outgoing_chan_ids[i].low) && $util.isInteger(message.outgoing_chan_ids[i].high)))
+                        return "outgoing_chan_ids: integer|Long[] expected";
+            }
             return null;
         };
 
@@ -60124,6 +60192,34 @@ export const lnrpc = $root.lnrpc = (() => {
                 message.num_max_events = object.num_max_events >>> 0;
             if (object.peer_alias_lookup != null)
                 message.peer_alias_lookup = Boolean(object.peer_alias_lookup);
+            if (object.incoming_chan_ids) {
+                if (!Array.isArray(object.incoming_chan_ids))
+                    throw TypeError(".lnrpc.ForwardingHistoryRequest.incoming_chan_ids: array expected");
+                message.incoming_chan_ids = [];
+                for (let i = 0; i < object.incoming_chan_ids.length; ++i)
+                    if ($util.Long)
+                        (message.incoming_chan_ids[i] = $util.Long.fromValue(object.incoming_chan_ids[i])).unsigned = true;
+                    else if (typeof object.incoming_chan_ids[i] === "string")
+                        message.incoming_chan_ids[i] = parseInt(object.incoming_chan_ids[i], 10);
+                    else if (typeof object.incoming_chan_ids[i] === "number")
+                        message.incoming_chan_ids[i] = object.incoming_chan_ids[i];
+                    else if (typeof object.incoming_chan_ids[i] === "object")
+                        message.incoming_chan_ids[i] = new $util.LongBits(object.incoming_chan_ids[i].low >>> 0, object.incoming_chan_ids[i].high >>> 0).toNumber(true);
+            }
+            if (object.outgoing_chan_ids) {
+                if (!Array.isArray(object.outgoing_chan_ids))
+                    throw TypeError(".lnrpc.ForwardingHistoryRequest.outgoing_chan_ids: array expected");
+                message.outgoing_chan_ids = [];
+                for (let i = 0; i < object.outgoing_chan_ids.length; ++i)
+                    if ($util.Long)
+                        (message.outgoing_chan_ids[i] = $util.Long.fromValue(object.outgoing_chan_ids[i])).unsigned = true;
+                    else if (typeof object.outgoing_chan_ids[i] === "string")
+                        message.outgoing_chan_ids[i] = parseInt(object.outgoing_chan_ids[i], 10);
+                    else if (typeof object.outgoing_chan_ids[i] === "number")
+                        message.outgoing_chan_ids[i] = object.outgoing_chan_ids[i];
+                    else if (typeof object.outgoing_chan_ids[i] === "object")
+                        message.outgoing_chan_ids[i] = new $util.LongBits(object.outgoing_chan_ids[i].low >>> 0, object.outgoing_chan_ids[i].high >>> 0).toNumber(true);
+            }
             return message;
         };
 
@@ -60140,6 +60236,10 @@ export const lnrpc = $root.lnrpc = (() => {
             if (!options)
                 options = {};
             let object = {};
+            if (options.arrays || options.defaults) {
+                object.incoming_chan_ids = [];
+                object.outgoing_chan_ids = [];
+            }
             if (options.defaults) {
                 if ($util.Long) {
                     let long = new $util.Long(0, 0, true);
@@ -60171,6 +60271,22 @@ export const lnrpc = $root.lnrpc = (() => {
                 object.num_max_events = message.num_max_events;
             if (message.peer_alias_lookup != null && message.hasOwnProperty("peer_alias_lookup"))
                 object.peer_alias_lookup = message.peer_alias_lookup;
+            if (message.incoming_chan_ids && message.incoming_chan_ids.length) {
+                object.incoming_chan_ids = [];
+                for (let j = 0; j < message.incoming_chan_ids.length; ++j)
+                    if (typeof message.incoming_chan_ids[j] === "number")
+                        object.incoming_chan_ids[j] = options.longs === String ? String(message.incoming_chan_ids[j]) : message.incoming_chan_ids[j];
+                    else
+                        object.incoming_chan_ids[j] = options.longs === String ? $util.Long.prototype.toString.call(message.incoming_chan_ids[j]) : options.longs === Number ? new $util.LongBits(message.incoming_chan_ids[j].low >>> 0, message.incoming_chan_ids[j].high >>> 0).toNumber(true) : message.incoming_chan_ids[j];
+            }
+            if (message.outgoing_chan_ids && message.outgoing_chan_ids.length) {
+                object.outgoing_chan_ids = [];
+                for (let j = 0; j < message.outgoing_chan_ids.length; ++j)
+                    if (typeof message.outgoing_chan_ids[j] === "number")
+                        object.outgoing_chan_ids[j] = options.longs === String ? String(message.outgoing_chan_ids[j]) : message.outgoing_chan_ids[j];
+                    else
+                        object.outgoing_chan_ids[j] = options.longs === String ? $util.Long.prototype.toString.call(message.outgoing_chan_ids[j]) : options.longs === Number ? new $util.LongBits(message.outgoing_chan_ids[j].low >>> 0, message.outgoing_chan_ids[j].high >>> 0).toNumber(true) : message.outgoing_chan_ids[j];
+            }
             return object;
         };
 
